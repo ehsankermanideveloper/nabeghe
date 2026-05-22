@@ -1,11 +1,11 @@
 import { join } from 'node:path';
 import { DataSource } from 'typeorm';
-import { getDatabaseConfig } from '../config/database.config';
+import { loadApplicationConfig } from '../config/application-config';
 import { loadEnvFiles } from '../config/load-env';
 
 loadEnvFiles();
 
-const db = getDatabaseConfig();
+const { database: db } = loadApplicationConfig();
 const compiledEntitiesGlob = join(process.cwd(), 'dist', '**', '*.entity.js');
 
 export default new DataSource({

@@ -1,8 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { AppCacheService } from '@common/cache/cache.service';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { invalidateCacheResponse } from '@common/cache/invalidate-cache-response';
-import type { AppConfig } from '../../../config/app.config';
 import { CategoryEntity } from '@modules/category/entity/category.entity';
 import { CategoryRepository } from '@modules/category/repository/category.repository';
 import { CATEGORY_SEED_TREE } from '@modules/category/seed/category.seed-data';
@@ -15,11 +14,11 @@ export class CategorySeedService implements OnModuleInit {
   constructor(
     private readonly categoryRepository: CategoryRepository,
     private readonly cache: AppCacheService,
-    private readonly configService: ConfigService,
+    private readonly config: TypedConfigService,
   ) {}
 
   async onModuleInit(): Promise<void> {
-    const env = this.configService.getOrThrow<AppConfig>('app').nodeEnv;
+    const env = this.config.app.nodeEnv;
     if (env === 'production') {
       return;
     }

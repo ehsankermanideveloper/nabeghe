@@ -46,6 +46,7 @@ const envSchema = Joi.object({
   SESSION_SECRET: Joi.string().min(16).optional(),
   SESSION_NAME: Joi.string().default('nabeghe.sid'),
   SESSION_STORE: Joi.string().valid('memory', 'redis').optional(),
+  SESSION_COOKIE_SECURE: booleanString.default('false'),
   SESSION_REDIS_URL: Joi.string()
     .uri({ scheme: ['redis', 'rediss'] })
     .optional(),

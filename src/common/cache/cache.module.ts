@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { createCacheModuleOptions } from './cache.options';
 import { AppCacheService } from './cache.service';
 import { CacheResponseInterceptor } from './interceptor/cache-response.interceptor';
@@ -10,9 +10,9 @@ import { CacheResponseInterceptor } from './interceptor/cache-response.intercept
 @Module({
   imports: [
     CacheModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: createCacheModuleOptions,
+      inject: [TypedConfigService],
+      useFactory: (typedConfig: TypedConfigService) =>
+        createCacheModuleOptions(typedConfig.cache),
     }),
   ],
   providers: [

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigService } from '@nestjs/config';
+import { TypedConfigService } from '../src/common/config/typed-config.service';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import expressLayouts from 'express-ejs-layouts';
 import request from 'supertest';
@@ -36,7 +36,7 @@ describe('HTTP (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication<NestExpressApplication>();
-    await configureSession(app, app.get(ConfigService));
+    await configureSession(app, app.get(TypedConfigService));
     configureViews(app);
     await app.init();
   });

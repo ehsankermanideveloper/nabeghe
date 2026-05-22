@@ -1,31 +1,32 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
-import appConfig, { type AppConfig } from '../../config/app.config';
+import appConfig from '../../config/app.config';
 import authConfig from '../../config/auth.config';
 import cacheConfig from '../../config/cache.config';
 import databaseConfig from '../../config/database.config';
 import loggerConfig, { createPinoParams } from '../../config/logger.config';
+import { TypedConfigModule } from '@common/config/typed-config.module';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { AppCacheModule } from '@common/cache/cache.module';
 import { createTypeOrmRootOptions } from '../../database/typeorm-root.options';
 
 export const pluginImports = [
   ConfigModule.forRoot({
     isGlobal: true,
-    envFilePath: ['.env.local', '.env'],
+    // `.env` is loaded in `loadEnvFiles()` before Nest boots (see `bootstrap.ts`, `cluster.ts`).
     load: [appConfig, databaseConfig, cacheConfig, loggerConfig, authConfig],
   }),
+  TypedConfigModule,
   LoggerModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: (configService: ConfigService) =>
-      createPinoParams(configService.getOrThrow<AppConfig>('app')),
+    inject: [TypedConfigService],
+    useFactory: (config: TypedConfigService) =>
+      createPinoParams(config.app, config.logger),
   }),
   AppCacheModule,
   TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: (configService: ConfigService) =>
-      createTypeOrmRootOptions(configService),
+    inject: [TypedConfigService],
+    useFactory: (config: TypedConfigService) =>
+      createTypeOrmRootOptions(config),
   }),
 ];

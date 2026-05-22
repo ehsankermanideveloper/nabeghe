@@ -1,22 +1,25 @@
 import { Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { RedisStore } from 'connect-redis';
 import session from 'express-session';
 import { createClient } from 'redis';
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import type { AppConfig } from '../../../config/app.config';
-import type { AuthConfig } from '../../../config/auth.config';
+import type { TypedConfigService } from '@common/config/typed-config.service';
 
 const logger = new Logger('Session');
 
 export async function configureSession(
   app: NestExpressApplication,
-  configService: ConfigService,
+  config: TypedConfigService,
 ): Promise<void> {
-  const auth = configService.getOrThrow<AuthConfig>('auth');
-  const appConfig = configService.getOrThrow<AppConfig>('app');
-  const isProduction = appConfig.nodeEnv === 'production';
+  const auth = config.auth;
+  const appConfig = config.app;
   const isTest = appConfig.nodeEnv === 'test';
+
+  if (appConfig.clusterEnabled && auth.sessionStore === 'memory' && !isTest) {
+    throw new Error(
+      'CLUSTER_ENABLED requires SESSION_STORE=redis (in-memory sessions are not shared across workers).',
+    );
+  }
 
   let store: session.Store | undefined;
 
@@ -46,7 +49,7 @@ export async function configureSession(
       store,
       cookie: {
         httpOnly: true,
-        secure: isProduction,
+        secure: auth.sessionCookieSecure,
         sameSite: 'lax',
         maxAge: auth.sessionMaxAgeMs,
       },

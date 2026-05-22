@@ -8,9 +8,8 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import type { Request, Response } from 'express';
-import type { AppConfig } from '../../../config/app.config';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { Public } from '@modules/auth/decorator/public.decorator';
 import { StartAuthDto } from '@modules/auth/dto/start-auth.dto';
 import { VerifyOtpDto } from '@modules/auth/dto/verify-otp.dto';
@@ -21,7 +20,7 @@ import { AuthService } from '@modules/auth/service/auth.service';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly configService: ConfigService,
+    private readonly config: TypedConfigService,
   ) {}
 
   @Get('login')
@@ -129,7 +128,7 @@ export class AuthController {
   }
 
   private isDevHintVisible(): boolean {
-    const env = this.configService.getOrThrow<AppConfig>('app').nodeEnv;
+    const env = this.config.app.nodeEnv;
     return env !== 'production';
   }
 

@@ -2,12 +2,11 @@ import cluster from 'node:cluster';
 import compression from 'compression';
 import expressLayouts from 'express-ejs-layouts';
 import { Logger as NestLogger, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Logger } from 'nestjs-pino';
-import type { AppConfig } from './config/app.config';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { loadEnvFiles } from './config/load-env';
 import { configureSession } from '@modules/auth/session/configure-session';
 import { AppModule } from './app.module';
@@ -21,17 +20,16 @@ export async function bootstrapApp(): Promise<void> {
 
   app.useLogger(app.get(Logger));
 
-  const configService = app.get(ConfigService);
-  const appConfig = configService.getOrThrow<AppConfig>('app');
+  const config = app.get(TypedConfigService);
   const logger = new NestLogger('Bootstrap');
 
-  await configureSession(app, configService);
+  await configureSession(app, config);
 
   app.use(compression());
   app.disable('x-powered-by');
   app.set('etag', 'strong');
 
-  if (appConfig.nodeEnv === 'production') {
+  if (config.app.nodeEnv === 'production') {
     app.set('trust proxy', 1);
   }
   app.useStaticAssets(join(process.cwd(), 'html', 'assets'), {
@@ -62,7 +60,7 @@ export async function bootstrapApp(): Promise<void> {
 
   app.enableShutdownHooks();
 
-  const server = await app.listen(appConfig.port, '0.0.0.0');
+  const server = await app.listen(config.app.port, '0.0.0.0');
   server.keepAliveTimeout = 65_000;
   server.headersTimeout = 66_000;
 
@@ -72,6 +70,6 @@ export async function bootstrapApp(): Promise<void> {
       : ` | pid ${process.pid}`;
 
   logger.log(
-    `HTTP ready on http://0.0.0.0:${appConfig.port} [${appConfig.nodeEnv}]${workerTag}`,
+    `HTTP ready on http://0.0.0.0:${config.app.port} [${config.app.nodeEnv}]${workerTag}`,
   );
 }

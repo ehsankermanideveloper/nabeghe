@@ -10,12 +10,15 @@ export interface CacheConfig {
   redisUrl: string;
 }
 
-export const getCacheConfig = (): CacheConfig => ({
-  enabled: process.env.CACHE_ENABLED !== 'false',
-  store: (process.env.CACHE_STORE ?? 'memory') as CacheStoreType,
-  ttlMs: Number(process.env.CACHE_TTL_MS ?? 60_000),
-  prefix: process.env.CACHE_PREFIX ?? 'nabeghe',
-  redisUrl: process.env.CACHE_REDIS_URL ?? 'redis://127.0.0.1:6379',
-});
+export const getCacheConfig = (): CacheConfig => {
+  const env = process.env;
+  return {
+    enabled: env.CACHE_ENABLED !== 'false',
+    store: (env.CACHE_STORE ?? 'memory') as CacheStoreType,
+    ttlMs: Number(env.CACHE_TTL_MS ?? 60_000),
+    prefix: env.CACHE_PREFIX ?? 'nabeghe',
+    redisUrl: env.CACHE_REDIS_URL ?? 'redis://127.0.0.1:6379',
+  };
+};
 
 export default registerAs('cache', getCacheConfig);

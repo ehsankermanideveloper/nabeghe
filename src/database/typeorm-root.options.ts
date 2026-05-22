@@ -1,12 +1,10 @@
-import type { ConfigService } from '@nestjs/config';
+import type { TypedConfigService } from '@common/config/typed-config.service';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import type { AppConfig } from '../config/app.config';
-import type { DatabaseConfig } from '../config/database.config';
 
 export function createTypeOrmRootOptions(
-  configService: ConfigService,
+  config: TypedConfigService,
 ): TypeOrmModuleOptions {
-  const appEnv = configService.getOrThrow<AppConfig>('app').nodeEnv;
+  const appEnv = config.app.nodeEnv;
   const isTest = appEnv === 'test';
 
   if (isTest) {
@@ -19,7 +17,7 @@ export function createTypeOrmRootOptions(
     };
   }
 
-  const db = configService.getOrThrow<DatabaseConfig>('database');
+  const db = config.database;
   const isProduction = appEnv === 'production';
 
   return {

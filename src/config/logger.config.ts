@@ -3,27 +3,33 @@ import { randomUUID } from 'node:crypto';
 import { registerAs } from '@nestjs/config';
 import type { Params } from 'nestjs-pino';
 import type { AppConfig } from './app.config';
+import { getAppConfig } from './app.config';
 
 export interface LoggerConfig {
   level: string;
 }
 
-export const getLoggerConfig = (): LoggerConfig => ({
-  level:
-    process.env.LOG_LEVEL ??
-    (process.env.NODE_ENV === 'production' ? 'info' : 'debug'),
-});
+export const getLoggerConfig = (): LoggerConfig => {
+  const env = process.env;
+  const app = getAppConfig();
+  return {
+    level:
+      env.LOG_LEVEL ?? (app.nodeEnv === 'production' ? 'info' : 'debug'),
+  };
+};
 
 export default registerAs('logger', getLoggerConfig);
 
-export function createPinoParams(appConfig: AppConfig): Params {
-  const level = getLoggerConfig().level;
+export function createPinoParams(
+  appConfig: AppConfig,
+  loggerConfig: LoggerConfig,
+): Params {
   const isProduction = appConfig.nodeEnv === 'production';
   const isTest = appConfig.nodeEnv === 'test';
 
   return {
     pinoHttp: {
-      level: isTest ? 'silent' : level,
+      level: isTest ? 'silent' : loggerConfig.level,
       transport:
         !isProduction && !isTest
           ? {

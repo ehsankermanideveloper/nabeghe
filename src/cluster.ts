@@ -2,12 +2,12 @@ import cluster from 'node:cluster';
 import os from 'node:os';
 import { Logger } from '@nestjs/common';
 import { bootstrapApp } from './bootstrap';
-import { getAppConfig } from './config/app.config';
+import { loadApplicationConfig } from './config/application-config';
 import { loadEnvFiles } from './config/load-env';
 
 loadEnvFiles();
 
-const appConfig = getAppConfig();
+const { app: appConfig } = loadApplicationConfig();
 const logger = new Logger('Cluster');
 
 function resolveWorkerCount(): number {

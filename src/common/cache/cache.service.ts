@@ -1,7 +1,7 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import type { Cache } from 'cache-manager';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import type { CacheConfig } from '../../config/cache.config';
 import { buildCacheKey } from './cache-key.util';
 
@@ -12,9 +12,9 @@ export class AppCacheService {
 
   constructor(
     @Inject(CACHE_MANAGER) private readonly cache: Cache,
-    configService: ConfigService,
+    typedConfig: TypedConfigService,
   ) {
-    this.cacheConfig = configService.getOrThrow<CacheConfig>('cache');
+    this.cacheConfig = typedConfig.cache;
   }
 
   key(...segments: (string | number)[]): string {

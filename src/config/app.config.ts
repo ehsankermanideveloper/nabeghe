@@ -8,11 +8,14 @@ export interface AppConfig {
   clusterWorkers: number;
 }
 
-export const getAppConfig = (): AppConfig => ({
-  port: Number(process.env.PORT ?? 3000),
-  nodeEnv: process.env.NODE_ENV ?? 'development',
-  clusterEnabled: process.env.CLUSTER_ENABLED === 'true',
-  clusterWorkers: Number(process.env.CLUSTER_WORKERS ?? 0),
-});
+export const getAppConfig = (): AppConfig => {
+  const env = process.env;
+  return {
+    port: Number(env.PORT ?? 3000),
+    nodeEnv: env.NODE_ENV ?? 'development',
+    clusterEnabled: env.CLUSTER_ENABLED === 'true',
+    clusterWorkers: Number(env.CLUSTER_WORKERS ?? 0),
+  };
+};
 
 export default registerAs('app', getAppConfig);

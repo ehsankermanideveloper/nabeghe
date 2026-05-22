@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { createClient } from 'redis';
 import { DataSource } from 'typeorm';
-import type { CacheConfig } from '../../config/cache.config';
+import { TypedConfigService } from '@common/config/typed-config.service';
 
 export type ProbeStatus = 'up' | 'down';
 
@@ -21,7 +20,7 @@ export interface ReadinessResult {
 export class HealthService {
   constructor(
     @InjectDataSource() private readonly dataSource: DataSource,
-    private readonly configService: ConfigService,
+    private readonly config: TypedConfigService,
   ) {}
 
   async checkDatabase(): Promise<HealthProbe> {
@@ -37,7 +36,7 @@ export class HealthService {
   }
 
   async checkRedis(): Promise<HealthProbe> {
-    const cache = this.configService.getOrThrow<CacheConfig>('cache');
+    const cache = this.config.cache;
     if (!cache.enabled || cache.store !== 'redis') {
       return { status: 'up' };
     }

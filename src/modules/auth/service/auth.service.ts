@@ -5,9 +5,8 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import type { Request } from 'express';
-import type { AuthConfig } from '../../../config/auth.config';
+import { TypedConfigService } from '@common/config/typed-config.service';
 import { OtpChallengeEntity } from '@modules/auth/entity/otp-challenge.entity';
 import { UserEntity } from '@modules/auth/entity/user.entity';
 import { OtpChallengeRepository } from '@modules/auth/repository/otp-challenge.repository';
@@ -29,14 +28,10 @@ export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
   constructor(
-    private readonly configService: ConfigService,
+    private readonly config: TypedConfigService,
     private readonly userRepository: UserRepository,
     private readonly otpChallengeRepository: OtpChallengeRepository,
   ) {}
-
-  private authConfig(): AuthConfig {
-    return this.configService.getOrThrow<AuthConfig>('auth');
-  }
 
   ensureCsrfToken(req: Request): string {
     if (!req.session.csrfToken) {
@@ -46,8 +41,6 @@ export class AuthService {
   }
 
   validateCsrf(req: Request, token?: string): void {
-    console.log(req.session.csrfToken);
-    
     const expected = req.session.csrfToken;
     if (!expected || !token || token !== expected) {
       throw new BadRequestException('Invalid CSRF token');
@@ -63,7 +56,7 @@ export class AuthService {
       throw new BadRequestException('شماره موبایل یا ایمیل معتبر وارد کنید.');
     }
 
-    const auth = this.authConfig();
+    const auth = this.config.auth;
     const expiresAt = new Date(Date.now() + auth.otpTtlMinutes * 60_000);
 
     const challenge = this.otpChallengeRepository.build({
@@ -104,7 +97,7 @@ export class AuthService {
       throw new BadRequestException('کد منقضی شده. دوباره تلاش کنید.');
     }
 
-    const auth = this.authConfig();
+    const auth = this.config.auth;
     if (challenge.attempts >= auth.otpMaxAttempts) {
       throw new UnauthorizedException(
         'تعداد تلاش بیش از حد. دوباره از ابتدا وارد شوید.',
