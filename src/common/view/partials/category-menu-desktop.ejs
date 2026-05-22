@@ -23,7 +23,7 @@
   </button>
 
   <div
-    class="absolute right-0 top-full pt-3 z-30"
+    class="absolute right-0 top-full pt-5 z-30"
     x-show="open"
     x-transition
     x-on:click.outside="closeOpen()"
@@ -32,27 +32,27 @@
   >
     <div
       x-show="loading"
-      class="flex flex-col w-56 min-h-[120px] bg-background border border-border shadow-2xl shadow-black/5 p-3 rounded-xl"
+      class="flex flex-col w-56 min-h-[120px] bg-background border border-border shadow-2xl shadow-black/5 p-3"
     >
       <span class="text-sm text-muted font-semibold">در حال بارگذاری...</span>
     </div>
 
     <div
       x-show="error && !loading"
-      class="flex flex-col w-56 bg-background border border-border shadow-2xl shadow-black/5 p-3 rounded-xl"
+      class="flex flex-col w-56 bg-background border border-border shadow-2xl shadow-black/5 p-3"
     >
       <span class="text-sm text-error font-semibold">خطا در بارگذاری دسته‌ها</span>
     </div>
 
     <ul
       x-show="!loading && !error"
-      class="flex flex-col relative w-56 min-h-[200px] bg-background border border-border shadow-2xl shadow-black/5 rounded-xl overflow-visible"
+      class="flex flex-col relative w-56 min-h-[300px] bg-background border border-border shadow-2xl shadow-black/5"
     >
       <template x-for="item in items" :key="item.id">
         <li class="group relative" x-show="hasChildren(item)">
           <a
             :href="item.href"
-            class="flex items-center relative text-foreground transition-colors hover:text-primary p-3 rounded-t-xl"
+            class="flex items-center relative text-foreground transition-colors hover:text-primary p-3"
           >
             <span class="font-semibold text-sm" x-text="item.title"></span>
             <span class="absolute left-3">
@@ -73,16 +73,16 @@
             </span>
           </a>
           <ul
-            class="absolute -top-px -bottom-px right-full flex flex-wrap flex-col w-96 bg-background border border-border shadow-2xl shadow-black/5 space-y-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible px-3 pt-8 pb-3 rounded-xl pointer-events-none group-hover:pointer-events-auto"
+            class="absolute top-0 right-full flex flex-wrap flex-col w-96 bg-background border border-border shadow-2xl shadow-black/5 space-y-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible px-3 pt-8 pb-3 z-20"
           >
-            <li class="absolute top-2 pointer-events-none">
-              <span class="font-bold text-sm text-muted" x-text="item.title"></span>
+            <li class="absolute top-2">
+              <span class="font-bold text-sm text-muted cursor-default">زیردسته‌ها</span>
             </li>
             <template x-for="child in item.children" :key="child.id">
               <li class="w-1/2">
                 <a
                   :href="child.href"
-                  class="flex items-center gap-2 text-muted before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-border before:rounded-full transition-colors hover:text-primary hover:before:bg-primary"
+                  class="flex items-center gap-2 text-muted before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-border before:rounded-full transition-colors hover:text-primary hover:before:bg-primary py-1"
                 >
                   <span class="font-semibold text-sm" x-text="child.title"></span>
                 </a>
