@@ -1,10 +1,13 @@
 import type { ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import type { AppConfig } from '../config/app.config';
+import type { DatabaseConfig } from '../config/database.config';
 
 export function createTypeOrmRootOptions(
   configService: ConfigService,
 ): TypeOrmModuleOptions {
-  const isTest = process.env.NODE_ENV === 'test';
+  const appEnv = configService.getOrThrow<AppConfig>('app').nodeEnv;
+  const isTest = appEnv === 'test';
 
   if (isTest) {
     return {
@@ -16,17 +19,24 @@ export function createTypeOrmRootOptions(
     };
   }
 
-  const isProduction = process.env.NODE_ENV === 'production';
+  const db = configService.getOrThrow<DatabaseConfig>('database');
+  const isProduction = appEnv === 'production';
 
   return {
     type: 'postgres',
-    host: configService.get<string>('database.host', 'localhost'),
-    port: configService.get<number>('database.port', 5432),
-    username: configService.get<string>('database.username', 'postgres'),
-    password: configService.get<string>('database.password', ''),
-    database: configService.get<string>('database.name', 'nabeghe_core'),
+    host: db.host,
+    port: db.port,
+    username: db.username,
+    password: db.password,
+    database: db.name,
     autoLoadEntities: true,
-    synchronize: configService.get<boolean>('database.synchronize', false),
+    synchronize: db.synchronize,
     logging: isProduction ? ['error'] : ['warn', 'error'],
+    extra: {
+      max: db.poolMax,
+      min: db.poolMin,
+      idleTimeoutMillis: db.poolIdleTimeoutMs,
+      connectionTimeoutMillis: db.poolConnectionTimeoutMs,
+    },
   };
 }

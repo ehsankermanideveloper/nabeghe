@@ -33,6 +33,8 @@ Prefer **schema migrations**: [src/database/README.md](src/database/README.md). 
 
 **Caching**: global `AppCacheService` — [src/common/cache/README.md](src/common/cache/README.md) (`CACHE_STORE=memory` locally, `redis` in production).
 
+**Cluster & performance**: multi-core via `cluster.ts`, gzip, connection pooling, graceful shutdown — [docs/performance.md](docs/performance.md).
+
 See [src/modules/README.md](src/modules/README.md) for domain module layout.
 
 ## Project setup

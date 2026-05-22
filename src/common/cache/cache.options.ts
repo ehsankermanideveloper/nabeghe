@@ -1,24 +1,19 @@
 import type { ConfigService } from '@nestjs/config';
 import type { CacheModuleOptions } from '@nestjs/cache-manager';
 import { createKeyv } from '@keyv/redis';
-import type { CacheStoreType } from '../../config/cache.config';
+import type { CacheConfig } from '../../config/cache.config';
 
 export function createCacheModuleOptions(
   configService: ConfigService,
 ): CacheModuleOptions {
-  const ttl = configService.get<number>('cache.ttlMs', 60_000);
-  const store = configService.get<CacheStoreType>('cache.store', 'memory');
+  const cache = configService.getOrThrow<CacheConfig>('cache');
 
-  if (store === 'redis') {
-    const redisUrl = configService.get<string>('cache.redisUrl');
-    if (!redisUrl) {
-      throw new Error('CACHE_REDIS_URL is required when CACHE_STORE=redis');
-    }
+  if (cache.store === 'redis') {
     return {
-      ttl,
-      stores: [createKeyv(redisUrl)],
+      ttl: cache.ttlMs,
+      stores: [createKeyv(cache.redisUrl)],
     };
   }
 
-  return { ttl };
+  return { ttl: cache.ttlMs };
 }

@@ -2,56 +2,50 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { Cache } from 'cache-manager';
+import type { CacheConfig } from '../../config/cache.config';
 import { buildCacheKey } from './cache-key.util';
 
 @Injectable()
 export class AppCacheService {
   private readonly logger = new Logger(AppCacheService.name);
-  private readonly prefix: string;
-  private readonly defaultTtlMs: number;
-  private readonly enabled: boolean;
+  private readonly cacheConfig: CacheConfig;
 
   constructor(
     @Inject(CACHE_MANAGER) private readonly cache: Cache,
     configService: ConfigService,
   ) {
-    this.prefix = configService.get<string>('cache.prefix', 'nabeghe');
-    this.defaultTtlMs = configService.get<number>('cache.ttlMs', 60_000);
-    this.enabled = configService.get<boolean>('cache.enabled', true);
+    this.cacheConfig = configService.getOrThrow<CacheConfig>('cache');
   }
 
   key(...segments: (string | number)[]): string {
-    return buildCacheKey(this.prefix, ...segments);
+    return buildCacheKey(this.cacheConfig.prefix, ...segments);
   }
 
   async get<T>(key: string): Promise<T | undefined> {
-    if (!this.enabled) return undefined;
+    if (!this.cacheConfig.enabled) return undefined;
     return this.cache.get<T>(key);
   }
 
   async set<T>(
     key: string,
     value: T,
-    ttlMs = this.defaultTtlMs,
+    ttlMs = this.cacheConfig.ttlMs,
   ): Promise<void> {
-    if (!this.enabled) return;
+    if (!this.cacheConfig.enabled) return;
     await this.cache.set(key, value, ttlMs);
   }
 
   async del(key: string): Promise<void> {
-    if (!this.enabled) return;
+    if (!this.cacheConfig.enabled) return;
     await this.cache.del(key);
   }
 
-  /**
-   * Cache-aside: return cached value or run factory, store result, then return it.
-   */
   async wrap<T>(
     key: string,
     factory: () => Promise<T>,
-    ttlMs = this.defaultTtlMs,
+    ttlMs = this.cacheConfig.ttlMs,
   ): Promise<T> {
-    if (!this.enabled) {
+    if (!this.cacheConfig.enabled) {
       return factory();
     }
 
@@ -68,7 +62,7 @@ export class AppCacheService {
   }
 
   async clear(): Promise<void> {
-    if (!this.enabled) return;
+    if (!this.cacheConfig.enabled) return;
     await this.cache.clear();
   }
 }

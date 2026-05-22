@@ -1,31 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import databaseConfig from './config/database.config';
-import cacheConfig from './config/cache.config';
-import { AppCacheModule } from '@common/cache/cache.module';
-import { createTypeOrmRootOptions } from './database/typeorm-root.options';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from '@common/filter/all-exceptions.filter';
+import { internalImports } from './app/imports/internal.imports';
+import { pluginImports } from './app/imports/plugin.imports';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DemoModule } from '@modules/demo/demo.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
-      load: [databaseConfig, cacheConfig],
-    }),
-    AppCacheModule,
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        createTypeOrmRootOptions(configService),
-    }),
-    DemoModule,
-  ],
+  imports: [...pluginImports, ...internalImports],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: AllExceptionsFilter },
+  ],
 })
 export class AppModule {}
