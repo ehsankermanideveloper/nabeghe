@@ -6,6 +6,9 @@ Tree structure: **branch** (root, `parent_id = null`) → **leaf** (max depth 2)
 
 `GET /api/categories/menu` — public JSON for header menus.
 
+- **Cache**: `@CacheResponse(300_000)` on the controller (key = `GET` + `/api/categories/menu`).
+- After category changes, `invalidateCacheResponse(cache, 'GET', '/api/categories/menu')`.
+
 ```json
 {
   "data": [

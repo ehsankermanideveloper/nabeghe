@@ -96,7 +96,8 @@ describe('HTTP (e2e)', () => {
     const res = await request(app.getHttpServer())
       .get('/api/categories/menu')
       .expect(200)
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /json/)
+      .expect('Cache-Control', /max-age=\d+/);
 
     const body = res.body as {
       data: { title: string; children: { title: string }[] }[];

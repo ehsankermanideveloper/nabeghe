@@ -1,5 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AppCacheService } from '@common/cache/cache.service';
+import { invalidateCacheResponse } from '@common/cache/invalidate-cache-response';
 import type { AppConfig } from '../../../config/app.config';
 import { CategoryEntity } from '@modules/category/entity/category.entity';
 import { CategoryRepository } from '@modules/category/repository/category.repository';
@@ -12,6 +14,7 @@ export class CategorySeedService implements OnModuleInit {
 
   constructor(
     private readonly categoryRepository: CategoryRepository,
+    private readonly cache: AppCacheService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -27,6 +30,7 @@ export class CategorySeedService implements OnModuleInit {
     }
 
     await this.seed();
+    await invalidateCacheResponse(this.cache, 'GET', '/api/categories/menu');
     this.logger.log('Category seed data inserted.');
   }
 

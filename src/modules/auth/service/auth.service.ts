@@ -46,6 +46,8 @@ export class AuthService {
   }
 
   validateCsrf(req: Request, token?: string): void {
+    console.log(req.session.csrfToken);
+    
     const expected = req.session.csrfToken;
     if (!expected || !token || token !== expected) {
       throw new BadRequestException('Invalid CSRF token');
