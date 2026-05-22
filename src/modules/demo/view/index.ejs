@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %></title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          Segoe UI,
+          Tahoma,
+          sans-serif;
+        margin: 2rem;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 0.5rem;
+      }
+      ul {
+        padding-left: 1.2rem;
+      }
+      small {
+        color: #444;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>
+      Rendered with <strong>EJS</strong>. Data loaded via <strong>TypeORM</strong>
+      (<strong>PostgreSQL</strong> in dev/prod; in-memory sql.js under test).
+    </p>
+    <% if (!items?.length) { %>
+      <p>No rows yet.</p>
+    <% } else { %>
+      <ul>
+        <% items.forEach(function (row) { %>
+          <li>
+            <strong><%= row.title %></strong><br />
+            <small>id: <%= row.id %> — created: <%= row.createdAt %></small>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </body>
+</html>
