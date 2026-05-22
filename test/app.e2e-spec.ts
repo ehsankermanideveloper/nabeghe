@@ -92,6 +92,19 @@ describe('HTTP (e2e)', () => {
         expect(res.text).toContain('TypeORM');
       }));
 
+  it('GET /api/categories/menu returns tree', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/api/categories/menu')
+      .expect(200)
+      .expect('Content-Type', /json/);
+
+    const body = res.body as {
+      data: { title: string; children: { title: string }[] }[];
+    };
+    expect(body.data.length).toBeGreaterThan(0);
+    expect(body.data[0].children.length).toBeGreaterThan(0);
+  });
+
   it('auth flow: login with OTP 252525 then access profile', async () => {
     const agent = request.agent(app.getHttpServer());
 

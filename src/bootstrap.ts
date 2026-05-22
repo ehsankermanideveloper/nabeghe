@@ -34,8 +34,10 @@ export async function bootstrapApp(): Promise<void> {
   if (appConfig.nodeEnv === 'production') {
     app.set('trust proxy', 1);
   }
-
   app.useStaticAssets(join(process.cwd(), 'html', 'assets'), {
+    prefix: '/assets/',
+  });
+  app.useStaticAssets(join(process.cwd(), 'src', 'common', 'view', 'assets'), {
     prefix: '/assets/',
   });
 
