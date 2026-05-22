@@ -42,6 +42,19 @@ const envSchema = Joi.object({
   LOG_LEVEL: Joi.string()
     .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent')
     .optional(),
+
+  SESSION_SECRET: Joi.string().min(16).optional(),
+  SESSION_NAME: Joi.string().default('nabeghe.sid'),
+  SESSION_STORE: Joi.string().valid('memory', 'redis').optional(),
+  SESSION_REDIS_URL: Joi.string()
+    .uri({ scheme: ['redis', 'rediss'] })
+    .optional(),
+  SESSION_MAX_AGE_MS: Joi.number().integer().min(60_000).optional(),
+  AUTH_OTP_CODE: Joi.string()
+    .pattern(/^\d{4,8}$/)
+    .default('252525'),
+  AUTH_OTP_TTL_MINUTES: Joi.number().integer().min(1).max(60).default(5),
+  AUTH_OTP_MAX_ATTEMPTS: Joi.number().integer().min(1).max(20).default(5),
 }).unknown(true);
 
 export function validateEnvironment(

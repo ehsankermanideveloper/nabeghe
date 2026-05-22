@@ -1,10 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import expressLayouts from 'express-ejs-layouts';
 import request from 'supertest';
 import { join } from 'path';
 import { loadEnvFiles } from '../src/config/load-env';
+import { configureSession } from '../src/modules/auth/session/configure-session';
 import { AppModule } from '../src/app.module';
+
+function extractCsrf(html: string): string {
+  const match = html.match(/name="_csrf" value="([^"]+)"/);
+  return match?.[1] ?? '';
+}
 
 function configureViews(app: NestExpressApplication): void {
   const httpServer = app.getHttpAdapter().getInstance();
@@ -29,6 +36,7 @@ describe('HTTP (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication<NestExpressApplication>();
+    await configureSession(app, app.get(ConfigService));
     configureViews(app);
     await app.init();
   });
@@ -83,4 +91,34 @@ describe('HTTP (e2e)', () => {
         expect(res.text).toContain('نـــابــــغه');
         expect(res.text).toContain('TypeORM');
       }));
+
+  it('auth flow: login with OTP 252525 then access profile', async () => {
+    const agent = request.agent(app.getHttpServer());
+
+    const loginPage = await agent.get('/auth/login').expect(200);
+    const csrfLogin = extractCsrf(loginPage.text);
+
+    await agent
+      .post('/auth/login')
+      .type('form')
+      .send({ identifier: '09121234567', _csrf: csrfLogin })
+      .expect(302);
+
+    const verifyPage = await agent.get('/auth/verify').expect(200);
+    const csrfVerify = extractCsrf(verifyPage.text);
+
+    await agent
+      .post('/auth/verify')
+      .type('form')
+      .send({ code: '252525', _csrf: csrfVerify })
+      .expect(302);
+
+    await agent
+      .get('/profile')
+      .expect(200)
+      .expect('Content-Type', /html/)
+      .expect((res) => {
+        expect(res.text).toContain('پنل کاربری');
+      });
+  });
 });

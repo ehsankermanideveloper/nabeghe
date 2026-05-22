@@ -7,7 +7,7 @@ Only the `<main>...</main>` block (no header/footer). Layout: `view/layout.ejs`.
 | Folder | Purpose | HTML source (migrate when needed) |
 |--------|---------|-----------------------------------|
 | `site/` | Public landing | `home.html`, `home-2.html` … |
-| `auth/` | Login / register | `login-register.html`, `verification.html` |
+| `auth/` | Login / OTP verify (live) | `login.ejs`, `verify.ejs` |
 | `profile/` | User panel | `profile*.html` |
 | `course/` | Courses catalog & detail | `course-*.html` |
 | `blog/` | Blog & articles | `blog.html`, `article-*.html` |

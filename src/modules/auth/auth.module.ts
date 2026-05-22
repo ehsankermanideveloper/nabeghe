@@ -1,0 +1,27 @@
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { OtpChallengeEntity } from '@modules/auth/entity/otp-challenge.entity';
+import { UserEntity } from '@modules/auth/entity/user.entity';
+import { AuthController } from '@modules/auth/controller/auth.controller';
+import { CurrentUserMiddleware } from '@modules/auth/middleware/current-user.middleware';
+import { OtpChallengeRepository } from '@modules/auth/repository/otp-challenge.repository';
+import { UserRepository } from '@modules/auth/repository/user.repository';
+import { AuthService } from '@modules/auth/service/auth.service';
+import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([UserEntity, OtpChallengeEntity])],
+  controllers: [AuthController],
+  providers: [
+    UserRepository,
+    OtpChallengeRepository,
+    AuthService,
+    SessionAuthGuard,
+  ],
+  exports: [AuthService, SessionAuthGuard],
+})
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  }
+}

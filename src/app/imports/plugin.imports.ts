@@ -2,6 +2,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
 import appConfig, { type AppConfig } from '../../config/app.config';
+import authConfig from '../../config/auth.config';
 import cacheConfig from '../../config/cache.config';
 import databaseConfig from '../../config/database.config';
 import loggerConfig, { createPinoParams } from '../../config/logger.config';
@@ -12,7 +13,7 @@ export const pluginImports = [
   ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: ['.env.local', '.env'],
-    load: [appConfig, databaseConfig, cacheConfig, loggerConfig],
+    load: [appConfig, databaseConfig, cacheConfig, loggerConfig, authConfig],
   }),
   LoggerModule.forRootAsync({
     imports: [ConfigModule],

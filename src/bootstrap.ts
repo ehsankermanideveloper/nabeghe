@@ -9,6 +9,7 @@ import { join } from 'path';
 import { Logger } from 'nestjs-pino';
 import type { AppConfig } from './config/app.config';
 import { loadEnvFiles } from './config/load-env';
+import { configureSession } from '@modules/auth/session/configure-session';
 import { AppModule } from './app.module';
 
 export async function bootstrapApp(): Promise<void> {
@@ -23,6 +24,8 @@ export async function bootstrapApp(): Promise<void> {
   const configService = app.get(ConfigService);
   const appConfig = configService.getOrThrow<AppConfig>('app');
   const logger = new NestLogger('Bootstrap');
+
+  await configureSession(app, configService);
 
   app.use(compression());
   app.disable('x-powered-by');

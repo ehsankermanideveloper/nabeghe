@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <link rel="stylesheet" href="/assets/css/dependencies/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/assets/css/dependencies/plyr.min.css" />
+    <link rel="stylesheet" href="/assets/css/fonts.css" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <div class="min-h-screen flex items-center justify-center bg-background p-5">
+      <div class="w-full max-w-sm space-y-5">
+        <% if (showDevHint) { %>
+          <div
+            class="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-center text-xs text-muted"
+          >
+            حالت توسعه — کد تایید:
+            <strong dir="ltr" class="text-foreground">252525</strong>
+            (SMS ارسال نمی‌شود)
+          </div>
+        <% } %>
+        <% if (error) { %>
+          <div
+            class="rounded-xl border border-error/40 bg-error/10 px-4 py-3 text-center text-sm text-error"
+          >
+            <%= error %>
+          </div>
+        <% } %>
+        <div class="bg-gradient-to-b from-secondary to-background rounded-3xl space-y-5 px-5 pb-5">
+          <div class="bg-background rounded-b-3xl space-y-2 p-5">
+            <a href="/" class="inline-flex items-center gap-2 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path
+                  d="M12 .75a8.25 8.25 0 0 0-4.135 15.39c.686.398 1.115 1.008 1.134 1.623a.75.75 0 0 0 .577.706c.352.083.71.148 1.074.195.323.041.6-.218.6-.544v-4.661a6.714 6.714 0 0 1-.937-.171.75.75 0 1 1 .374-1.453 5.261 5.261 0 0 0 2.626 0 .75.75 0 1 1 .374 1.452 6.712 6.712 0 0 1-.937.172v4.66c0 .327.277.586.6.545.364-.047.722-.112 1.074-.195a.75.75 0 0 0 .577-.706c.02-.615.448-1.225 1.134-1.623A8.25 8.25 0 0 0 12 .75Z"
+                />
+              </svg>
+              <span class="flex flex-col items-start">
+                <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
+                <span class="font-black text-xl">نـــابــــغه</span>
+              </span>
+            </a>
+          </div>
+          <form action="/auth/login?returnTo=<%= encodeURIComponent(returnTo) %>" method="post" class="space-y-3">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                <div class="w-2 h-2 bg-foreground rounded-full"></div>
+              </div>
+              <div class="font-black text-foreground">ورود یا ثبت نام</div>
+            </div>
+            <div class="text-sm text-muted space-y-3">
+              <p>درود 👋</p>
+              <p>لطفا شماره موبایل یا ایمیل خود را وارد کنید</p>
+            </div>
+            <div class="flex items-center relative">
+              <input
+                type="text"
+                name="identifier"
+                dir="ltr"
+                required
+                autocomplete="username"
+                placeholder="09xxxxxxxxx یا email@example.com"
+                class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground placeholder:text-right px-5"
+              />
+            </div>
+            <button
+              type="submit"
+              class="flex items-center justify-center gap-1 w-full h-10 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4"
+            >
+              <span class="font-semibold text-sm">برو بریم</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/assets/js/dependencies/alpinejs.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+  </body>
+</html>
