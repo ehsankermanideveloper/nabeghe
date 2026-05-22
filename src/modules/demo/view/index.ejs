@@ -1,47 +1,21 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title><%= title %></title>
-    <style>
-      body {
-        font-family:
-          system-ui,
-          Segoe UI,
-          Tahoma,
-          sans-serif;
-        margin: 2rem;
-        line-height: 1.6;
-      }
-      h1 {
-        margin-bottom: 0.5rem;
-      }
-      ul {
-        padding-left: 1.2rem;
-      }
-      small {
-        color: #444;
-      }
-    </style>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>
-      Rendered with <strong>EJS</strong>. Data loaded via <strong>TypeORM</strong>
-      (<strong>PostgreSQL</strong> in dev/prod; in-memory sql.js under test).
+<main class="flex-auto py-5">
+  <div class="max-w-7xl space-y-8 px-4 mx-auto">
+    <h1 class="font-bold text-xl text-foreground"><%= title %></h1>
+    <p class="font-semibold text-sm text-muted">
+      Rendered with <strong>EJS</strong> and the shared layout (header / footer).
+      Data from <strong>TypeORM</strong>.
     </p>
     <% if (!items?.length) { %>
-      <p>No rows yet.</p>
+      <p class="text-sm text-muted">No rows yet.</p>
     <% } else { %>
-      <ul>
+      <ul class="space-y-3">
         <% items.forEach(function (row) { %>
-          <li>
-            <strong><%= row.title %></strong><br />
-            <small>id: <%= row.id %> — created: <%= row.createdAt %></small>
+          <li class="p-4 bg-secondary rounded-xl">
+            <strong class="text-foreground"><%= row.title %></strong><br />
+            <small class="text-muted">id: <%= row.id %> — created: <%= row.createdAt %></small>
           </li>
         <% }); %>
       </ul>
     <% } %>
-  </body>
-</html>
+  </div>
+</main>

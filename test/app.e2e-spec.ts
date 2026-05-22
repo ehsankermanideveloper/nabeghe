@@ -1,9 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import expressLayouts from 'express-ejs-layouts';
 import request from 'supertest';
 import { join } from 'path';
 import { loadEnvFiles } from '../src/config/load-env';
 import { AppModule } from '../src/app.module';
+
+function configureViews(app: NestExpressApplication): void {
+  const httpServer = app.getHttpAdapter().getInstance();
+  httpServer.use(expressLayouts);
+  httpServer.set('layout', 'view/layout');
+  httpServer.set('views', [
+    join(__dirname, '../src/modules'),
+    join(__dirname, '../src/common'),
+  ]);
+  httpServer.set('view engine', 'ejs');
+}
 
 describe('HTTP (e2e)', () => {
   let app: NestExpressApplication;
@@ -17,12 +29,7 @@ describe('HTTP (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication<NestExpressApplication>();
-    const httpServer = app.getHttpAdapter().getInstance();
-    httpServer.set('views', [
-      join(__dirname, '../src/modules'),
-      join(__dirname, '../src/common'),
-    ]);
-    httpServer.set('view engine', 'ejs');
+    configureViews(app);
     await app.init();
   });
 
@@ -49,12 +56,31 @@ describe('HTTP (e2e)', () => {
         expect(body.checks.database.status).toBe('up');
       }));
 
-  it('GET /demo renders HTML list', async () =>
+  it('GET / renders home with layout header', () =>
+    request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect('Content-Type', /html/)
+      .expect((res) => {
+        expect(res.text).toContain('نـــابــــغه');
+      }));
+
+  it('GET /unknown-route returns 404 page', () =>
+    request(app.getHttpServer())
+      .get('/unknown-route')
+      .expect(404)
+      .expect('Content-Type', /html/)
+      .expect((res) => {
+        expect(res.text).toContain('چنین صفحه');
+      }));
+
+  it('GET /demo renders with layout', async () =>
     request(app.getHttpServer())
       .get('/demo')
       .expect(200)
       .expect('Content-Type', /html/)
       .expect((res) => {
-        expect(res.text).toContain('EJS');
+        expect(res.text).toContain('نـــابــــغه');
+        expect(res.text).toContain('TypeORM');
       }));
 });

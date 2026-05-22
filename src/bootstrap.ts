@@ -1,5 +1,6 @@
 import cluster from 'node:cluster';
 import compression from 'compression';
+import expressLayouts from 'express-ejs-layouts';
 import { Logger as NestLogger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -31,7 +32,13 @@ export async function bootstrapApp(): Promise<void> {
     app.set('trust proxy', 1);
   }
 
+  app.useStaticAssets(join(process.cwd(), 'html', 'assets'), {
+    prefix: '/assets/',
+  });
+
   const httpServer = app.getHttpAdapter().getInstance();
+  httpServer.use(expressLayouts);
+  httpServer.set('layout', 'view/layout');
   httpServer.set('views', [
     join(__dirname, 'modules'),
     join(__dirname, 'common'),

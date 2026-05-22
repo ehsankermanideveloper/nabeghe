@@ -8,11 +8,13 @@ export class DemoController {
   @Get()
   @Render('demo/view/index')
   async index(): Promise<{
+    pageTitle: string;
     title: string;
     items: { id: number; title: string; createdAt: Date }[];
   }> {
     const rows = await this.demoService.listForHome();
     return {
+      pageTitle: 'نابغه — Demo',
       title: 'Demo — module-based MVC',
       items: rows.map((r) => ({
         id: r.id,

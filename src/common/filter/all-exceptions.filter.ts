@@ -39,7 +39,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     if (this.prefersHtml(request)) {
-      response.status(status).render('view/error', {
+      if (status === Number(HttpStatus.NOT_FOUND)) {
+        response.status(status).render('view/pages/errors/not-found', {
+          pageTitle: 'قالب آموزشی نابغه - ۴۰۴',
+        });
+        return;
+      }
+
+      response.status(status).render('view/pages/errors/error', {
+        pageTitle: `نابغه — ${status}`,
         statusCode: status,
         title: error,
         message: Array.isArray(message) ? message.join(', ') : message,
@@ -88,9 +96,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   private prefersHtml(request: Request): boolean {
     const accept = request.headers.accept ?? '';
-    if (accept.includes('application/json')) {
+    if (accept.includes('application/json') && !accept.includes('text/html')) {
       return false;
     }
-    return accept.includes('text/html') || accept.includes('*/*');
+    return true;
   }
 }
