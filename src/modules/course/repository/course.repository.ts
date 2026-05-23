@@ -55,6 +55,8 @@ export class CourseRepository extends BaseRepository<CourseEntity> {
 
     if (filter.sort === CourseSort.FREE) {
       qb.andWhere('course.price = 0');
+    } else if (filter.sort === CourseSort.PAID) {
+      qb.andWhere('course.price > 0');
     }
 
     switch (filter.sort) {

@@ -27,8 +27,6 @@ import { CourseProgressService } from '@modules/course/service/course-progress.s
 import { CourseWishlistService } from '@modules/course/service/course-wishlist.service';
 import { CourseService } from '@modules/course/service/course.service';
 import { CourseSeedService } from '@modules/course/seed/course-seed.service';
-import { CategoryRepository } from '@modules/category/repository/category.repository';
-import { CategoryEntity } from '@modules/category/entity/category.entity';
 
 const entities = [
   CourseEntity,
@@ -39,7 +37,6 @@ const entities = [
   CourseCommentEntity,
   CourseWishlistEntity,
   CourseTagEntity,
-  CategoryEntity
 ];
 
 const repositories = [
@@ -51,7 +48,6 @@ const repositories = [
   CourseCommentRepository,
   CourseWishlistRepository,
   CourseTagRepository,
-  CategoryRepository
 ];
 
 const services = [

@@ -4,4 +4,5 @@ export enum CourseSort {
   PRICE_ASC = 'price_asc',
   PRICE_DESC = 'price_desc',
   FREE = 'free',
+  PAID = 'paid',
 }

@@ -1,16 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import type { PagedResult } from '@common/repository/base.repository';
-import { CategoryRepository } from '@modules/category/repository/category.repository';
+import { CategoryService } from '@modules/category/service/category.service';
+import type { CategoryEntity } from '@modules/category/entity/category.entity';
 import { CourseQueryDto } from '@modules/course/dto/course-query.dto';
 import { CourseEntity } from '@modules/course/entity/course.entity';
 import { CourseSort } from '@modules/course/enum/course-sort.enum';
 import { CourseRepository } from '@modules/course/repository/course.repository';
 
+export interface CourseIndexData {
+  courses: CourseEntity[];
+  pagination: PagedResult<CourseEntity>;
+  categories: CategoryEntity[];
+  currentCategory: CategoryEntity | null;
+}
+
 @Injectable()
 export class CourseService {
   constructor(
     private readonly courseRepository: CourseRepository,
-    private readonly categoryRepository: CategoryRepository,
+    private readonly categoryService: CategoryService,
   ) {}
 
   async findPublishedBySlugOrFail(slug: string): Promise<CourseEntity> {
@@ -23,7 +31,7 @@ export class CourseService {
     let categoryId: number | undefined;
 
     if (dto.category) {
-      const cat = await this.categoryRepository.findOne({ where: { slug: dto.category } });
+      const cat = await this.categoryService.findBySlug(dto.category);
       if (cat) categoryId = cat.id;
     }
 
@@ -35,6 +43,24 @@ export class CourseService {
       page: dto.page ?? 1,
       limit: dto.limit ?? 12,
     });
+  }
+
+  async findIndexData(dto: CourseQueryDto): Promise<CourseIndexData> {
+    const [pagination, categories] = await Promise.all([
+      this.findPaged(dto),
+      this.categoryService.findAllActive(),
+    ]);
+
+    const currentCategory = dto.category
+      ? (categories.find((c) => c.slug === dto.category) ?? null)
+      : null;
+
+    return {
+      courses: pagination.data,
+      pagination,
+      categories,
+      currentCategory,
+    };
   }
 
   findLatest(limit = 8): Promise<CourseEntity[]> {

@@ -12,7 +12,6 @@ import {
 import type { Request, Response } from 'express';
 import { Public } from '@modules/auth/decorator/public.decorator';
 import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
-import { CategoryRepository } from '@modules/category/repository/category.repository';
 import { CourseQueryDto } from '@modules/course/dto/course-query.dto';
 import { EpisodeStatus } from '@modules/course/enum/episode-status.enum';
 import { EpisodeAccessGuard } from '@modules/course/guard/episode-access.guard';
@@ -35,27 +34,20 @@ export class CourseViewController {
     private readonly progressService: CourseProgressService,
     private readonly commentService: CourseCommentService,
     private readonly wishlistService: CourseWishlistService,
-    private readonly categoryRepository: CategoryRepository,
   ) {}
 
   @Get()
   @Render('view/pages/course/index')
   async index(@Query() query: CourseQueryDto): Promise<object> {
-    const [result, categories] = await Promise.all([
-      this.courseService.findPaged(query),
-      this.categoryRepository.findAllActiveOrdered(),
-    ]);
-
-    const currentCategory = query.category
-      ? (categories.find((c) => c.slug === query.category) ?? null)
-      : null;
+    const { courses, pagination, categories, currentCategory } =
+      await this.courseService.findIndexData(query);
 
     return {
       pageTitle: currentCategory
         ? `${currentCategory.title} — دوره‌های آموزشی — نابغه`
         : 'دوره‌های آموزشی — نابغه',
-      courses: result.data,
-      pagination: result,
+      courses,
+      pagination,
       query,
       categories,
       currentCategory,

@@ -1,10 +1,8 @@
 import type { CategoryEntity } from '@modules/category/entity/category.entity';
 import type { CategoryMenuItem } from '@modules/category/interfaces/category-menu.interface';
 
-const CATEGORY_PATH_PREFIX = '/courses/category';
-
 export function buildCategoryHref(slug: string): string {
-  return `${CATEGORY_PATH_PREFIX}/${slug}`;
+  return `/courses?category=${slug}`;
 }
 
 export function buildCategoryMenuTree(

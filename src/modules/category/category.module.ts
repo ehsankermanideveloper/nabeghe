@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryEntity } from '@modules/category/entity/category.entity';
 import { CategoryApiController } from '@modules/category/controller/category-api.controller';
+import { CategoryMenuMiddleware } from '@modules/category/middleware/category-menu.middleware';
 import { CategoryRepository } from '@modules/category/repository/category.repository';
 import { CategorySeedService } from '@modules/category/service/category-seed.service';
 import { CategoryService } from '@modules/category/service/category.service';
@@ -12,4 +13,8 @@ import { CategoryService } from '@modules/category/service/category.service';
   providers: [CategoryRepository, CategoryService, CategorySeedService],
   exports: [CategoryService],
 })
-export class CategoryModule {}
+export class CategoryModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(CategoryMenuMiddleware).forRoutes('*');
+  }
+}
