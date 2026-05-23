@@ -1,0 +1,562 @@
+<main class="flex-auto py-5">
+  <div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <% if (mustEnroll) { %>
+    <div class="flex items-center gap-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-amber-600 text-sm font-semibold">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 shrink-0">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+      </svg>
+      برای دسترسی به این قسمت ابتدا در دوره ثبت‌نام کنید.
+    </div>
+    <% } %>
+
+    <div class="flex md:flex-nowrap flex-wrap items-start gap-5">
+
+      <!-- left: main -->
+      <div class="md:w-8/12 w-full">
+        <div class="relative">
+          <div class="relative z-10">
+            <% if (course.thumbnail) { %>
+            <img src="<%= course.thumbnail %>" class="max-w-full rounded-3xl" alt="<%= course.title %>" />
+            <% } else { %>
+            <div class="w-full aspect-video rounded-3xl bg-secondary flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-20 h-20 text-muted/30">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9A2.25 2.25 0 0 0 4.5 18.75Z" />
+              </svg>
+            </div>
+            <% } %>
+          </div>
+
+          <div class="-mt-12 pt-12">
+            <div class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
+              <div class="flex items-center gap-2">
+                <span class="block w-1 h-1 bg-success rounded-full"></span>
+                <span class="font-bold text-xs text-success">منتشر شده</span>
+              </div>
+              <h1 class="font-bold text-xl text-foreground"><%= course.title %></h1>
+              <% if (course.shortDescription) { %>
+              <p class="text-sm text-muted"><%= course.shortDescription %></p>
+              <% } %>
+            </div>
+
+            <div class="space-y-10 py-5">
+              <!-- 4 stat boxes -->
+              <div class="grid lg:grid-cols-4 grid-cols-2 gap-5">
+                <div class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
+                  <span class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <div class="flex flex-col items-center justify-center text-center space-y-1">
+                    <span class="font-bold text-xs text-muted line-clamp-1">مدت دوره</span>
+                    <span class="font-bold text-sm text-foreground line-clamp-1">
+                      <% if (course.totalDuration > 0) { %>
+                      <%= Math.floor(course.totalDuration / 3600) %>:<%= String(Math.floor((course.totalDuration % 3600) / 60)).padStart(2, '0') %>:<%= String(course.totalDuration % 60).padStart(2, '0') %>
+                      <% } else { %>—<% } %>
+                    </span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
+                  <span class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <div class="flex flex-col items-center justify-center text-center space-y-1">
+                    <span class="font-bold text-xs text-muted line-clamp-1">تعداد جلسات</span>
+                    <span class="font-bold text-sm text-foreground line-clamp-1"><%= course.totalEpisodes %></span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
+                  <span class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <div class="flex flex-col items-center justify-center text-center space-y-1">
+                    <span class="font-bold text-xs text-muted line-clamp-1">نوع دوره</span>
+                    <span class="font-bold text-sm text-foreground line-clamp-1"><%= course.price === 0 ? 'رایگان' : 'نقدی' %></span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
+                  <span class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                    </svg>
+                  </span>
+                  <div class="flex flex-col items-center justify-center text-center space-y-1">
+                    <span class="font-bold text-xs text-muted line-clamp-1">شرکت‌کنندگان</span>
+                    <span class="font-bold text-sm text-foreground line-clamp-1"><%= course.studentCount %> دانشجو</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- tabs -->
+              <div class="space-y-5"
+                x-data="{ activeTab: 'tabOne', scroll: function() { document.getElementById(this.activeTab).scrollIntoView({ behavior: 'smooth' }) } }">
+                <div class="sticky top-24 z-10">
+                  <div class="relative overflow-x-auto">
+                    <ul class="inline-flex gap-2 bg-secondary border border-border rounded-full p-1">
+                      <li>
+                        <button type="button"
+                          class="flex items-center gap-x-2 relative rounded-full py-2 px-4"
+                          x-bind:class="activeTab === 'tabOne' ? 'text-foreground bg-background' : 'text-muted'"
+                          x-on:click="activeTab = 'tabOne'; scroll();">
+                          <span x-show="activeTab === 'tabOne'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                              <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                            </svg>
+                          </span>
+                          <span x-show="activeTab !== 'tabOne'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                            </svg>
+                          </span>
+                          <span class="font-semibold text-sm whitespace-nowrap">معرفی</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button"
+                          class="flex items-center gap-x-2 relative rounded-full py-2 px-4"
+                          x-bind:class="activeTab === 'tabTwo' ? 'text-foreground bg-background' : 'text-muted'"
+                          x-on:click="activeTab = 'tabTwo'; scroll();">
+                          <span x-show="activeTab === 'tabTwo'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                              <path fill-rule="evenodd" d="M6 4.75A.75.75 0 016.75 4h10.5a.75.75 0 010 1.5H6.75A.75.75 0 016 4.75zM6 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H6.75A.75.75 0 016 10zm0 5.25a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H6.75a.75.75 0 01-.75-.75zM1.99 4.75a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1v-.01zM1.99 15.25a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1v-.01zM1.99 10a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1V10z" clip-rule="evenodd" />
+                            </svg>
+                          </span>
+                          <span x-show="activeTab !== 'tabTwo'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            </svg>
+                          </span>
+                          <span class="font-semibold text-sm whitespace-nowrap">سرفصلها</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button"
+                          class="flex items-center gap-x-2 relative rounded-full py-2 px-4"
+                          x-bind:class="activeTab === 'tabThree' ? 'text-foreground bg-background' : 'text-muted'"
+                          x-on:click="activeTab = 'tabThree'; scroll();">
+                          <span x-show="activeTab === 'tabThree'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                              <path d="M3.505 2.365A41.369 41.369 0 0 1 9 2c1.863 0 3.697.124 5.495.365 1.247.167 2.18 1.108 2.435 2.268a4.45 4.45 0 0 0-.577-.069 43.141 43.141 0 0 0-4.706 0C9.229 4.696 7.5 6.727 7.5 8.998v2.24c0 1.413.67 2.735 1.76 3.562l-2.98 2.98A.75.75 0 0 1 5 17.25v-3.443c-.501-.048-1-.106-1.495-.172C2.033 13.438 1 12.162 1 10.72V5.28c0-1.441 1.033-2.717 2.505-2.914Z" />
+                              <path d="M14 6c-.762 0-1.52.02-2.271.062C10.157 6.148 9 7.472 9 8.998v2.24c0 1.519 1.147 2.839 2.71 2.935.214.013.428.024.642.034.2.009.385.09.518.224l2.35 2.35a.75.75 0 0 0 1.28-.531v-2.07c1.453-.195 2.5-1.463 2.5-2.915V8.998c0-1.526-1.157-2.85-2.729-2.936A41.645 41.645 0 0 0 14 6Z" />
+                            </svg>
+                          </span>
+                          <span x-show="activeTab !== 'tabThree'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+                            </svg>
+                          </span>
+                          <span class="font-semibold text-sm whitespace-nowrap">دیدگاه و پرسش</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- tab contents (all rendered, tabs scroll-spy style) -->
+                <div class="space-y-8">
+
+                  <!-- tab: معرفی -->
+                  <div class="bg-background rounded-3xl p-5" id="tabOne">
+                    <div class="flex items-center gap-3 mb-5">
+                      <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                      </div>
+                      <div class="font-black text-foreground">معرفی دوره</div>
+                    </div>
+                    <% if (course.description) { %>
+                    <div class="description prose prose-sm max-w-none text-muted leading-7">
+                      <%- course.description %>
+                    </div>
+                    <% } else { %>
+                    <p class="text-sm text-muted">توضیحاتی برای این دوره ثبت نشده است.</p>
+                    <% } %>
+                    <% if (course.tags && course.tags.length > 0) { %>
+                    <div class="flex flex-wrap gap-2 mt-5">
+                      <% course.tags.forEach(function(tag) { %>
+                      <span class="inline-flex items-center bg-secondary border border-border rounded-full text-xs text-muted px-3 py-1">#<%= tag.name %></span>
+                      <% }) %>
+                    </div>
+                    <% } %>
+                  </div>
+
+                  <!-- tab: سرفصلها -->
+                  <div class="bg-background rounded-3xl p-5" id="tabTwo">
+                    <div class="flex items-center gap-3 mb-5">
+                      <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                      </div>
+                      <div class="font-black text-foreground">سرفصلها</div>
+                    </div>
+                    <% if (chapters && chapters.length > 0) { %>
+                    <div class="flex flex-col space-y-3">
+                      <% var episodeCounter = 0; %>
+                      <% chapters.forEach(function(chapter, ci) { %>
+                      <div class="w-full" x-data="{ open: <%= ci === 0 ? 'true' : 'false' %> }">
+                        <button type="button"
+                          class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
+                          x-bind:class="open ? 'text-foreground' : 'text-muted'"
+                          x-on:click="open = !open">
+                          <span class="flex items-center gap-3 text-right">
+                            <span class="font-semibold text-xs text-foreground line-clamp-1">فصل <%= ci + 1 %></span>
+                            <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                            <span class="font-semibold text-xs"><%= chapter.title %></span>
+                          </span>
+                          <span x-bind:class="open ? 'rotate-180' : ''">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                          </span>
+                        </button>
+                        <div class="flex flex-col relative py-3 sm:pr-8 sm:pl-16" x-show="open">
+                          <div class="space-y-1">
+                            <% if (chapter.episodes) { chapter.episodes.forEach(function(ep) { episodeCounter++; %>
+                            <div class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
+                              <span class="text-xs text-muted"><%= episodeCounter %></span>
+                              <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                              <a href="/courses/<%= course.slug %>/episodes/<%= ep.slug %>"
+                                class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline flex-1">
+                                <%= ep.title %>
+                              </a>
+                              <div class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
+                                <% if (ep.isFree) { %>
+                                <span class="text-xs text-success font-semibold">رایگان</span>
+                                <% } %>
+                                <% if (ep.videoDuration) { %>
+                                <span class="flex items-center gap-1 text-muted">
+                                  <span class="text-xs"><%= ep.formattedDuration %></span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                  </svg>
+                                </span>
+                                <% } %>
+                                <a href="/courses/<%= course.slug %>/episodes/<%= ep.slug %>"
+                                  class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                                  <span class="text-xs">مشاهده</span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                  </svg>
+                                </a>
+                              </div>
+                            </div>
+                            <% }) } %>
+                          </div>
+                        </div>
+                      </div>
+                      <% }) %>
+                    </div>
+                    <% } else { %>
+                    <p class="text-sm text-muted">هنوز سرفصلی اضافه نشده است.</p>
+                    <% } %>
+                  </div>
+
+                  <!-- tab: دیدگاه و پرسش -->
+                  <div class="bg-background rounded-3xl p-5" id="tabThree">
+                    <div class="flex items-center gap-3 mb-5">
+                      <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                      </div>
+                      <div class="font-black text-foreground">دیدگاه و پرسش</div>
+                    </div>
+
+                    <!-- comment form -->
+                    <div class="bg-background border border-border rounded-3xl p-5 mb-5">
+                      <div class="flex items-center gap-3 mb-5">
+                        <div class="flex items-center gap-1">
+                          <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                          <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                        </div>
+                        <div class="font-black text-xs text-foreground">ارسال دیدگاه یا پرسش</div>
+                      </div>
+
+                      <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                      <form class="flex flex-col space-y-5" id="commentForm" onsubmit="submitComment(event, '<%= course.slug %>')">
+                        <textarea name="body" rows="6"
+                          class="w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border rounded-xl text-sm text-foreground p-5"
+                          placeholder="متن مورد نظر خود را وارد کنید ..."
+                          required minlength="10" maxlength="1000"></textarea>
+                        <div class="flex items-center gap-3" x-data="{ rating: 0, hover: 0 }">
+                          <span class="text-sm text-muted">امتیاز:</span>
+                          <div class="flex items-center gap-1">
+                            <% for (var i = 1; i <= 5; i++) { %>
+                            <button type="button"
+                              class="text-muted hover:text-amber-400 transition-colors"
+                              x-on:mouseenter="hover = <%= i %>"
+                              x-on:mouseleave="hover = 0"
+                              x-on:click="rating = <%= i %>"
+                              x-bind:class="(hover >= <%= i %> || rating >= <%= i %>) ? 'text-amber-400' : ''">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                              </svg>
+                            </button>
+                            <% } %>
+                          </div>
+                          <input type="hidden" name="rating" x-bind:value="rating" />
+                        </div>
+                        <button type="submit"
+                          class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
+                          <span class="font-semibold text-sm">ثبت دیدگاه یا پرسش</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                      </form>
+                      <% } else { %>
+                      <div class="text-center py-4 text-sm text-muted">
+                        برای ثبت دیدگاه <a href="/auth/login?returnTo=/courses/<%= course.slug %>" class="text-primary font-semibold hover:underline">وارد شوید</a>
+                      </div>
+                      <% } %>
+                    </div>
+
+                    <!-- comments list -->
+                    <% if (comments && comments.length > 0) { %>
+                    <div class="space-y-3">
+                      <% comments.forEach(function(comment) { %>
+                      <div class="space-y-3">
+                        <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                          <div class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
+                            <div class="flex items-center gap-3">
+                              <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary border border-border flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                                  <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                </svg>
+                              </div>
+                              <div class="flex flex-col items-start space-y-1">
+                                <span class="line-clamp-1 font-semibold text-sm text-foreground"><%= comment.user ? (comment.user.displayName || 'کاربر') : 'کاربر' %></span>
+                                <span class="text-xs text-muted"><%= comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('fa-IR') : '' %></span>
+                              </div>
+                            </div>
+                            <div class="flex items-center gap-3 sm:mr-0 mr-auto">
+                              <% if (comment.rating) { %>
+                              <div class="flex items-center gap-0.5">
+                                <% for (var s = 1; s <= 5; s++) { %>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 <%= s <= comment.rating ? 'text-amber-400' : 'text-muted/30' %>">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                                <% } %>
+                              </div>
+                              <% } %>
+                            </div>
+                          </div>
+                          <p class="text-sm text-muted"><%= comment.body %></p>
+                        </div>
+
+                        <!-- replies -->
+                        <% if (comment.replies && comment.replies.length > 0) { %>
+                        <div class="relative before:content-[''] before:absolute before:-top-3 before:right-8 before:w-px before:h-[calc(100%-24px)] before:bg-border after:content-[''] after:absolute after:bottom-9 after:right-8 after:w-8 after:h-px after:bg-border space-y-3 pr-16">
+                          <% comment.replies.forEach(function(reply) { %>
+                          <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                            <div class="flex sm:flex-nowrap flex-wrap sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
+                              <div class="flex items-center gap-3">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary border border-border flex items-center justify-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div class="flex flex-col items-start space-y-1">
+                                  <span class="line-clamp-1 font-semibold text-sm text-foreground"><%= reply.user ? (reply.user.displayName || 'کاربر') : 'کاربر' %></span>
+                                  <span class="text-xs text-muted"><%= reply.createdAt ? new Date(reply.createdAt).toLocaleDateString('fa-IR') : '' %></span>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="text-sm text-muted"><%= reply.body %></p>
+                          </div>
+                          <% }) %>
+                        </div>
+                        <% } %>
+                      </div>
+                      <% }) %>
+                    </div>
+                    <% } else { %>
+                    <div class="text-center py-8 text-sm text-muted">هنوز دیدگاهی ثبت نشده است</div>
+                    <% } %>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end left -->
+
+      <!-- right: sidebar -->
+      <div class="md:w-4/12 w-full md:sticky md:top-24 space-y-8">
+
+        <!-- enrollment card -->
+        <div class="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
+          <div class="bg-background rounded-b-3xl space-y-2 p-5 mb-5">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                <div class="w-2 h-2 bg-foreground rounded-full"></div>
+              </div>
+              <div class="font-black text-foreground">نام نویسی در دوره</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-5 mb-3">
+            <span class="font-bold text-base text-muted">هزینه ثبت نام:</span>
+            <div class="flex flex-col items-end justify-center h-14">
+              <% if (course.price === 0) { %>
+              <span class="font-black text-xl text-success">رایگان!</span>
+              <% } else if (course.discountPrice !== null && course.discountPrice !== undefined) { %>
+              <span class="line-through text-muted text-sm"><%= course.price.toLocaleString('fa-IR') %></span>
+              <div class="flex items-center gap-1">
+                <span class="font-black text-xl text-foreground"><%= course.discountPrice.toLocaleString('fa-IR') %></span>
+                <span class="text-xs text-muted">تومان</span>
+              </div>
+              <% } else { %>
+              <div class="flex items-center gap-1">
+                <span class="font-black text-xl text-foreground"><%= course.price.toLocaleString('fa-IR') %></span>
+                <span class="text-xs text-muted">تومان</span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <% if (isEnrolled) { %>
+            <a href="/courses/<%= course.slug %>/episodes"
+              class="w-full h-11 inline-flex items-center justify-center gap-1 bg-success rounded-full text-white transition-all hover:opacity-80 px-4">
+              <span class="font-semibold text-sm">ادامه یادگیری</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <% } else if (course.price === 0) { %>
+            <button type="button" id="enrollBtn" onclick="enrollCourse('<%= course.slug %>')"
+              class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+              <span class="font-semibold text-sm">ثبت‌نام رایگان</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <% } else { %>
+            <button type="button"
+              class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+              <span class="font-semibold text-sm">اضافه به سبد</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <% } %>
+            <button type="button" id="wishlistBtn" onclick="toggleWishlist('<%= course.slug %>', this)"
+              class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full transition-colors <%= isWishlisted ? 'text-red-500' : 'text-muted hover:text-red-500' %>">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- instructor -->
+        <% if (course.instructor) { %>
+        <div class="space-y-5">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1">
+              <div class="w-1 h-1 bg-foreground rounded-full"></div>
+              <div class="w-2 h-2 bg-foreground rounded-full"></div>
+            </div>
+            <div class="font-black text-sm text-foreground">مدرس دوره</div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary border border-border">
+                <% if (course.instructor.avatar) { %>
+                <img src="<%= course.instructor.avatar %>" class="w-full h-full object-cover" alt="<%= course.instructor.displayName %>" />
+                <% } else { %>
+                <div class="w-full h-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <% } %>
+              </div>
+              <div class="flex flex-col items-start space-y-1">
+                <span class="line-clamp-1 font-bold text-sm text-foreground"><%= course.instructor.displayName || 'مدرس' %></span>
+                <% if (course.instructor.bio) { %>
+                <span class="text-xs text-muted line-clamp-1"><%= course.instructor.bio %></span>
+                <% } %>
+              </div>
+            </div>
+            <% if (course.instructor.bio) { %>
+            <div class="bg-secondary rounded-tl-3xl rounded-b-3xl text-sm text-muted p-5">
+              <%= course.instructor.bio %>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+
+      </div>
+      <!-- end right sidebar -->
+
+    </div>
+  </div>
+</main>
+
+<script>
+async function enrollCourse(slug) {
+  const btn = document.getElementById('enrollBtn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'در حال ثبت‌نام...';
+  try {
+    const res = await fetch('/api/courses/' + slug + '/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await res.json();
+    if (res.ok) {
+      window.location.href = '/courses/' + slug + '/episodes';
+    } else {
+      alert(data.message || 'خطا در ثبت‌نام');
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'ثبت‌نام رایگان';
+    }
+  } catch {
+    alert('خطا در ارتباط با سرور');
+    btn.disabled = false;
+  }
+}
+
+async function toggleWishlist(slug, btn) {
+  try {
+    const res = await fetch('/api/courses/' + slug + '/wishlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (res.status === 401) { window.location.href = '/auth/login'; return; }
+    if (res.ok) { window.location.reload(); }
+  } catch { }
+}
+
+async function submitComment(e, slug) {
+  e.preventDefault();
+  const form = e.target;
+  const body = form.querySelector('[name="body"]').value;
+  const ratingInput = form.querySelector('[name="rating"]');
+  const rating = ratingInput ? parseInt(ratingInput.value) || undefined : undefined;
+  try {
+    const res = await fetch('/api/courses/' + slug + '/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ body, rating }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert(data.message);
+      form.reset();
+    } else {
+      alert(data.message || 'خطا در ثبت دیدگاه');
+    }
+  } catch { alert('خطا در ارتباط با سرور'); }
+}
+</script>

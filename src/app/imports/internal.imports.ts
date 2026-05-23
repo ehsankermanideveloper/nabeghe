@@ -1,5 +1,6 @@
 import { AuthModule } from '@modules/auth/auth.module';
 import { CategoryModule } from '@modules/category/category.module';
+import { CourseModule } from '@modules/course/course.module';
 import { HealthModule } from '@modules/health/health.module';
 import { DemoModule } from '@modules/demo/demo.module';
 import { ProfileModule } from '@modules/profile/profile.module';
@@ -9,6 +10,7 @@ export const internalImports = [
   HealthModule,
   AuthModule,
   CategoryModule,
+  CourseModule,
   SiteModule,
   ProfileModule,
   DemoModule,
