@@ -28,4 +28,9 @@ export class CourseWishlistRepository extends BaseRepository<CourseWishlistEntit
       order: { createdAt: 'DESC' },
     });
   }
+
+  async getCourseIdsByUserId(userId: number): Promise<number[]> {
+    const rows = await this.findMany({ where: { userId }, select: { courseId: true } });
+    return rows.map((r) => r.courseId);
+  }
 }

@@ -16,6 +16,10 @@ export class CategoryService {
     return this.categoryRepository.findOne({ where: { slug, isActive: true } });
   }
 
+  findBySlugWithChildren(slug: string): Promise<CategoryEntity | null> {
+    return this.categoryRepository.findBySlugWithChildren(slug);
+  }
+
   async getMenuTree(): Promise<CategoryMenuItem[]> {
     const rows = await this.categoryRepository.findAllActiveOrdered();
     return buildCategoryMenuTree(rows);

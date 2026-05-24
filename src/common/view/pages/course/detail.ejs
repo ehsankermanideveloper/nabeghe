@@ -528,14 +528,23 @@ async function enrollCourse(slug) {
 }
 
 async function toggleWishlist(slug, btn) {
+  btn.disabled = true;
   try {
-    const res = await fetch('/api/courses/' + slug + '/wishlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    if (res.status === 401) { window.location.href = '/auth/login'; return; }
-    if (res.ok) { window.location.reload(); }
-  } catch { }
+    const res = await fetch('/api/courses/' + slug + '/wishlist', { method: 'POST' });
+    if (res.status === 401) { showAlert('برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید', 'warning'); return; }
+    const data = await res.json();
+    if (res.ok) {
+      if (data.wishlisted) {
+        btn.classList.remove('text-muted');
+        btn.classList.add('text-red-500');
+      } else {
+        btn.classList.remove('text-red-500');
+        btn.classList.add('text-muted', 'hover:text-red-500');
+      }
+      showAlert(data.message, data.wishlisted ? 'success' : 'info');
+    }
+  } catch { showAlert('خطایی رخ داد، دوباره تلاش کنید', 'error'); }
+  finally { btn.disabled = false; }
 }
 
 async function submitComment(e, slug) {

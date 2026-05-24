@@ -28,16 +28,18 @@ export class CourseService {
   }
 
   async findPaged(dto: CourseQueryDto): Promise<PagedResult<CourseEntity>> {
-    let categoryId: number | undefined;
+    let categoryIds: number[] | undefined;
 
     if (dto.category) {
-      const cat = await this.categoryService.findBySlug(dto.category);
-      if (cat) categoryId = cat.id;
+      const cat = await this.categoryService.findBySlugWithChildren(dto.category);
+      if (cat) {
+        categoryIds = [cat.id, ...(cat.children ?? []).map((c) => c.id)];
+      }
     }
 
     return this.courseRepository.findPublishedPaged({
       q: dto.q,
-      categoryId,
+      categoryIds,
       level: dto.level,
       sort: dto.sort ?? CourseSort.NEWEST,
       page: dto.page ?? 1,

@@ -46,8 +46,8 @@ export class CourseCommentService {
     return (await this.commentRepository.save(comment)) as CourseCommentEntity;
   }
 
-  getApprovedComments(courseId: number): Promise<CourseCommentEntity[]> {
-    return this.commentRepository.findApprovedByCourseId(courseId);
+  getApprovedComments(courseId?: number, limit?: number , sortAsc : boolean = true): Promise<CourseCommentEntity[]> {
+    return this.commentRepository.findApprovedByCourseId(courseId , limit , sortAsc);
   }
 
   getAverageRating(courseId: number): Promise<number | null> {

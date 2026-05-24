@@ -38,9 +38,14 @@ export class CourseViewController {
 
   @Get()
   @Render('view/pages/course/index')
-  async index(@Query() query: CourseQueryDto): Promise<object> {
+  async index(@Query() query: CourseQueryDto, @Req() req: ReqWithUser): Promise<object> {
     const { courses, pagination, categories, currentCategory } =
       await this.courseService.findIndexData(query);
+
+    const userId = req.user?.id;
+    const wishlistedIds = userId
+      ? await this.wishlistService.getWishlistedCourseIds(userId)
+      : [];
 
     return {
       pageTitle: currentCategory
@@ -51,6 +56,7 @@ export class CourseViewController {
       query,
       categories,
       currentCategory,
+      wishlistedIds,
     };
   }
 

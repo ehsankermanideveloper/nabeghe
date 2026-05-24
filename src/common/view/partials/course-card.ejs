@@ -7,7 +7,16 @@ const durationText = ch > 0 ? (ch + ' ساعت' + (cm > 0 ? ' و ' + cm + ' دق
   <div class="relative z-10">
     <a href="/courses/<%= course.slug %>" class="block">
       <% if (course.thumbnail) { %>
-      <img src="<%= course.thumbnail %>" class="max-w-full rounded-3xl" alt="<%= course.title %>" />
+      <div class="relative rounded-3xl overflow-hidden aspect-video bg-secondary">
+        <div data-skeleton class="absolute inset-0 animate-pulse bg-secondary rounded-3xl"></div>
+        <img
+          src="<%= course.thumbnail %>"
+          data-img
+          style=""
+          class="inset-0 w-full h-full object-cover"
+          alt="<%= course.title %>"
+        />
+      </div>
       <% } else { %>
       <div class="w-full aspect-video rounded-3xl bg-secondary flex items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-16 h-16 text-muted/30">
@@ -61,9 +70,16 @@ const durationText = ch > 0 ? (ch + ' ساعت' + (cm > 0 ? ' و ' + cm + ' دق
       <div class="flex items-center justify-between gap-5">
         <% if (course.instructor) { %>
         <div class="flex items-center gap-3">
-          <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary border border-border">
+          <div class="relative flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary border border-border">
             <% if (course.instructor.avatar) { %>
-            <img src="<%= course.instructor.avatar %>" class="w-full h-full object-cover" alt="<%= course.instructor.displayName %>" />
+            <div data-skeleton class="absolute inset-0 animate-pulse bg-secondary rounded-full"></div>
+            <img
+              src="<%= course.instructor.avatar %>"
+              data-img
+              style="opacity:0;transition:opacity 0.3s ease;"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="<%= course.instructor.displayName %>"
+            />
             <% } else { %>
             <div class="w-full h-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
@@ -110,7 +126,7 @@ const durationText = ch > 0 ? (ch + ' ساعت' + (cm > 0 ? ' و ' + cm + ' دق
           </svg>
         </a>
         <button type="button"
-          class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors hover:text-red-500"
+          class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full transition-colors hover:text-red-500 <%= isWishlisted ? 'text-red-500' : 'text-muted' %>"
           onclick="toggleWishlistCard('<%= course.slug %>', this)">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
             <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />

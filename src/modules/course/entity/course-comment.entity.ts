@@ -32,7 +32,7 @@ export class CourseCommentEntity extends BaseEntity {
   @Column({ type: 'smallint', nullable: true })
   rating!: number | null;
 
-  @Column({ type: 'varchar', length: 20, default: CommentStatus.PENDING })
+  @Column({ type: 'enum', enum: CommentStatus, default: CommentStatus.PENDING })
   status!: CommentStatus;
 
   @ManyToOne(() => CourseEntity, { onDelete: 'CASCADE' })

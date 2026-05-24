@@ -45,10 +45,10 @@ export class CourseEntity extends BaseEntity {
   @Column({ name: 'discount_price', type: 'int', nullable: true })
   discountPrice!: number | null;
 
-  @Column({ type: 'varchar', length: 20, default: CourseLevel.ALL_LEVELS })
+  @Column({ type: 'enum', enum: CourseLevel, default: CourseLevel.ALL_LEVELS })
   level!: CourseLevel;
 
-  @Column({ type: 'varchar', length: 20, default: CourseStatus.DRAFT })
+  @Column({ type: 'enum', enum: CourseStatus, default: CourseStatus.DRAFT })
   status!: CourseStatus;
 
   @Column({ name: 'sort_order', type: 'int', default: 0 })

@@ -19,4 +19,13 @@ export class CategoryRepository extends BaseRepository<CategoryEntity> {
       order: { sortOrder: 'ASC', id: 'ASC' },
     });
   }
+
+  findBySlugWithChildren(slug: string): Promise<CategoryEntity | null> {
+    return this.repository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.children', 'child', 'child.isActive = true')
+      .where('c.slug = :slug', { slug })
+      .andWhere('c.isActive = true')
+      .getOne();
+  }
 }

@@ -47,7 +47,7 @@ export class CourseEpisodeEntity extends BaseEntity {
   @Column({ name: 'is_free', type: 'boolean', default: false })
   isFree!: boolean;
 
-  @Column({ type: 'varchar', length: 20, default: EpisodeStatus.DRAFT })
+  @Column({ type: 'enum', enum: EpisodeStatus, default: EpisodeStatus.DRAFT })
   status!: EpisodeStatus;
 
   @ManyToOne(() => CourseEntity, (course) => course.episodes, { onDelete: 'CASCADE' })

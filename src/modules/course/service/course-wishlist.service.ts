@@ -33,4 +33,8 @@ export class CourseWishlistService {
   getMyWishlist(userId: number): Promise<CourseWishlistEntity[]> {
     return this.wishlistRepository.findByUserId(userId);
   }
+
+  getWishlistedCourseIds(userId: number): Promise<number[]> {
+    return this.wishlistRepository.getCourseIdsByUserId(userId);
+  }
 }

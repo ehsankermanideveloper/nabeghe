@@ -8,7 +8,7 @@ import { CourseEntity } from '@modules/course/entity/course.entity';
 
 export interface CourseFilter {
   q?: string;
-  categoryId?: number;
+  categoryIds?: number[];
   level?: string;
   sort?: CourseSort;
   page: number;
@@ -45,8 +45,8 @@ export class CourseRepository extends BaseRepository<CourseEntity> {
       );
     }
 
-    if (filter.categoryId) {
-      qb.andWhere('course.categoryId = :categoryId', { categoryId: filter.categoryId });
+    if (filter.categoryIds && filter.categoryIds.length > 0) {
+      qb.andWhere('course.categoryId IN (:...categoryIds)', { categoryIds: filter.categoryIds });
     }
 
     if (filter.level) {

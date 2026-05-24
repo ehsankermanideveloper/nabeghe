@@ -14,8 +14,8 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
     super(repository);
   }
 
-  findApprovedByCourseId(courseId: number): Promise<CourseCommentEntity[]> {
-    return this.createQueryBuilder('comment')
+  findApprovedByCourseId(courseId?: number, limit?: number , sortAsc : boolean = true): Promise<CourseCommentEntity[]> {
+    const query = this.createQueryBuilder('comment')
       .leftJoinAndSelect('comment.user', 'user')
       .leftJoinAndSelect(
         'comment.replies',
@@ -24,12 +24,22 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
         { status: CommentStatus.APPROVED },
       )
       .leftJoinAndSelect('reply.user', 'replyUser')
-      .where('comment.courseId = :courseId', { courseId })
+
       .andWhere('comment.status = :status', { status: CommentStatus.APPROVED })
       .andWhere('comment.parentId IS NULL')
       .andWhere('comment.deletedAt IS NULL')
       .orderBy('comment.createdAt', 'DESC')
-      .getMany();
+
+    if (courseId) {
+      query.andWhere('comment.courseId = :courseId', { courseId })
+    }
+    if (limit) {
+      query.limit(limit)
+    }
+    if(sortAsc){
+      query.orderBy('comment.createdAt' , 'ASC')
+    }
+    return query.getMany();
   }
 
   async getAverageRating(courseId: number): Promise<number | null> {
