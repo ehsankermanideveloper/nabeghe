@@ -64,6 +64,6 @@ const services = [
   imports: [TypeOrmModule.forFeature(entities), CategoryModule],
   controllers: [CourseViewController, CourseApiController],
   providers: [...repositories, ...services, EpisodeAccessGuard],
-  exports: [CourseService, CourseEnrollmentService , CourseCommentService],
+  exports: [CourseService, CourseEnrollmentService, CourseCommentService, CourseProgressService, CourseWishlistService],
 })
 export class CourseModule {}

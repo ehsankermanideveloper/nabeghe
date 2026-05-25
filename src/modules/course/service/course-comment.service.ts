@@ -57,4 +57,8 @@ export class CourseCommentService {
   getRatingCount(courseId: number): Promise<number> {
     return this.commentRepository.countApprovedRatingsByCourseId(courseId);
   }
+
+  getMyComments(userId: number): Promise<CourseCommentEntity[]> {
+    return this.commentRepository.findByUserId(userId);
+  }
 }

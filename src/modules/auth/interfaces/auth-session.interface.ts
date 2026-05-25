@@ -22,5 +22,7 @@ declare module 'express-session' {
     otpChallengeId?: number;
     pendingMasked?: string;
     pendingKind?: 'phone' | 'email';
+    phoneChangeOtpChallengeId?: number;
+    pendingNewPhone?: string;
   }
 }

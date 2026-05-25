@@ -24,7 +24,7 @@ export class CourseWishlistRepository extends BaseRepository<CourseWishlistEntit
   findByUserId(userId: number): Promise<CourseWishlistEntity[]> {
     return this.findMany({
       where: { userId },
-      relations: { course: true },
+      relations: { course: { instructor: true, category: true } },
       order: { createdAt: 'DESC' },
     });
   }

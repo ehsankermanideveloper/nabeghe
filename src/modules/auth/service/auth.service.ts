@@ -132,6 +132,96 @@ export class AuthService {
     return user;
   }
 
+  async requestPhoneChange(
+    req: Request,
+    userId: number,
+    rawPhone: string,
+  ): Promise<{ masked: string }> {
+    const parsed = parseIdentifier(rawPhone);
+    if (!parsed || parsed.kind !== 'phone') {
+      throw new BadRequestException('شماره موبایل معتبر وارد کنید.');
+    }
+
+    const currentUser = await this.userRepository.findOneById(userId);
+    if (currentUser?.phone === parsed.normalized) {
+      throw new BadRequestException('این شماره موبایل در حال حاضر ثبت شده است.');
+    }
+
+    const existing = await this.userRepository.findByIdentifier(parsed);
+    if (existing && existing.id !== userId) {
+      throw new BadRequestException('این شماره موبایل قبلاً توسط حساب دیگری ثبت شده است.');
+    }
+
+    const auth = this.config.auth;
+    const expiresAt = new Date(Date.now() + auth.otpTtlMinutes * 60_000);
+
+    const challenge = this.otpChallengeRepository.build({
+      identifier: parsed.normalized,
+      expiresAt,
+      attempts: 0,
+      consumedAt: null,
+      ipAddress: req.ip ?? null,
+    });
+    const saved = (await this.otpChallengeRepository.save(
+      challenge,
+    )) as OtpChallengeEntity;
+
+    req.session.phoneChangeOtpChallengeId = saved.id;
+    req.session.pendingNewPhone = parsed.normalized;
+
+    this.logger.log(
+      `Phone change OTP #${saved.id} for user #${userId} → ${parsed.masked} — dev code: ${auth.otpCode}`,
+    );
+
+    return { masked: parsed.masked };
+  }
+
+  async verifyPhoneChange(
+    req: Request,
+    userId: number,
+    code: string,
+  ): Promise<void> {
+    const challengeId = req.session.phoneChangeOtpChallengeId;
+    const pendingPhone = req.session.pendingNewPhone;
+
+    if (!challengeId || !pendingPhone) {
+      throw new BadRequestException('ابتدا شماره موبایل جدید را وارد کنید.');
+    }
+
+    const challenge =
+      await this.otpChallengeRepository.findActiveById(challengeId);
+    if (!challenge || challenge.consumedAt) {
+      throw new BadRequestException('کد منقضی شده. دوباره تلاش کنید.');
+    }
+
+    if (challenge.expiresAt.getTime() < Date.now()) {
+      throw new BadRequestException('کد منقضی شده. دوباره تلاش کنید.');
+    }
+
+    const auth = this.config.auth;
+    if (challenge.attempts >= auth.otpMaxAttempts) {
+      throw new UnauthorizedException(
+        'تعداد تلاش بیش از حد. دوباره از ابتدا وارد شوید.',
+      );
+    }
+
+    await this.otpChallengeRepository.updateOneById(challenge.id, {
+      attempts: challenge.attempts + 1,
+    });
+
+    if (code.trim() !== auth.otpCode) {
+      throw new UnauthorizedException('کد تایید اشتباه است.');
+    }
+
+    await this.otpChallengeRepository.updateOneById(challenge.id, {
+      consumedAt: new Date(),
+    });
+    await this.userRepository.updateOneById(userId, { phone: pendingPhone });
+
+    delete req.session.phoneChangeOtpChallengeId;
+    delete req.session.pendingNewPhone;
+  }
+
   logout(req: Request): void {
     req.session.destroy(() => undefined);
   }

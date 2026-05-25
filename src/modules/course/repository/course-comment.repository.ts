@@ -65,6 +65,15 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
       .getCount();
   }
 
+  findByUserId(userId: number): Promise<CourseCommentEntity[]> {
+    return this.createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.course', 'course')
+      .where('comment.userId = :userId', { userId })
+      .andWhere('comment.deletedAt IS NULL')
+      .orderBy('comment.createdAt', 'DESC')
+      .getMany();
+  }
+
   hasUserCommented(userId: number, courseId: number): Promise<boolean> {
     return this.createQueryBuilder('comment')
       .where('comment.userId = :userId', { userId })

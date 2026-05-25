@@ -24,7 +24,7 @@ export class CourseEnrollmentRepository extends BaseRepository<CourseEnrollmentE
   findByUserId(userId: number): Promise<CourseEnrollmentEntity[]> {
     return this.findMany({
       where: { userId },
-      relations: { course: true },
+      relations: { course: { instructor: true, category: true } },
       order: { enrolledAt: 'DESC' },
     });
   }

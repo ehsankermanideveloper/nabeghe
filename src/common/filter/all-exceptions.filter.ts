@@ -27,6 +27,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
+    if (response.headersSent) {
+      return;
+    }
+
     const status = this.resolveStatus(exception);
     const message = this.resolveMessage(exception, status);
     const error = HttpStatus[status] ?? 'Error';
