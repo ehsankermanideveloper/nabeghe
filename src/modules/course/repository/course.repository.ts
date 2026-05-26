@@ -105,6 +105,7 @@ export class CourseRepository extends BaseRepository<CourseEntity> {
   findLatestPublished(limit = 8): Promise<CourseEntity[]> {
     return this.findMany({
       where: { status: CourseStatus.PUBLISHED },
+      relations: { instructor: true, category: true },
       order: { publishedAt: 'DESC' },
       take: limit,
     });

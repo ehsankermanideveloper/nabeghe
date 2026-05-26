@@ -22,16 +22,16 @@
                                     <span class="font-semibold text-xs text-primary">به زودی :)</span>
                                 </div>
                                 <h2 class="font-black sm:text-5xl text-3xl text-foreground">
-                                    داستان برنامه‌نویس شدنت <br />
-                                    از اینجا شروع میشه!
+                                    دانش اساس تکامل بشر است <br />
+                                    یادگیری حق همه است!
                                 </h2>
                                 <p class="sm:text-base text-sm text-muted">
-                                    یادگیری برنامه‌نویسی آرزو نیست، فقط نیاز هست که تلاش و تمرین داشته
-                                    باشید، بقیه‌اش با نابغه
+                                    بنیاد لیان امیری با هدف ارتقاء سطح دانش، دوره‌های آموزشی را
+                                    برای افراد محروم و کم‌برخوردار فراهم می‌کند.
                                 </p>
-                                <a href="./series.html"
+                                <a href="/courses"
                                     class="inline-flex items-center justify-center gap-1 h-11 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">شروع یادگیری برنامه‌نویسی</span>
+                                    <span class="font-semibold text-sm">مشاهده دوره‌ها</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         class="w-5 h-5">
                                         <path fill-rule="evenodd"
@@ -51,7 +51,7 @@
                     <div class="relative bg-secondary rounded-3xl">
                         <div
                             class="relative right-1/2 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-12 bg-background border border-border rounded-2xl font-black text-foreground text-lg text-center px-8">
-                            چرا آکــــادمــــــی نابغه؟
+                            چرا بنیاد لیان امیری؟
                         </div>
                         <div class="flex flex-wrap items-center justify-center gap-10 md:pb-10 pb-5 md:px-10 px-5">
                             <div
@@ -169,440 +169,18 @@
                         <!-- section:latest-courses:slider -->
                         <div class="swiper col3-swiper-slider">
                             <div class="swiper-wrapper">
+                                <% latestCourses.forEach(function(course) { %>
                                 <div class="swiper-slide">
-                                    <!-- course:card -->
-                                    <div class="relative">
-                                        <div class="relative z-10">
-                                            <a href="./course-detail.html" class="block">
-                                                <img src="/assets/images/courses/01.jpg" class="max-w-full rounded-3xl"
-                                                    alt="..." />
-                                            </a>
-                                            <a href="./course-category.html"
-                                                class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" class="w-6 h-6">
-                                                    <path fill-rule="evenodd"
-                                                        d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-semibold text-sm">فرانت اند</span>
-                                            </a>
-                                        </div>
-                                        <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                                            <div
-                                                class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                                <div class="flex items-center gap-2">
-                                                    <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                    <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                                </div>
-                                                <h2 class="font-bold text-sm">
-                                                    <a href="./course-detail.html"
-                                                        class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                        پروژه محور React و Next</a>
-                                                </h2>
-                                            </div>
-                                            <div class="space-y-3 p-5">
-                                                <div class="flex flex-wrap items-center gap-3">
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                                            </path>
-                                                            <path
-                                                                d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                                            </path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۵ فصل</span>
-                                                    </div>
-                                                    <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۲۵ ساعت</span>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between gap-5">
-                                                    <div class="flex items-center gap-3">
-                                                        <div
-                                                            class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="/assets/images/avatars/01.jpeg"
-                                                                class="w-full h-full object-cover" alt="..." />
-                                                        </div>
-                                                        <div class="flex flex-col items-start space-y-1">
-                                                            <span
-                                                                class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                                                دوره:</span>
-                                                            <a href="./lecturer.html"
-                                                                class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">جلال
-                                                                بهرامی راد</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex flex-col items-end justify-center h-14">
-                                                        <span class="line-through text-muted">۱,۱۹۹,۰۰۰</span>
-                                                        <div class="flex items-center gap-1">
-                                                            <span
-                                                                class="font-black text-xl text-foreground">۱,۰۷۹,۰۰۰</span>
-                                                            <span class="text-xs text-muted">تومان</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
-                                                        class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                                        <span class="line-clamp-1 font-semibold text-sm">مشاهده
-                                                            دوره</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <button type="button"
-                                                        class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end course:card -->
+                                    <%- include('../../partials/course-card', { course: course, isWishlisted: false }) %>
                                 </div>
+                                <% }); %>
+                                <% if (!latestCourses.length) { %>
                                 <div class="swiper-slide">
-                                    <!-- course:card -->
-                                    <div class="relative">
-                                        <div class="relative z-10">
-                                            <a href="./course-detail.html" class="block">
-                                                <img src="/assets/images/courses/02.jpg" class="max-w-full rounded-3xl"
-                                                    alt="..." />
-                                            </a>
-                                            <a href="./course-category.html"
-                                                class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" class="w-6 h-6">
-                                                    <path fill-rule="evenodd"
-                                                        d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-semibold text-sm">برنامه نویسی</span>
-                                            </a>
-                                        </div>
-                                        <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                                            <div
-                                                class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                                <div class="flex items-center gap-2">
-                                                    <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                    <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                                </div>
-                                                <h2 class="font-bold text-sm">
-                                                    <a href="./course-detail.html"
-                                                        class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                                        قدم صفر برنامه نویسی
-                                                    </a>
-                                                </h2>
-                                            </div>
-                                            <div class="space-y-3 p-5">
-                                                <div class="flex flex-wrap items-center gap-3">
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                                            </path>
-                                                            <path
-                                                                d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                                            </path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۵ فصل</span>
-                                                    </div>
-                                                    <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۲۵ ساعت</span>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between gap-5">
-                                                    <div class="flex items-center gap-3">
-                                                        <div
-                                                            class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="/assets/images/avatars/01.jpeg"
-                                                                class="w-full h-full object-cover" alt="..." />
-                                                        </div>
-                                                        <div class="flex flex-col items-start space-y-1">
-                                                            <span
-                                                                class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                                                دوره:</span>
-                                                            <a href="./lecturer.html"
-                                                                class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">جلال
-                                                                بهرامی راد</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex flex-col items-end justify-center h-14">
-                                                        <div class="flex items-center gap-1">
-                                                            <span class="font-black text-xl text-success">رایگان!</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
-                                                        class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                                        <span class="line-clamp-1 font-semibold text-sm">مشاهده
-                                                            دوره</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <button type="button"
-                                                        class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="flex items-center justify-center h-48 text-muted font-semibold text-sm">
+                                        دوره‌ای منتشر نشده است.
                                     </div>
-                                    <!-- end course:card -->
                                 </div>
-                                <div class="swiper-slide">
-                                    <!-- course:card -->
-                                    <div class="relative">
-                                        <div class="relative z-10">
-                                            <a href="./course-detail.html" class="block">
-                                                <img src="/assets/images/courses/03.jpg" class="max-w-full rounded-3xl"
-                                                    alt="..." />
-                                            </a>
-                                            <a href="./course-category.html"
-                                                class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" class="w-6 h-6">
-                                                    <path fill-rule="evenodd"
-                                                        d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-semibold text-sm">موبایل</span>
-                                            </a>
-                                        </div>
-                                        <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                                            <div
-                                                class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                                <div class="flex items-center gap-2">
-                                                    <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                    <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                                </div>
-                                                <h2 class="font-bold text-sm">
-                                                    <a href="./course-detail.html"
-                                                        class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                                        آموزش فلاتر از صفر
-                                                    </a>
-                                                </h2>
-                                            </div>
-                                            <div class="space-y-3 p-5">
-                                                <div class="flex flex-wrap items-center gap-3">
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                                            </path>
-                                                            <path
-                                                                d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                                            </path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۵ فصل</span>
-                                                    </div>
-                                                    <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۲۵ ساعت</span>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between gap-5">
-                                                    <div class="flex items-center gap-3">
-                                                        <div
-                                                            class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="/assets/images/avatars/01.jpeg"
-                                                                class="w-full h-full object-cover" alt="..." />
-                                                        </div>
-                                                        <div class="flex flex-col items-start space-y-1">
-                                                            <span
-                                                                class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                                                دوره:</span>
-                                                            <a href="./lecturer.html"
-                                                                class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">جلال
-                                                                بهرامی راد</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex flex-col items-end justify-center h-14">
-                                                        <div class="flex items-center gap-1">
-                                                            <span
-                                                                class="font-black text-xl text-foreground">۶۹۹,۰۰۰</span>
-                                                            <span class="text-xs text-muted">تومان</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
-                                                        class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                                        <span class="line-clamp-1 font-semibold text-sm">مشاهده
-                                                            دوره</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <button type="button"
-                                                        class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end course:card -->
-                                </div>
-                                <div class="swiper-slide">
-                                    <!-- course:card -->
-                                    <div class="relative">
-                                        <div class="relative z-10">
-                                            <a href="./course-detail.html" class="block">
-                                                <img src="/assets/images/courses/04.jpg" class="max-w-full rounded-3xl"
-                                                    alt="..." />
-                                            </a>
-                                            <a href="./course-category.html"
-                                                class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" class="w-6 h-6">
-                                                    <path fill-rule="evenodd"
-                                                        d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-semibold text-sm">بک اند</span>
-                                            </a>
-                                        </div>
-                                        <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                                            <div
-                                                class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                                <div class="flex items-center gap-2">
-                                                    <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                    <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                                </div>
-                                                <h2 class="font-bold text-sm">
-                                                    <a href="./course-detail.html"
-                                                        class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                                        آموزش Composer
-                                                    </a>
-                                                </h2>
-                                            </div>
-                                            <div class="space-y-3 p-5">
-                                                <div class="flex flex-wrap items-center gap-3">
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                                            </path>
-                                                            <path
-                                                                d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                                            </path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۵ فصل</span>
-                                                    </div>
-                                                    <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                                    <div class="flex items-center gap-1 text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                        <span class="font-semibold text-xs">۲۵ ساعت</span>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-between gap-5">
-                                                    <div class="flex items-center gap-3">
-                                                        <div
-                                                            class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="/assets/images/avatars/01.jpeg"
-                                                                class="w-full h-full object-cover" alt="..." />
-                                                        </div>
-                                                        <div class="flex flex-col items-start space-y-1">
-                                                            <span
-                                                                class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                                                دوره:</span>
-                                                            <a href="./lecturer.html"
-                                                                class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">جلال
-                                                                بهرامی راد</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex flex-col items-end justify-center h-14">
-                                                        <div class="flex items-center gap-1">
-                                                            <span
-                                                                class="font-black text-xl text-foreground">۳۲۵,۰۰۰</span>
-                                                            <span class="text-xs text-muted">تومان</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
-                                                        class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                                        <span class="line-clamp-1 font-semibold text-sm">مشاهده
-                                                            دوره</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <button type="button"
-                                                        class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path
-                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end course:card -->
-                                </div>
+                                <% } %>
                             </div>
 
                             <div class="swiper-button-prev"></div>
@@ -630,72 +208,52 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col space-y-2">
-                                    <span class="font-black xs:text-2xl text-lg text-primary">در مورد نابغه چه
-                                        میشنویم؟</span>
-                                    <span class="font-semibold xs:text-base text-sm text-muted">این‌ها، بخش خیلی کوچکی
-                                        از نظراتی
-                                        هستند
-                                        که افراد
-                                        مختلف در مورد نابغه دارند.</span>
+                                    <span class="font-black xs:text-2xl text-lg text-primary">درباره بنیاد لیان امیری چه می‌گویند؟</span>
+                                    <span class="font-semibold xs:text-base text-sm text-muted">این‌ها بخشی از نظرات هنرجویان و افرادی هستند که از حمایت‌های بنیاد لیان امیری بهره‌مند شده‌اند.</span>
                                 </div>
                             </div>
                             <div class="md:col-span-8 w-full max-w-xl mx-auto">
                                 <div class="swiper card-swiper-slider">
                                     <div class="swiper-wrapper">
+                                        <% latestComment.forEach(function(comment) { %>
                                         <div class="swiper-slide pb-8">
                                             <div
                                                 class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
                                                 <div class="font-semibold text-sm text-muted text-center">
-                                                    وبسایت شما به خوبی به نیازها و سطح دانش کاربران پاسخ می‌دهد. از
-                                                    مبتدیان
-                                                    تا
-                                                    حرفه‌ایان، می‌توانند از محتواهای آموزشی شما بهره‌بردند. این
-                                                    گسترده‌بودن
-                                                    پوشش
-                                                    محتوا بسیار قابل قدردانی است.
+                                                    <%= comment.body %>
                                                 </div>
                                                 <div class="flex items-center gap-3">
-                                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
+                                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary">
+                                                        <% if (comment.user && comment.user.avatar) { %>
+                                                        <img src="<%= comment.user.avatar %>"
+                                                            class="w-full h-full object-cover" alt="<%= comment.user.displayName %>">
+                                                        <% } else { %>
+                                                        <div class="w-full h-full flex items-center justify-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                                                                <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                        <% } %>
                                                     </div>
                                                     <div class="flex flex-col items-start space-y-1">
                                                         <span class="line-clamp-1 font-bold text-xs text-foreground">
-                                                            جلال بهرامی راد
+                                                            <%= (comment.user && comment.user.displayName) ? comment.user.displayName : 'کاربر' %>
                                                         </span>
                                                         <span class="font-semibold text-xs text-muted">
-                                                            دوره پروژه محور React و Next
+                                                            <%= (comment.course && comment.course.title) ? comment.course.title : '' %>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <% }); %>
+                                        <% if (!latestComment.length) { %>
                                         <div class="swiper-slide pb-8">
-                                            <div
-                                                class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
-                                                <div class="font-semibold text-sm text-muted text-center">
-                                                    من به تیم شما بابت پشتیبانی عالیتان از وبسایتتان تشکر می‌کنم. سوالات
-                                                    و
-                                                    مشکلات من به سرعت پاسخ داده می‌شوند و همیشه یک راه حل مناسب برای هر
-                                                    مشکل
-                                                    پیدا می‌کنید. این امر بسیار قابل ارزش است.
-                                                </div>
-                                                <div class="flex items-center gap-3">
-                                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
-                                                    </div>
-                                                    <div class="flex flex-col items-start space-y-1">
-                                                        <span class="line-clamp-1 font-bold text-xs text-foreground">
-                                                            جلال بهرامی راد
-                                                        </span>
-                                                        <span class="font-semibold text-xs text-muted">
-                                                            دوره پروژه محور React و Next
-                                                        </span>
-                                                    </div>
-                                                </div>
+                                            <div class="flex items-center justify-center h-48 text-muted font-semibold text-sm">
+                                                هنوز نظری ثبت نشده است.
                                             </div>
                                         </div>
+                                        <% } %>
                                     </div>
 
                                     <div class="swiper-button-prev"></div>
@@ -724,239 +282,76 @@
                                 </svg>
                             </span>
                             <div class="flex flex-col space-y-2">
-                                <span class="font-black xs:text-2xl text-lg text-primary">از گوشه و اطراف دنیای
-                                    برنامه‌نویسی</span>
+                                <span class="font-black xs:text-2xl text-lg text-primary">آخرین مقالات و اخبار بنیاد</span>
                                 <span class="font-semibold xs:text-base text-sm text-muted">
-                                    نوشتن کار جالبیه که از هزاران سال همراه ما بوده و کمک کرده تا همیشه به روز باشیم، ما
-                                    در نابغه فضای رو به شکلی آماده کردیم تا شما بتونید ایده‌ها و مطالب جالب حوزه
-                                    برنامه‌نویسی رو در اختیار هزاران برنامه‌نویس عضو نابغه قرار بدید.
+                                    با مطالعه مقالات و اخبار بنیاد لیان امیری از آخرین فعالیت‌ها، برنامه‌های حمایتی
+                                    و دوره‌های آموزشی جدید مطلع شوید.
                                 </span>
                             </div>
                         </div>
                         <div class="lg:w-8/12 w-full lg:mx-auto">
-                            <div class="grid sm:grid-cols-2 grid-cols-1 gap-x-5 gap-y-8 space-y-8">
-                                <div class="space-y-5">
-                                    <!-- article:card -->
-                                    <div class="relative bg-background rounded-xl p-4">
-                                        <div class="relative mb-3 z-20">
-                                            <a href="./article-detail.html" class="block">
-                                                <img src="/assets/images/courses/01.jpg" class="max-w-full rounded-xl"
-                                                    alt="..." />
-                                            </a>
-                                            <button type="button"
-                                                class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path
-                                                        d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                    </path>
+                            <% if (latestArticles && latestArticles.length > 0) { %>
+                            <div class="grid sm:grid-cols-2 grid-cols-1 gap-5">
+                                <% latestArticles.forEach(function(article) { %>
+                                <div class="relative bg-background rounded-xl p-4">
+                                    <div class="relative mb-3 z-20">
+                                        <a href="/blog/<%= article.slug %>" class="block">
+                                            <% if (article.thumbnail) { %>
+                                            <img src="<%= article.thumbnail %>" class="max-w-full rounded-xl aspect-video object-cover" alt="<%= article.title %>" />
+                                            <% } else { %>
+                                            <div class="w-full aspect-video rounded-xl bg-secondary flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10 text-muted/30">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
                                                 </svg>
-                                            </button>
-                                        </div>
-                                        <div class="relative space-y-3 z-10">
-                                            <h2 class="font-bold text-sm">
-                                                <a href="./article-detail.html"
-                                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                    پروژه محور React و Next</a>
-                                            </h2>
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-1">
-                                                    <div
-                                                        class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
-                                                    </div>
-                                                    <a href="./lecturer.html"
-                                                        class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                        بهرامی راد</a>
-                                                </div>
-                                                <a href="./article-category.html"
-                                                    class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                    <span class="font-bold text-xxs">فرانت اند</span>
-                                                </a>
                                             </div>
-                                            <div class="flex justify-end">
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-5 h-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                    </svg>
-                                                    <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                    <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <% } %>
+                                        </a>
                                     </div>
-                                    <!-- end article:card -->
-
-                                    <!-- article:card -->
-                                    <div class="relative bg-background rounded-xl p-4">
-                                        <div class="relative mb-3 z-20">
-                                            <a href="./article-detail.html" class="block">
-                                                <img src="/assets/images/courses/02.jpg" class="max-w-full rounded-xl"
-                                                    alt="..." />
+                                    <div class="relative space-y-3 z-10">
+                                        <h2 class="font-bold text-sm">
+                                            <a href="/blog/<%= article.slug %>"
+                                                class="line-clamp-2 text-foreground transition-colors hover:text-primary"><%= article.title %></a>
+                                        </h2>
+                                        <div class="flex items-center justify-between gap-2">
+                                            <div class="flex items-center gap-2 min-w-0">
+                                                <div class="flex-shrink-0 w-7 h-7 rounded-full bg-secondary border border-border flex items-center justify-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-muted">
+                                                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <span class="line-clamp-1 font-semibold text-xs text-muted">
+                                                    <%= article.author ? (article.author.displayName || 'نویسنده') : 'نویسنده' %>
+                                                </span>
+                                            </div>
+                                            <% if (article.category) { %>
+                                            <a href="/blog?category=<%= article.category.slug %>"
+                                                class="flex-shrink-0 bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-3">
+                                                <span class="font-bold text-xxs"><%= article.category.title %></span>
                                             </a>
-                                            <button type="button"
-                                                class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path
-                                                        d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                    </path>
-                                                </svg>
-                                            </button>
+                                            <% } %>
                                         </div>
-                                        <div class="relative space-y-3 z-10">
-                                            <h2 class="font-bold text-sm">
-                                                <a href="./article-detail.html"
-                                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                    پروژه محور React و Next</a>
-                                            </h2>
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-1">
-                                                    <div
-                                                        class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
-                                                    </div>
-                                                    <a href="./lecturer.html"
-                                                        class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                        بهرامی راد</a>
-                                                </div>
-                                                <a href="./article-category.html"
-                                                    class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                    <span class="font-bold text-xxs">فرانت اند</span>
-                                                </a>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-5 h-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                    </svg>
-                                                    <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                    <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                                </div>
-                                            </div>
+                                        <% if (article.readTime > 0) { %>
+                                        <div class="flex items-center gap-1 text-muted">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
+                                            <span class="font-semibold text-xs text-foreground"><%= article.readTime %> دقیقه</span>
                                         </div>
+                                        <% } %>
                                     </div>
-                                    <!-- end article:card -->
                                 </div>
-                                <div class="space-y-5">
-                                    <!-- article:card -->
-                                    <div class="relative bg-background rounded-xl p-4">
-                                        <div class="relative mb-3 z-20">
-                                            <a href="./article-detail.html" class="block">
-                                                <img src="/assets/images/courses/03.jpg" class="max-w-full rounded-xl"
-                                                    alt="..." />
-                                            </a>
-                                            <button type="button"
-                                                class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path
-                                                        d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="relative space-y-3 z-10">
-                                            <h2 class="font-bold text-sm">
-                                                <a href="./article-detail.html"
-                                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                    پروژه محور React و Next</a>
-                                            </h2>
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-1">
-                                                    <div
-                                                        class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
-                                                    </div>
-                                                    <a href="./lecturer.html"
-                                                        class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                        بهرامی راد</a>
-                                                </div>
-                                                <a href="./article-category.html"
-                                                    class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                    <span class="font-bold text-xxs">فرانت اند</span>
-                                                </a>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-5 h-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                    </svg>
-                                                    <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                    <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end article:card -->
-
-                                    <!-- article:card -->
-                                    <div class="relative bg-background rounded-xl p-4">
-                                        <div class="relative mb-3 z-20">
-                                            <a href="./article-detail.html" class="block">
-                                                <img src="/assets/images/courses/04.jpg" class="max-w-full rounded-xl"
-                                                    alt="..." />
-                                            </a>
-                                            <button type="button"
-                                                class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path
-                                                        d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="relative space-y-3 z-10">
-                                            <h2 class="font-bold text-sm">
-                                                <a href="./article-detail.html"
-                                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                    پروژه محور React و Next</a>
-                                            </h2>
-                                            <div class="flex items-center justify-between">
-                                                <div class="flex items-center gap-1">
-                                                    <div
-                                                        class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                        <img src="/assets/images/avatars/01.jpeg"
-                                                            class="w-full h-full object-cover" alt="...">
-                                                    </div>
-                                                    <a href="./lecturer.html"
-                                                        class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                        بهرامی راد</a>
-                                                </div>
-                                                <a href="./article-category.html"
-                                                    class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                    <span class="font-bold text-xxs">فرانت اند</span>
-                                                </a>
-                                            </div>
-                                            <div class="flex justify-end">
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-5 h-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                    </svg>
-                                                    <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                    <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end article:card -->
-                                </div>
+                                <% }); %>
+                            </div>
+                            <% } else { %>
+                            <div class="flex items-center justify-center h-32 text-muted font-semibold text-sm">
+                                مقاله‌ای منتشر نشده است.
+                            </div>
+                            <% } %>
+                            <div class="mt-6 text-center">
+                                <a href="/blog" class="inline-flex items-center gap-1 h-10 bg-secondary rounded-full font-semibold text-sm text-foreground hover:text-primary transition-colors px-6">
+                                    مشاهده همه مقالات
+                                </a>
                             </div>
                         </div>
                     </div>

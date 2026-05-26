@@ -69,6 +69,10 @@ export class CourseService {
     return this.courseRepository.findLatestPublished(limit);
   }
 
+  searchPublished(q: string, limit = 6): Promise<CourseEntity[]> {
+    return this.courseRepository.findPublishedPaged({ q, page: 1, limit, sort: CourseSort.NEWEST }).then((r) => r.data);
+  }
+
   findPopular(limit = 8): Promise<CourseEntity[]> {
     return this.courseRepository.findPopularPublished(limit);
   }

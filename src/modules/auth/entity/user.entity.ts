@@ -20,6 +20,12 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 20, default: UserRole.STUDENT })
   role!: UserRole;
 
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  birthday!: string | null;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  bio!: string | null;
+
   @AppDateColumn({ nullable: true })
   lastLoginAt!: Date | null;
 }

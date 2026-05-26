@@ -1,0 +1,418 @@
+<main class="flex-auto py-5">
+  <div class="max-w-7xl space-y-8 px-4 mx-auto">
+
+    <!-- breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-muted">
+      <a href="/" class="hover:text-primary transition-colors">خانه</a>
+      <span>/</span>
+      <a href="/blog" class="hover:text-primary transition-colors">مقالات</a>
+      <% if (article.category) { %>
+      <span>/</span>
+      <a href="/blog?category=<%= article.category.slug %>" class="hover:text-primary transition-colors"><%= article.category.title %></a>
+      <% } %>
+      <span>/</span>
+      <span class="text-foreground line-clamp-1"><%= article.title %></span>
+    </nav>
+
+    <div class="flex md:flex-nowrap flex-wrap items-start gap-8">
+
+      <!-- left: main content -->
+      <div class="md:w-8/12 w-full space-y-8">
+
+        <!-- article header -->
+        <div class="space-y-5">
+          <% if (article.category) { %>
+          <a href="/blog?category=<%= article.category.slug %>"
+            class="inline-flex items-center bg-primary/10 rounded-full font-semibold text-xs text-primary transition hover:opacity-80 py-1 px-3">
+            <%= article.category.title %>
+          </a>
+          <% } %>
+
+          <h1 class="font-black sm:text-3xl text-2xl text-foreground leading-relaxed">
+            <%= article.title %>
+          </h1>
+
+          <% if (article.shortDescription) { %>
+          <p class="text-base text-muted leading-relaxed"><%= article.shortDescription %></p>
+          <% } %>
+
+          <div class="flex flex-wrap items-center gap-4 py-4 border-y border-border">
+            <div class="flex items-center gap-3">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                  <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="flex flex-col space-y-0.5">
+                <span class="font-semibold text-xs text-muted">نویسنده</span>
+                <span class="font-bold text-sm text-foreground">
+                  <%= article.author ? (article.author.displayName || 'نویسنده') : 'نویسنده' %>
+                </span>
+              </div>
+            </div>
+            <div class="w-px h-8 bg-border hidden sm:block"></div>
+            <% if (article.publishedAt) { %>
+            <div class="flex items-center gap-2 text-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+              </svg>
+              <span class="font-semibold text-xs"><%= new Date(article.publishedAt).toLocaleDateString('fa-IR') %></span>
+            </div>
+            <% } %>
+            <% if (article.readTime > 0) { %>
+            <div class="flex items-center gap-2 text-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span class="font-semibold text-xs"><%= article.readTime %> دقیقه مطالعه</span>
+            </div>
+            <% } %>
+            <div class="flex items-center gap-2 text-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              <span class="font-semibold text-xs"><%= article.viewCount %> بازدید</span>
+            </div>
+            <div class="flex items-center gap-2 text-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+              <span class="font-semibold text-xs"><%= commentCount %> نظر</span>
+            </div>
+          </div>
+        </div>
+        <!-- end article header -->
+
+        <!-- thumbnail -->
+        <% if (article.thumbnail) { %>
+        <div class="relative rounded-3xl overflow-hidden aspect-video bg-secondary">
+          <img src="<%= article.thumbnail %>" class="w-full h-full object-cover" alt="<%= article.title %>" />
+        </div>
+        <% } %>
+
+        <!-- article body -->
+        <% if (article.body) { %>
+        <div class="prose prose-slate max-w-none bg-background border border-border rounded-3xl p-6 sm:p-10
+          [&_h2]:font-black [&_h2]:text-xl [&_h2]:text-foreground [&_h2]:mt-8 [&_h2]:mb-4
+          [&_h3]:font-bold [&_h3]:text-lg [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-3
+          [&_p]:text-muted [&_p]:leading-8 [&_p]:text-sm [&_p]:mb-4
+          [&_ul]:list-disc [&_ul]:pr-6 [&_ul]:text-muted [&_ul]:text-sm [&_ul]:space-y-2 [&_ul]:mb-4
+          [&_ol]:list-decimal [&_ol]:pr-6 [&_ol]:text-muted [&_ol]:text-sm [&_ol]:space-y-2 [&_ol]:mb-4
+          [&_li]:leading-7
+          [&_a]:text-primary [&_a]:font-semibold [&_a]:hover:underline
+          [&_strong]:text-foreground [&_strong]:font-bold
+          [&_code]:bg-secondary [&_code]:text-primary [&_code]:rounded [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-xs [&_code]:font-mono
+          [&_pre]:bg-secondary [&_pre]:rounded-2xl [&_pre]:p-5 [&_pre]:overflow-x-auto [&_pre]:mb-6
+          [&_pre_code]:bg-transparent [&_pre_code]:p-0
+          [&_blockquote]:border-r-4 [&_blockquote]:border-primary [&_blockquote]:pr-4 [&_blockquote]:text-muted [&_blockquote]:italic [&_blockquote]:my-6
+          [&_img]:rounded-2xl [&_img]:max-w-full [&_img]:my-4
+          [&_hr]:border-border [&_hr]:my-8">
+          <%- article.body %>
+        </div>
+        <% } %>
+
+        <!-- tags -->
+        <% if (article.tags && article.tags.length > 0) { %>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-semibold text-xs text-muted">تگ‌ها:</span>
+          <% article.tags.forEach(function(tag) { %>
+          <a href="/blog?tag=<%= tag.slug %>"
+            class="inline-flex items-center h-7 bg-secondary rounded-full font-semibold text-xs text-muted hover:text-primary transition-colors px-3">
+            #<%= tag.title %>
+          </a>
+          <% }); %>
+        </div>
+        <% } %>
+
+        <!-- comments section -->
+        <div class="space-y-5">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1">
+              <div class="w-1 h-1 bg-foreground rounded-full"></div>
+              <div class="w-2 h-2 bg-foreground rounded-full"></div>
+            </div>
+            <span class="font-black text-foreground">دیدگاه‌ها (<%= commentCount %>)</span>
+          </div>
+
+          <!-- comment form -->
+          <div class="bg-background border border-border rounded-3xl p-5">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                <div class="w-2 h-2 bg-foreground rounded-full"></div>
+              </div>
+              <span class="font-black text-xs text-foreground">ثبت دیدگاه</span>
+            </div>
+
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+            <form class="flex flex-col space-y-4" id="commentForm" onsubmit="submitArticleComment(event, '<%= article.slug %>')">
+              <textarea name="body" rows="5"
+                class="w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border rounded-xl text-sm text-foreground p-4"
+                placeholder="نظر خود را بنویسید... (حداقل ۱۰ کاراکتر)"
+                required minlength="10" maxlength="1000"></textarea>
+              <button type="submit"
+                class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-6 mr-auto">
+                <span class="font-semibold text-sm">ارسال دیدگاه</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                  <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </form>
+            <% } else { %>
+            <div class="text-center py-5 text-sm text-muted">
+              برای ثبت دیدگاه <a href="/auth/login?returnTo=/blog/<%= article.slug %>" class="text-primary font-semibold hover:underline">وارد شوید</a>
+            </div>
+            <% } %>
+          </div>
+          <!-- end comment form -->
+
+          <!-- comments list -->
+          <% if (comments && comments.length > 0) { %>
+          <div class="space-y-3">
+            <% comments.forEach(function(comment) { %>
+            <div class="space-y-3">
+              <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                <div class="flex items-center justify-between gap-5 border-b border-border pb-3">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                    <div class="flex flex-col space-y-0.5">
+                      <span class="font-semibold text-sm text-foreground">
+                        <%= comment.user ? (comment.user.displayName || 'کاربر') : 'کاربر' %>
+                      </span>
+                      <span class="text-xs text-muted">
+                        <%= comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('fa-IR') : '' %>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-sm text-muted leading-7"><%= comment.body %></p>
+              </div>
+
+              <!-- replies -->
+              <% if (comment.replies && comment.replies.length > 0) { %>
+              <div class="relative before:content-[''] before:absolute before:-top-3 before:right-8 before:w-px before:h-[calc(100%-24px)] before:bg-border after:content-[''] after:absolute after:bottom-9 after:right-8 after:w-8 after:h-px after:bg-border space-y-3 pr-16">
+                <% comment.replies.forEach(function(reply) { %>
+                <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                  <div class="flex items-center gap-3 border-b border-border pb-3">
+                    <div class="flex-shrink-0 w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-primary">
+                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                    <div class="flex flex-col space-y-0.5">
+                      <div class="flex items-center gap-2">
+                        <span class="font-semibold text-sm text-foreground">
+                          <%= reply.user ? (reply.user.displayName || 'تیم لیان امیری') : 'تیم لیان امیری' %>
+                        </span>
+                        <span class="inline-flex items-center bg-primary/10 rounded-full font-semibold text-xxs text-primary py-0.5 px-2">پاسخ تیم</span>
+                      </div>
+                      <span class="text-xs text-muted">
+                        <%= reply.createdAt ? new Date(reply.createdAt).toLocaleDateString('fa-IR') : '' %>
+                      </span>
+                    </div>
+                  </div>
+                  <p class="text-sm text-muted leading-7"><%= reply.body %></p>
+                </div>
+                <% }); %>
+              </div>
+              <% } %>
+            </div>
+            <% }); %>
+          </div>
+          <% } else { %>
+          <div class="text-center py-8 text-sm text-muted">هنوز دیدگاهی ثبت نشده است. اولین نفر باشید!</div>
+          <% } %>
+        </div>
+        <!-- end comments section -->
+
+      </div>
+      <!-- end left -->
+
+      <!-- right: sidebar -->
+      <div class="md:w-4/12 w-full space-y-6 md:sticky md:top-24">
+
+        <!-- article info card -->
+        <div class="bg-gradient-to-b from-secondary to-background rounded-2xl p-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1">
+              <div class="w-1 h-1 bg-foreground rounded-full"></div>
+              <div class="w-2 h-2 bg-foreground rounded-full"></div>
+            </div>
+            <span class="font-black text-foreground text-sm">اطلاعات مقاله</span>
+          </div>
+
+          <div class="space-y-3">
+            <% if (article.author) { %>
+            <div class="flex items-center gap-3 p-3 bg-background rounded-xl">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
+                  <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-xs text-muted">نویسنده</div>
+                <div class="font-bold text-sm text-foreground"><%= article.author.displayName || 'نویسنده' %></div>
+              </div>
+            </div>
+            <% } %>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex flex-col items-center justify-center gap-1 bg-background rounded-xl p-3 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span class="font-bold text-xs text-foreground"><%= article.readTime > 0 ? article.readTime + ' دقیقه' : '—' %></span>
+                <span class="font-semibold text-xxs text-muted">زمان مطالعه</span>
+              </div>
+              <div class="flex flex-col items-center justify-center gap-1 bg-background rounded-xl p-3 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                <span class="font-bold text-xs text-foreground"><%= article.viewCount %></span>
+                <span class="font-semibold text-xxs text-muted">بازدید</span>
+              </div>
+              <div class="flex flex-col items-center justify-center gap-1 bg-background rounded-xl p-3 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                </svg>
+                <span class="font-bold text-xs text-foreground"><%= commentCount %></span>
+                <span class="font-semibold text-xxs text-muted">دیدگاه</span>
+              </div>
+              <% if (article.publishedAt) { %>
+              <div class="flex flex-col items-center justify-center gap-1 bg-background rounded-xl p-3 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                </svg>
+                <span class="font-bold text-xs text-foreground"><%= new Date(article.publishedAt).toLocaleDateString('fa-IR') %></span>
+                <span class="font-semibold text-xxs text-muted">تاریخ انتشار</span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- tags in sidebar -->
+          <% if (article.tags && article.tags.length > 0) { %>
+          <div class="space-y-2">
+            <span class="font-bold text-xs text-muted">تگ‌ها</span>
+            <div class="flex flex-wrap gap-2">
+              <% article.tags.forEach(function(tag) { %>
+              <a href="/blog?tag=<%= tag.slug %>"
+                class="inline-flex items-center h-7 bg-background rounded-full font-semibold text-xs text-muted hover:text-primary transition-colors border border-border px-3">
+                #<%= tag.title %>
+              </a>
+              <% }); %>
+            </div>
+          </div>
+          <% } %>
+
+          <!-- share -->
+          <div class="space-y-2">
+            <span class="font-bold text-xs text-muted">اشتراک‌گذاری</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="copyArticleLink()"
+                class="flex-1 h-9 inline-flex items-center justify-center gap-2 bg-background border border-border rounded-xl font-semibold text-xs text-muted hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                  <path d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z" />
+                  <path d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z" />
+                </svg>
+                کپی لینک
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- end article info card -->
+
+        <!-- related articles -->
+        <% if (related && related.length > 0) { %>
+        <div class="bg-background border border-border rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-3 p-4 border-b border-border">
+            <div class="flex items-center gap-1">
+              <div class="w-1 h-1 bg-foreground rounded-full"></div>
+              <div class="w-2 h-2 bg-foreground rounded-full"></div>
+            </div>
+            <span class="font-black text-sm text-foreground">مقالات مرتبط</span>
+          </div>
+          <div class="divide-y divide-border">
+            <% related.forEach(function(rel) { %>
+            <a href="/blog/<%= rel.slug %>" class="flex items-start gap-3 p-4 hover:bg-secondary transition-colors">
+              <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-secondary overflow-hidden">
+                <% if (rel.thumbnail) { %>
+                <img src="<%= rel.thumbnail %>" class="w-full h-full object-cover" alt="<%= rel.title %>" />
+                <% } else { %>
+                <div class="w-full h-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 text-muted/30">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+                  </svg>
+                </div>
+                <% } %>
+              </div>
+              <div class="flex-1 min-w-0 space-y-1">
+                <h4 class="line-clamp-2 font-semibold text-xs text-foreground hover:text-primary transition-colors"><%= rel.title %></h4>
+                <% if (rel.readTime > 0) { %>
+                <span class="font-semibold text-xxs text-muted"><%= rel.readTime %> دقیقه مطالعه</span>
+                <% } %>
+              </div>
+            </a>
+            <% }); %>
+          </div>
+          <div class="p-4">
+            <a href="/blog"
+              class="w-full h-10 inline-flex items-center justify-center gap-1 bg-secondary rounded-full font-semibold text-sm text-foreground hover:text-primary transition-colors">
+              مشاهده همه مقالات
+            </a>
+          </div>
+        </div>
+        <% } %>
+        <!-- end related articles -->
+
+      </div>
+      <!-- end sidebar -->
+
+    </div>
+  </div>
+</main>
+
+<script>
+async function submitArticleComment(e, slug) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const body = form.querySelector('[name="body"]').value.trim();
+  if (!body) return;
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="font-semibold text-sm">در حال ارسال...</span>';
+
+  try {
+    const res = await fetch('/api/blog/' + slug + '/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ body }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showAlert(data.message || 'نظر ثبت شد', 'success');
+      form.reset();
+    } else {
+      showAlert(data.message || 'خطا در ثبت نظر', 'error');
+    }
+  } catch {
+    showAlert('خطا در ارتباط با سرور', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="font-semibold text-sm">ارسال دیدگاه</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" /></svg>';
+  }
+}
+
+function copyArticleLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    showAlert('لینک مقاله کپی شد', 'success');
+  });
+}
+</script>

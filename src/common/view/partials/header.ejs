@@ -26,8 +26,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start min-w-0">
-                                <span class="font-semibold text-sm text-muted hidden sm:block">آکــــادمـــی</span>
-                                <span class="font-black text-lg sm:text-xl leading-tight">نـــابــــغه</span>
+                                <span class="font-semibold text-sm text-muted hidden sm:block">آکادمی</span>
+                                <span class="font-black text-lg sm:text-xl leading-tight">لیان امیری</span>
                             </span>
                         </a>
                     </div>
@@ -237,17 +237,54 @@
                     </div>
                 </div>
 
-                <!-- searchBox -->
-                <div class="absolute inset-x-4 hidden lg:flex flex-col h-full bg-background transition-all"
-                    x-bind:class="openSearchBox ? 'top-0' : '-top-full'">
-                    <form action="#" class="h-full">
+                        <!-- searchBox -->
+                <div x-cloak class="absolute inset-x-4 hidden lg:flex flex-col h-full bg-background transition-all z-50"
+                    x-bind:class="openSearchBox ? 'top-0' : '-top-full'"
+                    x-data="{
+                        q: '',
+                        results: { courses: [], articles: [] },
+                        loading: false,
+                        showDropdown: false,
+                        timer: null,
+                        async doSearch() {
+                            const val = this.q.trim();
+                            if (!val || val.length < 2) { this.results = { courses: [], articles: [] }; this.showDropdown = false; return; }
+                            this.loading = true;
+                            try {
+                                const res = await fetch('/api/search?q=' + encodeURIComponent(val));
+                                this.results = await res.json();
+                                this.showDropdown = this.results.courses.length > 0 || this.results.articles.length > 0;
+                            } catch(e) {}
+                            this.loading = false;
+                        },
+                        goSearch() {
+                            if (this.q.trim()) window.location.href = '/search?q=' + encodeURIComponent(this.q.trim());
+                        },
+                        close() { this.showDropdown = false; openSearchBox = false; this.q = ''; this.results = { courses: [], articles: [] }; }
+                    }"
+                    x-on:keydown.escape.window="close()">
+                    <form class="h-full" x-on:submit.prevent="goSearch()">
                         <div class="flex items-center h-full relative">
                             <input type="text"
+                                x-model="q"
+                                x-on:input.debounce.350ms="doSearch()"
+                                x-on:focus="if(results.courses.length||results.articles.length) showDropdown=true"
+                                x-ref="searchInput"
+                                x-effect="if(openSearchBox) $nextTick(()=>$refs.searchInput.focus())"
                                 class="form-input w-full !ring-0 !ring-offset-0 bg-background border-0 focus:border-0 text-foreground"
-                                placeholder="نام دوره،مقاله و یا دسته بندی را وارد نمایید.." />
+                                placeholder="نام دوره، مقاله یا دسته‌بندی را وارد کنید..." />
+
+                            <!-- loading spinner -->
+                            <span x-show="loading" class="absolute left-12 text-muted animate-spin">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                            </span>
+
                             <button type="button"
                                 class="absolute left-0 inline-flex items-center justify-center w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500"
-                                x-on:click="openSearchBox = false">
+                                x-on:click="close()">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -255,6 +292,80 @@
                             </button>
                         </div>
                     </form>
+
+                    <!-- live results dropdown -->
+                    <div x-show="showDropdown" x-on:click.outside="showDropdown=false"
+                        class="absolute top-full right-0 left-0 bg-background border border-border rounded-2xl shadow-2xl shadow-black/10 overflow-hidden mt-1 max-h-[70vh] overflow-y-auto">
+
+                        <!-- courses -->
+                        <template x-if="results.courses.length > 0">
+                            <div>
+                                <div class="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-secondary/50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-primary">
+                                        <path d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-foreground">دوره‌های آموزشی</span>
+                                </div>
+                                <template x-for="course in results.courses" :key="course.slug">
+                                    <a :href="'/courses/' + course.slug"
+                                        class="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors border-b border-border/50 last:border-0">
+                                        <div class="w-12 h-9 rounded-lg overflow-hidden bg-secondary shrink-0">
+                                            <img x-show="course.thumbnail" :src="course.thumbnail" :alt="course.title" class="w-full h-full object-cover" />
+                                            <div x-show="!course.thumbnail" class="w-full h-full flex items-center justify-center text-muted/40">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9A2.25 2.25 0 0 0 4.5 18.75Z" /></svg>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-semibold text-foreground truncate" x-text="course.title"></p>
+                                            <p x-show="course.category" class="text-xs text-muted" x-text="course.category?.title"></p>
+                                        </div>
+                                        <span class="shrink-0 text-xs font-bold" :class="course.price === 0 ? 'text-success' : 'text-foreground'"
+                                            x-text="course.price === 0 ? 'رایگان' : ((course.discountPrice ?? course.price).toLocaleString('fa-IR') + ' تومان')">
+                                        </span>
+                                    </a>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- articles -->
+                        <template x-if="results.articles.length > 0">
+                            <div>
+                                <div class="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-secondary/50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-primary">
+                                        <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75Zm0 10.5a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-xs font-bold text-foreground">مقالات</span>
+                                </div>
+                                <template x-for="article in results.articles" :key="article.slug">
+                                    <a :href="'/blog/' + article.slug"
+                                        class="flex items-center gap-3 px-4 py-3 hover:bg-secondary/60 transition-colors border-b border-border/50 last:border-0">
+                                        <div class="w-12 h-9 rounded-lg overflow-hidden bg-secondary shrink-0">
+                                            <img x-show="article.thumbnail" :src="article.thumbnail" :alt="article.title" class="w-full h-full object-cover" />
+                                            <div x-show="!article.thumbnail" class="w-full h-full flex items-center justify-center text-muted/40">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" /></svg>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-semibold text-foreground truncate" x-text="article.title"></p>
+                                            <p x-show="article.category" class="text-xs text-muted" x-text="article.category?.title"></p>
+                                        </div>
+                                        <span x-show="article.readTime" class="shrink-0 text-xs text-muted" x-text="article.readTime + ' دقیقه'"></span>
+                                    </a>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- see all results -->
+                        <div class="px-4 py-3 border-t border-border bg-secondary/30">
+                            <a :href="'/search?q=' + encodeURIComponent(q)"
+                                class="flex items-center justify-center gap-2 w-full h-9 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-80 transition-opacity">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                                </svg>
+                                <span>مشاهده همه نتایج</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <!-- end searchBox -->
             </div>
@@ -277,8 +388,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
-                                <span class="font-black text-xl">نـــابــــغه</span>
+                                <span class="font-semibold text-sm text-muted">آکادمی</span>
+                                <span class="font-black text-xl">لیان امیری</span>
                             </span>
                         </a>
 
@@ -294,19 +405,19 @@
 
                     <!-- offcanvas:content -->
                     <div class="space-y-5 p-4">
-                        <form action="#">
+                        <form action="/search" method="get">
                             <div class="flex items-center relative">
-                                <input type="text"
+                                <input type="text" name="q"
                                     class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary border border-border focus:border-border rounded-xl text-sm text-foreground pr-10"
                                     placeholder="دنبال چی میگردی؟" />
-                                <span class="absolute right-3 text-muted">
+                                <button type="submit" class="absolute right-3 text-muted hover:text-primary transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         class="w-5 h-5">
                                         <path fill-rule="evenodd"
                                             d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                </span>
+                                </button>
                             </div>
                         </form>
                         <div class="h-px bg-border"></div>

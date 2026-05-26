@@ -61,4 +61,7 @@ export class CourseCommentService {
   getMyComments(userId: number): Promise<CourseCommentEntity[]> {
     return this.commentRepository.findByUserId(userId);
   }
+  getMyCommentsCount(userId: number): Promise<number> {
+    return this.commentRepository.countByUserId(userId);
+  }
 }

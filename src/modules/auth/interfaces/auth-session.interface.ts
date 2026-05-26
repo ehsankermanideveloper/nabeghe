@@ -6,6 +6,8 @@ export interface SessionUserPayload {
   displayName: string | null;
   phone: string | null;
   email: string | null;
+  birthday: string | null;
+  bio: string | null;
 }
 
 export interface ViewCurrentUser {

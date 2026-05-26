@@ -49,8 +49,8 @@ export class CourseViewController {
 
     return {
       pageTitle: currentCategory
-        ? `${currentCategory.title} — دوره‌های آموزشی — نابغه`
-        : 'دوره‌های آموزشی — نابغه',
+        ? `${currentCategory.title} — دوره‌های آموزشی — لیان امیری`
+        : 'دوره‌های آموزشی — لیان امیری',
       courses,
       pagination,
       query,
@@ -81,7 +81,7 @@ export class CourseViewController {
     const freeEpisodeCount = allEpisodes.filter((e) => e.isFree).length;
 
     return {
-      pageTitle: `${course.title} — نابغه`,
+      pageTitle: `${course.title} — لیان امیری`,
       course,
       chapters,
       comments,
@@ -157,7 +157,7 @@ export class CourseViewController {
     const episodeIndex = allEpisodes.findIndex((e) => e.id === episode.id);
 
     return {
-      pageTitle: `${episode.title} — ${course.title} — نابغه`,
+      pageTitle: `${episode.title} — ${course.title} — لیان امیری`,
       course,
       chapters,
       episode,

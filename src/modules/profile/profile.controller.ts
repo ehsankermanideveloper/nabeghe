@@ -27,7 +27,7 @@ export class ProfileController {
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
     const enrollments = await this.enrollmentService.getMyEnrollments(user.id);
-
+    const commnetCount = await this.commentService.getMyCommentsCount(user.id)
     const enrollmentsWithProgress = await Promise.all(
       enrollments.map(async (e) => {
         const percentage = await this.progressService.getCompletionPercentage(
@@ -44,12 +44,13 @@ export class ProfileController {
     );
 
     return {
-      pageTitle: 'داشبورد — نابغه',
+      pageTitle: 'داشبورد — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       inLearning,
       totalEnrolled: enrollments.length,
       totalCompleted: enrollmentsWithProgress.filter((r) => r.percentage >= 100).length,
+      commnetCount
     };
   }
 
@@ -79,7 +80,7 @@ export class ProfileController {
     const completed = enrollmentsWithProgress.filter((r) => r.percentage >= 100);
 
     return {
-      pageTitle: 'دوره‌های من — نابغه',
+      pageTitle: 'دوره‌های من — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       inProgress,
@@ -97,7 +98,7 @@ export class ProfileController {
     const wishlist = await this.wishlistService.getMyWishlist(user.id);
 
     return {
-      pageTitle: 'علاقه‌مندی‌ها — نابغه',
+      pageTitle: 'علاقه‌مندی‌ها — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       wishlist,
@@ -113,7 +114,7 @@ export class ProfileController {
     const comments = await this.commentService.getMyComments(user.id);
 
     return {
-      pageTitle: 'دیدگاه‌های من — نابغه',
+      pageTitle: 'دیدگاه‌های من — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       comments,
@@ -127,7 +128,7 @@ export class ProfileController {
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
     return {
-      pageTitle: 'مالی و اشتراک — نابغه',
+      pageTitle: 'مالی و اشتراک — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       transactions: [],
@@ -141,7 +142,7 @@ export class ProfileController {
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
     return {
-      pageTitle: 'اعلانات — نابغه',
+      pageTitle: 'اعلانات — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       notifications: [],
@@ -155,7 +156,7 @@ export class ProfileController {
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
     return {
-      pageTitle: 'ویرایش پروفایل — نابغه',
+      pageTitle: 'ویرایش پروفایل — لیان امیری',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
     };

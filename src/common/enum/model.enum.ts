@@ -11,6 +11,9 @@ export enum ModelEnum {
   COURSE_COMMENT = 'course_comment',
   COURSE_WISHLIST = 'course_wishlist',
   COURSE_TAG = 'course_tag',
+  ARTICLE = 'article',
+  ARTICLE_COMMENT = 'article_comment',
+  ARTICLE_TAG = 'article_tag',
 }
 
 export enum SchemaEnum {

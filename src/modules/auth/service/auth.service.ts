@@ -252,6 +252,22 @@ export class AuthService {
     };
   }
 
+  async updateProfile(
+    userId: number,
+    data: { displayName?: string; birthday?: string; bio?: string },
+  ): Promise<void> {
+    const patch: Partial<UserEntity> = {};
+    if (data.displayName !== undefined)
+      patch.displayName = data.displayName.trim() || null;
+    if (data.birthday !== undefined)
+      patch.birthday = /^\d{4}\/\d{2}\/\d{2}$/.test(data.birthday)
+        ? data.birthday
+        : null;
+    if (data.bio !== undefined)
+      patch.bio = data.bio.trim() || null;
+    await this.userRepository.updateOneById(userId, patch);
+  }
+
   private toSessionUser(user: UserEntity): SessionUserPayload {
     return {
       id: user.id,
@@ -259,6 +275,8 @@ export class AuthService {
       displayName: user.displayName,
       phone: user.phone,
       email: user.email,
+      birthday: user.birthday,
+      bio: user.bio,
     };
   }
 

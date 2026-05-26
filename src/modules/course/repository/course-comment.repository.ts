@@ -14,9 +14,10 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
     super(repository);
   }
 
-  findApprovedByCourseId(courseId?: number, limit?: number , sortAsc : boolean = true): Promise<CourseCommentEntity[]> {
+  findApprovedByCourseId(courseId?: number, limit?: number, sortAsc: boolean = true): Promise<CourseCommentEntity[]> {
     const query = this.createQueryBuilder('comment')
       .leftJoinAndSelect('comment.user', 'user')
+      .leftJoinAndSelect('comment.course', 'course')
       .leftJoinAndSelect(
         'comment.replies',
         'reply',
@@ -36,8 +37,8 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
     if (limit) {
       query.limit(limit)
     }
-    if(sortAsc){
-      query.orderBy('comment.createdAt' , 'ASC')
+    if (sortAsc) {
+      query.orderBy('comment.createdAt', 'ASC')
     }
     return query.getMany();
   }
@@ -73,7 +74,14 @@ export class CourseCommentRepository extends BaseRepository<CourseCommentEntity>
       .orderBy('comment.createdAt', 'DESC')
       .getMany();
   }
-
+  countByUserId(userId: number): Promise<number> {
+    return this.createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.course', 'course')
+      .where('comment.userId = :userId', { userId })
+      .andWhere('comment.deletedAt IS NULL')
+      .orderBy('comment.createdAt', 'DESC')
+      .getCount();
+  }
   hasUserCommented(userId: number, courseId: number): Promise<boolean> {
     return this.createQueryBuilder('comment')
       .where('comment.userId = :userId', { userId })

@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
 import { CurrentUser } from '@modules/auth/decorator/current-user.decorator';
 import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
@@ -9,6 +9,16 @@ import { AuthService } from '@modules/auth/service/auth.service';
 @UseGuards(SessionAuthGuard)
 export class ProfileApiController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('info')
+  @HttpCode(200)
+  async updateInfo(
+    @CurrentUser() user: SessionUserPayload,
+    @Body() body: { displayName?: string; birthday?: string; bio?: string },
+  ) {
+    await this.authService.updateProfile(user.id, body);
+    return { message: 'اطلاعات با موفقیت بروزرسانی شد.' };
+  }
 
   @Post('phone/request')
   async requestPhoneChange(

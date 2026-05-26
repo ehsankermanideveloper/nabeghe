@@ -78,12 +78,12 @@ window.toggleWishlistCard = function (slug, btn) {
 const darkMode = localStorage.getItem("darkMode");
 const darkModeCheckbox = document.querySelector("#dark-mode-checkbox");
 
-if (darkMode === "true") {
-    document.documentElement.classList.add("dark");
-    darkModeCheckbox.checked = true;
-} else {
+if (darkMode === "false") {
     document.documentElement.classList.remove("dark");
-    darkModeCheckbox.checked = false;
+    if (darkModeCheckbox) darkModeCheckbox.checked = false;
+} else {
+    document.documentElement.classList.add("dark");
+    if (darkModeCheckbox) darkModeCheckbox.checked = true;
 }
 
 const darkModeButton = document.querySelector("#dark-mode-button");
