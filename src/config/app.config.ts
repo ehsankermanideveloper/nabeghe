@@ -6,6 +6,7 @@ export interface AppConfig {
   clusterEnabled: boolean;
   /** 0 = one worker per CPU core */
   clusterWorkers: number;
+  appUrl: string;
 }
 
 export const getAppConfig = (): AppConfig => {
@@ -15,6 +16,7 @@ export const getAppConfig = (): AppConfig => {
     nodeEnv: env.NODE_ENV ?? 'development',
     clusterEnabled: env.CLUSTER_ENABLED === 'true',
     clusterWorkers: Number(env.CLUSTER_WORKERS ?? 0),
+    appUrl: (env.APP_URL ?? 'http://localhost:3000').replace(/\/$/, ''),
   };
 };
 

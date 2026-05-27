@@ -21,6 +21,7 @@ import { CourseEpisodeService } from '@modules/course/service/course-episode.ser
 import { CourseProgressService } from '@modules/course/service/course-progress.service';
 import { CourseService } from '@modules/course/service/course.service';
 import { CourseWishlistService } from '@modules/course/service/course-wishlist.service';
+import { TypedConfigService } from '@common/config/typed-config.service';
 
 type ReqWithUser = Request & { user?: SessionUserPayload };
 
@@ -34,6 +35,7 @@ export class CourseViewController {
     private readonly progressService: CourseProgressService,
     private readonly commentService: CourseCommentService,
     private readonly wishlistService: CourseWishlistService,
+    private readonly config: TypedConfigService,
   ) {}
 
   @Get()
@@ -47,10 +49,17 @@ export class CourseViewController {
       ? await this.wishlistService.getWishlistedCourseIds(userId)
       : [];
 
+    const appUrl = this.config.app.appUrl;
+    const catSlug = query.category ? `?category=${query.category}` : '';
+
     return {
       pageTitle: currentCategory
         ? `${currentCategory.title} — دوره‌های آموزشی — لیان امیری`
         : 'دوره‌های آموزشی — لیان امیری',
+      seoDescription: currentCategory
+        ? `دوره‌های آموزشی ${currentCategory.title} — بنیاد لیان امیری`
+        : 'دوره‌های آموزشی رایگان و تخصصی — بنیاد لیان امیری',
+      seoCanonical: `${appUrl}/courses${catSlug}`,
       courses,
       pagination,
       query,
@@ -80,8 +89,39 @@ export class CourseViewController {
     const allEpisodes = chapters.flatMap((ch) => ch.episodes);
     const freeEpisodeCount = allEpisodes.filter((e) => e.isFree).length;
 
+    const appUrl = this.config.app.appUrl;
+    const courseUrl = `${appUrl}/courses/${course.slug}`;
+    const thumbnail = course.thumbnail
+      ? (course.thumbnail.startsWith('http') ? course.thumbnail : `${appUrl}${course.thumbnail}`)
+      : null;
+
+    const jsonLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: course.title,
+      description: course.shortDescription ?? course.title,
+      url: courseUrl,
+      image: thumbnail,
+      provider: {
+        '@type': 'Organization',
+        name: 'بنیاد لیان امیری',
+        '@id': `${appUrl}/#organization`,
+      },
+      offers: {
+        '@type': 'Offer',
+        price: course.price ?? 0,
+        priceCurrency: 'IRR',
+        availability: 'https://schema.org/InStock',
+      },
+    });
+
     return {
       pageTitle: `${course.title} — لیان امیری`,
+      seoDescription: course.shortDescription ?? `دوره آموزشی ${course.title} — بنیاد لیان امیری`,
+      seoCanonical: courseUrl,
+      ogType: 'website',
+      ogImage: thumbnail,
+      jsonLd,
       course,
       chapters,
       comments,
@@ -158,6 +198,7 @@ export class CourseViewController {
 
     return {
       pageTitle: `${episode.title} — ${course.title} — لیان امیری`,
+      seoRobots: 'noindex, follow',
       course,
       chapters,
       episode,

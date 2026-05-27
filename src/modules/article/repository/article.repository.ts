@@ -80,4 +80,14 @@ export class ArticleRepository extends BaseRepository<ArticleEntity> {
       [id],
     );
   }
+
+  findAllPublishedSlugs(): Promise<Pick<ArticleEntity, 'slug' | 'updatedAt'>[]> {
+    return this.repository
+      .createQueryBuilder('article')
+      .select(['article.slug', 'article.updatedAt'])
+      .where('article.status = :status', { status: ArticleStatus.PUBLISHED })
+      .andWhere('article.deletedAt IS NULL')
+      .orderBy('article.publishedAt', 'DESC')
+      .getMany();
+  }
 }

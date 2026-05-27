@@ -56,4 +56,8 @@ export class ArticleService {
   incrementViewCount(id: number): Promise<void> {
     return this.articleRepository.incrementViewCount(id);
   }
+
+  findAllPublishedSlugs(): Promise<Pick<ArticleEntity, 'slug' | 'updatedAt'>[]> {
+    return this.articleRepository.findAllPublishedSlugs();
+  }
 }

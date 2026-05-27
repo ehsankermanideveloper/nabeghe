@@ -118,4 +118,14 @@ export class CourseRepository extends BaseRepository<CourseEntity> {
       take: limit,
     });
   }
+
+  findAllPublishedSlugs(): Promise<Pick<CourseEntity, 'slug' | 'updatedAt'>[]> {
+    return this.repository
+      .createQueryBuilder('course')
+      .select(['course.slug', 'course.updatedAt'])
+      .where('course.status = :status', { status: CourseStatus.PUBLISHED })
+      .andWhere('course.deletedAt IS NULL')
+      .orderBy('course.publishedAt', 'DESC')
+      .getMany();
+  }
 }

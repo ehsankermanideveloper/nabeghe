@@ -3,12 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%
+      const _siteName  = 'بنیاد لیان امیری';
+      const _title     = (typeof pageTitle     !== 'undefined' && pageTitle)     ? pageTitle     : _siteName;
+      const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: 'بنیاد لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
+      const _robots    = (typeof seoRobots     !== 'undefined' && seoRobots)     ? seoRobots     : 'index, follow';
+      const _canonical = (typeof seoCanonical  !== 'undefined' && seoCanonical)  ? seoCanonical  : null;
+      const _ogType    = (typeof ogType        !== 'undefined' && ogType)        ? ogType        : 'website';
+      const _ogImage   = (typeof ogImage       !== 'undefined' && ogImage)       ? ogImage       : null;
+      const _jsonLd    = (typeof jsonLd        !== 'undefined' && jsonLd)        ? jsonLd        : null;
+      const _keywords  = (typeof seoKeywords   !== 'undefined' && seoKeywords)   ? seoKeywords   : 'بنیاد لیان امیری, آموزش, دوره آموزشی, مقاله';
+    %>
+
+    <title><%= _title %></title>
+
+    <!-- Primary Meta -->
+    <meta name="description" content="<%= _desc %>" />
+    <meta name="keywords" content="<%= _keywords %>" />
+    <meta name="robots" content="<%= _robots %>" />
+    <meta name="author" content="<%= _siteName %>" />
+    <meta name="theme-color" content="#0f172a" />
+    <% if (_canonical) { %>
+    <link rel="canonical" href="<%= _canonical %>" />
+    <% } %>
+
+    <!-- Open Graph -->
+    <meta property="og:site_name"   content="<%= _siteName %>" />
+    <meta property="og:type"        content="<%= _ogType %>" />
+    <meta property="og:title"       content="<%= _title %>" />
+    <meta property="og:description" content="<%= _desc %>" />
+    <meta property="og:locale"      content="fa_IR" />
+    <% if (_canonical) { %>
+    <meta property="og:url" content="<%= _canonical %>" />
+    <% } %>
+    <% if (_ogImage) { %>
+    <meta property="og:image"       content="<%= _ogImage %>" />
+    <meta property="og:image:alt"   content="<%= _title %>" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <% } %>
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="<%= _title %>" />
+    <meta name="twitter:description" content="<%= _desc %>" />
+    <% if (_ogImage) { %>
+    <meta name="twitter:image" content="<%= _ogImage %>" />
+    <% } %>
+
+    <!-- JSON-LD Structured Data -->
+    <% if (_jsonLd) { %>
+    <script type="application/ld+json"><%- _jsonLd %></script>
+    <% } %>
+
+    <!-- Assets -->
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
     <link rel="stylesheet" href="/assets/css/dependencies/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/assets/css/dependencies/plyr.min.css" />
     <link rel="stylesheet" href="/assets/css/fonts.css" />
     <link rel="stylesheet" href="/assets/css/app.css" />
-    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'آکادمی لیان امیری' %></title>
+
     <style>
       [x-cloak] { display: none !important; }
       @keyframes img-shimmer {

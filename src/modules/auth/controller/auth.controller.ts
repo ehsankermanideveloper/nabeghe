@@ -37,6 +37,7 @@ export class AuthController {
     res.render('view/pages/auth/login', {
       layout: false,
       pageTitle: 'ورود یا ثبت نام — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       error: error ?? null,
       returnTo: returnTo ?? '/profile',
@@ -84,6 +85,7 @@ export class AuthController {
     res.render('view/pages/auth/verify', {
       layout: false,
       pageTitle: 'تایید حساب — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       masked: req.session.pendingMasked ?? '',
       pendingKind: req.session.pendingKind ?? 'phone',

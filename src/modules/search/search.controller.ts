@@ -14,6 +14,7 @@ export class SearchController {
     const result = query ? await this.searchService.search(query, 12) : { courses: [], articles: [], total: 0 };
     return {
       pageTitle: query ? `نتایج جستجو برای "${query}" - لیان امیری` : 'جستجو - لیان امیری',
+      seoRobots: 'noindex, follow',
       q: query,
       ...result,
     };

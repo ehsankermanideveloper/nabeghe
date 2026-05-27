@@ -7,6 +7,7 @@ import { DemoModule } from '@modules/demo/demo.module';
 import { ProfileModule } from '@modules/profile/profile.module';
 import { SiteModule } from '@modules/site/site.module';
 import { SearchModule } from '@modules/search/search.module';
+import { SitemapModule } from '@modules/sitemap/sitemap.module';
 
 export const internalImports = [
   HealthModule,
@@ -17,5 +18,6 @@ export const internalImports = [
   SiteModule,
   ProfileModule,
   SearchModule,
+  SitemapModule,
   DemoModule,
 ];

@@ -43,6 +43,7 @@ const envSchema = Joi.object({
     .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent')
     .optional(),
 
+  APP_URL: Joi.string().uri().default('http://localhost:3000'),
   SESSION_SECRET: Joi.string().min(16).optional(),
   SESSION_NAME: Joi.string().default('nabeghe.sid'),
   SESSION_STORE: Joi.string().valid('memory', 'redis').optional(),

@@ -45,6 +45,7 @@ export class ProfileController {
 
     return {
       pageTitle: 'داشبورد — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       inLearning,
@@ -81,6 +82,7 @@ export class ProfileController {
 
     return {
       pageTitle: 'دوره‌های من — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       inProgress,
@@ -99,6 +101,7 @@ export class ProfileController {
 
     return {
       pageTitle: 'علاقه‌مندی‌ها — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       wishlist,
@@ -115,6 +118,7 @@ export class ProfileController {
 
     return {
       pageTitle: 'دیدگاه‌های من — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       comments,
@@ -129,6 +133,7 @@ export class ProfileController {
   ): Promise<Record<string, unknown>> {
     return {
       pageTitle: 'مالی و اشتراک — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       transactions: [],
@@ -143,6 +148,7 @@ export class ProfileController {
   ): Promise<Record<string, unknown>> {
     return {
       pageTitle: 'اعلانات — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       notifications: [],
@@ -157,6 +163,7 @@ export class ProfileController {
   ): Promise<Record<string, unknown>> {
     return {
       pageTitle: 'ویرایش پروفایل — لیان امیری',
+      seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
     };

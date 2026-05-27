@@ -77,6 +77,10 @@ export class CourseService {
     return this.courseRepository.findPopularPublished(limit);
   }
 
+  findAllPublishedSlugs(): Promise<Pick<CourseEntity, 'slug' | 'updatedAt'>[]> {
+    return this.courseRepository.findAllPublishedSlugs();
+  }
+
   async updateStudentCount(courseId: number): Promise<void> {
     const count = await this.courseRepository
       .createQueryBuilder('c')
