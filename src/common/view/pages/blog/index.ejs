@@ -1,209 +1,360 @@
 <main class="flex-auto py-5">
-  <div class="max-w-7xl space-y-8 px-4 mx-auto">
+  <div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="space-y-8">
 
-    <!-- section:title -->
-    <div class="flex items-center gap-5 bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
-      <span class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-          <path d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
-        </svg>
-      </span>
-      <div class="flex flex-col space-y-2">
-        <% if (currentCategory) { %>
-        <span class="font-black xs:text-2xl text-lg text-primary"><%= currentCategory.title %></span>
-        <span class="font-semibold text-xs text-muted"><a href="/blog" class="hover:underline">مقالات</a> › <%= currentCategory.title %></span>
-        <% } else { %>
-        <span class="font-black xs:text-2xl text-lg text-primary">مقالات آموزشی</span>
-        <span class="font-semibold text-xs text-muted">بخوان، یاد بگیر، پیشرفت کن</span>
-        <% } %>
-      </div>
-    </div>
-    <!-- end section:title -->
-
-    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
-
-      <!-- sidebar -->
-      <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
-        <form method="GET" action="/blog" id="filterForm">
-          <% if (query && query.category) { %>
-          <input type="hidden" name="category" value="<%= query.category %>" />
+      <!-- section:title -->
+      <div class="flex items-center gap-5">
+        <span class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <path d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+          </svg>
+        </span>
+        <div class="flex flex-col space-y-2">
+          <% if (currentCategory) { %>
+          <span class="font-black xs:text-2xl text-lg text-primary"><%= currentCategory.title %></span>
+          <span class="font-semibold text-xs text-muted"><a href="/blog" class="hover:underline">مقالات</a> › <%= currentCategory.title %></span>
+          <% } else { %>
+          <span class="font-black xs:text-2xl text-lg text-primary">مقالات آموزشی</span>
+          <span class="font-semibold text-xs text-muted">بخوان، یاد بگیر، پیشرفت کن</span>
           <% } %>
-          <div class="w-full flex flex-col space-y-3 mb-3">
-            <span class="font-bold text-sm text-foreground">جستجو مقاله</span>
-            <div class="flex items-center relative">
-              <input type="text" name="q" value="<%= query && query.q ? query.q : '' %>"
-                class="w-full !ring-0 !ring-offset-0 h-10 bg-secondary border-0 rounded-xl text-sm text-foreground pr-4 pl-10"
-                placeholder="عنوان مقاله...">
-              <button type="submit" class="absolute left-3 text-muted hover:text-primary transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-          </div>
+        </div>
+      </div>
+      <!-- end section:title -->
 
-          <!-- categories accordion -->
-          <% if (categories && categories.length) { %>
-          <div class="flex flex-col divide-y divide-border" x-data="{ open: true }">
-            <div class="w-full space-y-2 py-3">
-              <button type="button"
-                class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
-                x-bind:class="open ? 'text-primary' : 'text-foreground'"
-                x-on:click="open = !open">
-                <span class="font-bold text-sm">دسته‌بندی</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                  class="w-5 h-5 transition-transform" x-bind:class="open ? 'rotate-180' : ''">
-                  <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                </svg>
-              </button>
-              <div x-show="open" x-transition class="flex flex-wrap gap-2 px-1">
-                <a href="/blog<%= query && query.q ? '?q=' + encodeURIComponent(query.q) : '' %>"
-                  class="inline-flex items-center h-8 rounded-full text-xs font-semibold px-3 transition-colors <%= !currentCategory ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted hover:text-primary' %>">
-                  همه
-                </a>
+      <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+
+        <!-- sidebar -->
+        <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
+          <form method="GET" action="/blog" id="filterForm">
+            <div class="w-full flex flex-col space-y-3 mb-5">
+              <span class="font-bold text-sm text-foreground">جستجو مقالات</span>
+              <div class="flex items-center relative">
+                <input type="text" name="q" value="<%= query && query.q ? query.q : '' %>"
+                  class="w-full !ring-0 !ring-offset-0 h-10 bg-secondary border-0 rounded-xl text-sm text-foreground pr-4 pl-10"
+                  placeholder="عنوان مقاله...">
+                <button type="submit" class="absolute left-3 text-muted hover:text-primary transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <% if (categories && categories.length) { %>
+            <!-- popular tags -->
+            <div class="w-full flex flex-col space-y-5 mb-5">
+              <span class="font-bold text-sm text-foreground">تگ های محبوب</span>
+              <ul class="flex flex-wrap gap-3">
                 <% categories.forEach(function(cat) { %>
-                <a href="/blog?category=<%= cat.slug %><%= query && query.q ? '&q=' + encodeURIComponent(query.q) : '' %>"
-                  class="inline-flex items-center h-8 rounded-full text-xs font-semibold px-3 transition-colors <%= currentCategory && currentCategory.slug === cat.slug ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted hover:text-primary' %>">
-                  <%= cat.title %>
-                </a>
+                <li>
+                  <a href="/blog?category=<%= cat.slug %>"
+                    class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs transition-colors hover:text-primary px-4 <%= currentCategory && currentCategory.slug === cat.slug ? 'text-primary' : 'text-muted' %>">
+                    # <%= cat.title %>
+                  </a>
+                </li>
                 <% }); %>
+              </ul>
+            </div>
+
+            <!-- categories accordion -->
+            <div class="flex flex-col divide-y divide-border">
+              <div class="w-full space-y-2 py-3" x-data="{ open: false }">
+                <button type="button"
+                  class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
+                  x-bind:class="open ? 'text-primary' : 'text-foreground'"
+                  x-on:click="open = !open">
+                  <span class="flex items-center gap-x-2">
+                    <span class="flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                      </svg>
+                    </span>
+                    <span class="font-semibold text-sm text-right">دسته بندی مقالات</span>
+                  </span>
+                  <span x-bind:class="open ? 'rotate-180' : ''">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </span>
+                </button>
+                <div class="bg-secondary rounded-2xl relative p-3" x-show="open" x-transition>
+                  <div class="space-y-2">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="category" value="" class="form-radio !ring-0 !ring-offset-0 bg-border border-0"
+                        <%= !currentCategory ? 'checked' : '' %> onchange="this.form.submit()" />
+                      <span class="text-sm text-muted">همه</span>
+                    </label>
+                    <% categories.forEach(function(cat) { %>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="radio" name="category" value="<%= cat.slug %>" class="form-radio !ring-0 !ring-offset-0 bg-border border-0"
+                        <%= currentCategory && currentCategory.slug === cat.slug ? 'checked' : '' %> onchange="this.form.submit()" />
+                      <span class="text-sm text-muted"><%= cat.title %></span>
+                    </label>
+                    <% }); %>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <% } %>
-        </form>
-      </div>
-      <!-- end sidebar -->
+            <% } %>
+          </form>
+        </div>
+        <!-- end sidebar -->
 
-      <!-- articles grid -->
-      <div class="lg:col-span-9 md:col-span-8 col-span-1">
+        <!-- articles grid -->
+        <div class="lg:col-span-9 md:col-span-8 col-span-1">
 
-        <!-- mobile search -->
-        <form method="GET" action="/blog" class="md:hidden mb-5">
-          <% if (query && query.category) { %>
-          <input type="hidden" name="category" value="<%= query.category %>" />
-          <% } %>
-          <div class="flex items-center relative">
-            <input type="text" name="q" value="<%= query && query.q ? query.q : '' %>"
-              class="w-full !ring-0 !ring-offset-0 h-10 bg-secondary border-0 rounded-xl text-sm text-foreground pr-4 pl-10"
-              placeholder="جستجوی مقاله...">
-            <button type="submit" class="absolute left-3 text-muted">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-        </form>
-
-        <% if (articles && articles.length > 0) { %>
-        <div class="grid sm:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-5">
-          <% articles.forEach(function(article) { %>
-          <!-- article:card -->
-          <div class="flex flex-col bg-background border border-border rounded-2xl overflow-hidden transition-shadow hover:shadow-lg hover:shadow-black/5">
-            <a href="/blog/<%= article.slug %>" class="block relative aspect-video bg-secondary overflow-hidden">
-              <% if (article.thumbnail) { %>
-              <img src="<%= article.thumbnail %>" class="w-full h-full object-cover transition-transform hover:scale-105" alt="<%= article.title %>" />
-              <% } else { %>
-              <div class="w-full h-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-12 h-12 text-muted/30">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+          <!-- sort & filter -->
+          <div class="flex items-center gap-3 mb-3" x-data="{ offcanvasOpen: false }">
+            <!-- sort -->
+            <div class="flex items-center gap-3" x-data="{ open: false, selectedOption: 'جدید‌ترین' }">
+              <label class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                  <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
                 </svg>
-              </div>
-              <% } %>
-              <% if (article.category) { %>
-              <span class="absolute top-3 right-3 inline-flex items-center bg-primary/90 rounded-full font-semibold text-xs text-primary-foreground py-1 px-3">
-                <%= article.category.title %>
-              </span>
-              <% } %>
-            </a>
-            <div class="flex flex-col flex-1 p-4 space-y-3">
-              <h2 class="font-bold text-sm">
-                <a href="/blog/<%= article.slug %>" class="line-clamp-2 text-foreground transition-colors hover:text-primary">
-                  <%= article.title %>
-                </a>
-              </h2>
-              <% if (article.shortDescription) { %>
-              <p class="text-xs text-muted line-clamp-2 flex-1"><%= article.shortDescription %></p>
-              <% } %>
-              <div class="flex items-center justify-between gap-3 pt-2 border-t border-border">
-                <div class="flex items-center gap-2 min-w-0">
-                  <div class="flex-shrink-0 w-7 h-7 rounded-full bg-secondary border border-border flex items-center justify-center overflow-hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-muted">
-                      <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                مرتب سازی:
+              </label>
+              <div class="w-52 relative">
+                <button x-on:click="open = !open"
+                  class="flex items-center w-full h-11 relative bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
+                  <span class="line-clamp-1" x-text="selectedOption"></span>
+                  <span class="absolute left-3 pointer-events-none transition-transform" x-bind:class="open ? 'rotate-180' : ''">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                     </svg>
-                  </div>
-                  <span class="line-clamp-1 font-semibold text-xs text-muted">
-                    <%= article.author ? (article.author.displayName || 'نویسنده') : 'نویسنده' %>
                   </span>
+                </button>
+                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30"
+                  x-show="open" x-on:click.away="open = false">
+                  <ul class="max-h-48 overflow-y-auto">
+                    <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                      x-on:click="selectedOption = 'جدید‌ترین'; open = false">جدید‌ترین</li>
+                    <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                      x-on:click="selectedOption = 'قدیمی‌ترین'; open = false">قدیمی‌ترین</li>
+                    <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                      x-on:click="selectedOption = 'پربازدیدترین'; open = false">پربازدیدترین</li>
+                  </ul>
                 </div>
-                <div class="flex items-center gap-3 flex-shrink-0 text-muted">
-                  <% if (article.readTime > 0) { %>
-                  <div class="flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </div>
+            </div>
+            <!-- end sort -->
+
+            <!-- filter:offcanvas:button -->
+            <button type="button"
+              class="md:hidden flex items-center gap-1 h-11 bg-secondary rounded-2xl text-foreground px-4"
+              x-on:click="offcanvasOpen = true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+              </svg>
+              <span class="hidden sm:block font-semibold text-xs">فیلتر مقالات</span>
+            </button>
+            <!-- end filter:offcanvas:button -->
+
+            <!-- filter:offcanvas -->
+            <div x-cloak>
+              <div class="fixed inset-y-0 right-0 xs:w-80 w-72 h-full bg-background rounded-l-2xl overflow-y-auto transition-transform z-50"
+                x-bind:class="offcanvasOpen ? '!translate-x-0' : 'translate-x-full'">
+                <div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background p-4 z-10">
+                  <div class="font-bold text-sm text-foreground">فیلتر مقالات آموزشی</div>
+                  <button x-on:click="offcanvasOpen = false" class="text-foreground focus:outline-none hover:text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <span class="font-semibold text-xs"><%= article.readTime %> دقیقه</span>
+                  </button>
+                </div>
+                <div class="p-4">
+                  <form method="GET" action="/blog">
+                    <div class="w-full flex flex-col space-y-3 mb-5">
+                      <span class="font-bold text-sm text-foreground">جستجو مقالات</span>
+                      <div class="flex items-center relative">
+                        <input type="text" name="q" value="<%= query && query.q ? query.q : '' %>"
+                          class="w-full !ring-0 !ring-offset-0 h-10 bg-secondary border-0 rounded-xl text-sm text-foreground pr-4 pl-10"
+                          placeholder="عنوان مقاله...">
+                        <button type="submit" class="absolute left-3 text-muted">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <% if (categories && categories.length) { %>
+                    <div class="w-full flex flex-col space-y-5 mb-5">
+                      <span class="font-bold text-sm text-foreground">تگ های محبوب</span>
+                      <ul class="flex flex-wrap gap-3">
+                        <% categories.forEach(function(cat) { %>
+                        <li>
+                          <a href="/blog?category=<%= cat.slug %>"
+                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs transition-colors hover:text-primary px-4 <%= currentCategory && currentCategory.slug === cat.slug ? 'text-primary' : 'text-muted' %>">
+                            # <%= cat.title %>
+                          </a>
+                        </li>
+                        <% }); %>
+                      </ul>
+                    </div>
+                    <div class="flex flex-col divide-y divide-border">
+                      <div class="w-full space-y-2 py-3" x-data="{ open: false }">
+                        <button type="button"
+                          class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
+                          x-bind:class="open ? 'text-primary' : 'text-foreground'"
+                          x-on:click="open = !open">
+                          <span class="flex items-center gap-x-2">
+                            <span class="flex-shrink-0">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                              </svg>
+                            </span>
+                            <span class="font-semibold text-sm text-right">دسته بندی مقالات</span>
+                          </span>
+                          <span x-bind:class="open ? 'rotate-180' : ''">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                          </span>
+                        </button>
+                        <div class="bg-secondary rounded-2xl relative p-3" x-show="open" x-transition>
+                          <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                              <input type="radio" name="category" value="" class="form-radio !ring-0 !ring-offset-0 bg-border border-0"
+                                <%= !currentCategory ? 'checked' : '' %> onchange="this.form.submit()" />
+                              <span class="text-sm text-muted">همه</span>
+                            </label>
+                            <% categories.forEach(function(cat) { %>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                              <input type="radio" name="category" value="<%= cat.slug %>" class="form-radio !ring-0 !ring-offset-0 bg-border border-0"
+                                <%= currentCategory && currentCategory.slug === cat.slug ? 'checked' : '' %> onchange="this.form.submit()" />
+                              <span class="text-sm text-muted"><%= cat.title %></span>
+                            </label>
+                            <% }); %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% } %>
+                  </form>
+                </div>
+              </div>
+              <div class="fixed inset-0 bg-black/10 cursor-pointer transition-all duration-1000 z-40"
+                x-bind:class="offcanvasOpen ? 'opacity-100 visible' : 'opacity-0 invisible'"
+                x-on:click="offcanvasOpen = false"></div>
+            </div>
+            <!-- end filter:offcanvas -->
+          </div>
+          <!-- end sort & filter -->
+
+          <% if (articles && articles.length > 0) { %>
+          <div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
+            <% articles.forEach(function(article) { %>
+            <!-- article:card -->
+            <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
+              <div class="relative mb-3 z-20">
+                <a href="/blog/<%= article.slug %>" class="block">
+                  <% if (article.thumbnail) { %>
+                  <img src="<%= article.thumbnail %>" class="max-w-full rounded-xl" alt="<%= article.title %>" />
+                  <% } else { %>
+                  <div class="w-full aspect-video bg-secondary rounded-xl flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-12 h-12 text-muted/30">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+                    </svg>
                   </div>
                   <% } %>
+                </a>
+                <button type="button"
+                  class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="relative space-y-3 z-10">
+                <h2 class="font-bold text-sm">
+                  <a href="/blog/<%= article.slug %>" class="line-clamp-1 text-foreground transition-colors hover:text-primary">
+                    <%= article.title %>
+                  </a>
+                </h2>
+                <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    <div class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
+                      <% if (article.author && article.author.avatar) { %>
+                      <img src="<%= article.author.avatar %>" class="w-full h-full object-cover" alt="<%= article.author.displayName || '' %>" />
+                      <% } else { %>
+                      <div class="w-full h-full bg-secondary flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-muted">
+                          <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                      <% } %>
+                    </div>
+                    <a href="#" class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
+                      <%= article.author ? (article.author.displayName || 'نویسنده') : 'نویسنده' %>
+                    </a>
+                  </div>
+                  <% if (article.category) { %>
+                  <a href="/blog?category=<%= article.category.slug %>" class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
+                    <span class="font-bold text-xxs"><%= article.category.title %></span>
+                  </a>
+                  <% } %>
+                </div>
+                <% if (article.readTime > 0) { %>
+                <div class="flex justify-end">
+                  <div class="flex items-center gap-1 text-muted">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    <span class="font-semibold text-xs"><%= article.viewCount %></span>
+                    <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
+                    <span class="font-semibold text-xs text-foreground"><%= article.readTime %> دقیقه</span>
                   </div>
                 </div>
+                <% } %>
               </div>
             </div>
+            <!-- end article:card -->
+            <% }); %>
           </div>
-          <!-- end article:card -->
-          <% }); %>
-        </div>
 
-        <!-- pagination -->
-        <% if (pagination && pagination.totalPages > 1) { %>
-        <div class="flex items-center justify-center gap-2 mt-8">
-          <% if (pagination.hasPreviousPage) { %>
-          <a href="/blog?<%= new URLSearchParams({ ...query, page: pagination.page - 1 }).toString() %>"
-            class="h-10 w-10 inline-flex items-center justify-center bg-secondary rounded-full text-muted hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-            </svg>
-          </a>
+          <!-- pagination -->
+          <% if (pagination && pagination.totalPages > 1) { %>
+          <div class="flex items-center justify-center gap-2 mt-8">
+            <% if (pagination.hasPreviousPage) { %>
+            <a href="/blog?<%= new URLSearchParams({ ...query, page: pagination.page - 1 }).toString() %>"
+              class="h-10 w-10 inline-flex items-center justify-center bg-secondary rounded-full text-muted hover:text-primary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <% } %>
+            <% for (var p = Math.max(1, pagination.page - 2); p <= Math.min(pagination.totalPages, pagination.page + 2); p++) { %>
+            <a href="/blog?<%= new URLSearchParams({ ...query, page: p }).toString() %>"
+              class="h-10 w-10 inline-flex items-center justify-center rounded-full font-semibold text-sm transition-colors <%= p === pagination.page ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted hover:text-primary' %>">
+              <%= p %>
+            </a>
+            <% } %>
+            <% if (pagination.hasNextPage) { %>
+            <a href="/blog?<%= new URLSearchParams({ ...query, page: pagination.page + 1 }).toString() %>"
+              class="h-10 w-10 inline-flex items-center justify-center bg-secondary rounded-full text-muted hover:text-primary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <% } %>
+          </div>
           <% } %>
-          <% for (var p = Math.max(1, pagination.page - 2); p <= Math.min(pagination.totalPages, pagination.page + 2); p++) { %>
-          <a href="/blog?<%= new URLSearchParams({ ...query, page: p }).toString() %>"
-            class="h-10 w-10 inline-flex items-center justify-center rounded-full font-semibold text-sm transition-colors <%= p === pagination.page ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted hover:text-primary' %>">
-            <%= p %>
-          </a>
-          <% } %>
-          <% if (pagination.hasNextPage) { %>
-          <a href="/blog?<%= new URLSearchParams({ ...query, page: pagination.page + 1 }).toString() %>"
-            class="h-10 w-10 inline-flex items-center justify-center bg-secondary rounded-full text-muted hover:text-primary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-            </svg>
-          </a>
-          <% } %>
-        </div>
-        <% } %>
 
-        <% } else { %>
-        <div class="flex flex-col items-center justify-center py-20 space-y-4 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-16 h-16 text-muted/30">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
-          </svg>
-          <p class="font-semibold text-muted">مقاله‌ای یافت نشد</p>
-          <% if (query && (query.q || query.category)) { %>
-          <a href="/blog" class="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline">
-            نمایش همه مقالات
-          </a>
+          <% } else { %>
+          <div class="flex flex-col items-center justify-center py-20 space-y-4 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-16 h-16 text-muted/30">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+            </svg>
+            <p class="font-semibold text-muted">مقاله‌ای یافت نشد</p>
+            <% if (query && (query.q || query.category)) { %>
+            <a href="/blog" class="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline">
+              نمایش همه مقالات
+            </a>
+            <% } %>
+          </div>
           <% } %>
         </div>
-        <% } %>
+        <!-- end articles grid -->
+
       </div>
-      <!-- end articles grid -->
-
     </div>
   </div>
 </main>
