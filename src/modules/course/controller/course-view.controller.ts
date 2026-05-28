@@ -197,6 +197,7 @@ export class CourseViewController {
     const episodeIndex = allEpisodes.findIndex((e) => e.id === episode.id);
 
     return {
+      usePlyr: true,
       pageTitle: `${episode.title} — ${course.title} — لیان امیری`,
       seoRobots: 'noindex, follow',
       course,

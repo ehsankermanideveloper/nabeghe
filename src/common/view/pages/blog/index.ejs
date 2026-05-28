@@ -248,7 +248,7 @@
               <div class="relative mb-3 z-20">
                 <a href="/blog/<%= article.slug %>" class="block">
                   <% if (article.thumbnail) { %>
-                  <img src="<%= article.thumbnail %>" class="max-w-full rounded-xl" alt="<%= article.title %>" />
+                  <img src="<%= article.thumbnail %>" class="max-w-full rounded-xl" loading="lazy" alt="<%= article.title %>" />
                   <% } else { %>
                   <div class="w-full aspect-video bg-secondary rounded-xl flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-12 h-12 text-muted/30">

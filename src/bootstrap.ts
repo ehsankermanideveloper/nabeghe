@@ -32,11 +32,10 @@ export async function bootstrapApp(): Promise<void> {
   if (config.app.nodeEnv === 'production') {
     app.set('trust proxy', 1);
   }
-  app.useStaticAssets(join(process.cwd(), 'html', 'assets'), {
-    prefix: '/assets/',
-  });
+  const staticOptions = { maxAge: '1y', immutable: true };
   app.useStaticAssets(join(process.cwd(), 'src', 'common', 'view', 'assets'), {
     prefix: '/assets/',
+    ...staticOptions,
   });
 
   const httpServer = app.getHttpAdapter().getInstance();

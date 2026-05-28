@@ -56,12 +56,24 @@
     <script type="application/ld+json"><%- _jsonLd %></script>
     <% } %>
 
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+
     <!-- Assets -->
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
+    <% if (locals.useSwiper) { %>
     <link rel="stylesheet" href="/assets/css/dependencies/swiper-bundle.min.css" />
+    <% } %>
+    <% if (locals.usePlyr) { %>
     <link rel="stylesheet" href="/assets/css/dependencies/plyr.min.css" />
+    <% } %>
     <link rel="stylesheet" href="/assets/css/fonts.css" />
     <link rel="stylesheet" href="/assets/css/app.css" />
+
+    <!-- Dark mode: must run before body paint to prevent flash -->
+    <script>(function(){if(localStorage.getItem('darkMode')!=='false')document.documentElement.classList.add('dark');}());</script>
 
     <style>
       [x-cloak] { display: none !important; }
@@ -88,10 +100,16 @@
       <%- include('partials/footer') %>
     </div>
 
-    <script src="/assets/js/img-skeleton.js"></script>
-    <script src="/assets/js/dependencies/alpinejs.min.js"></script>
-    <script src="/assets/js/dependencies/swiper-bundle.min.js"></script>
-    <script src="/assets/js/dependencies/plyr.min.js"></script>
-    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/img-skeleton.js" defer></script>
+    <script src="/assets/js/dependencies/alpinejs.min.js" defer></script>
+    <% if (locals.useSwiper) { %>
+    <script src="/assets/js/dependencies/swiper-bundle.min.js" defer></script>
+    <script src="/assets/js/swiper-init.js" defer></script>
+    <% } %>
+    <% if (locals.usePlyr) { %>
+    <script src="/assets/js/dependencies/plyr.min.js" defer></script>
+    <script defer>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.js-player').forEach(function(p){new Plyr(p);});});</script>
+    <% } %>
+    <script src="/assets/js/app.js" defer></script>
   </body>
 </html>

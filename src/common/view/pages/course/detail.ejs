@@ -439,13 +439,12 @@
               </svg>
             </button>
             <% } else { %>
-            <button type="button"
-              class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-              <span class="font-semibold text-sm">اضافه به سبد</span>
+            <div class="w-full h-11 inline-flex items-center justify-center gap-2 bg-secondary rounded-full text-muted px-4">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
               </svg>
-            </button>
+              <span class="font-semibold text-sm">برای ثبت‌نام با ما تماس بگیرید</span>
+            </div>
             <% } %>
             <button type="button" id="wishlistBtn" onclick="toggleWishlist('<%= course.slug %>', this)"
               class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full transition-colors <%= isWishlisted ? 'text-red-500' : 'text-muted hover:text-red-500' %>">
@@ -511,26 +510,31 @@ async function enrollCourse(slug) {
   try {
     const res = await fetch('/api/courses/' + slug + '/enroll', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     });
+    if (res.status === 401) {
+      window.location.href = '/auth/login?returnTo=' + encodeURIComponent('/courses/' + slug);
+      return;
+    }
     const data = await res.json();
     if (res.ok) {
       window.location.href = '/courses/' + slug + '/episodes';
     } else {
-      alert(data.message || 'خطا در ثبت‌نام');
+      showAlert(data.message || 'خطا در ثبت‌نام', 'error');
       btn.disabled = false;
       btn.querySelector('span').textContent = 'ثبت‌نام رایگان';
     }
   } catch {
-    alert('خطا در ارتباط با سرور');
+    showAlert('خطایی رخ داد، دوباره تلاش کنید', 'error');
     btn.disabled = false;
+    btn.querySelector('span').textContent = 'ثبت‌نام رایگان';
   }
 }
 
 async function toggleWishlist(slug, btn) {
   btn.disabled = true;
   try {
-    const res = await fetch('/api/courses/' + slug + '/wishlist', { method: 'POST' });
+    const res = await fetch('/api/courses/' + slug + '/wishlist', { method: 'POST', headers: { 'Accept': 'application/json' } });
     if (res.status === 401) { showAlert('برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید', 'warning'); return; }
     const data = await res.json();
     if (res.ok) {

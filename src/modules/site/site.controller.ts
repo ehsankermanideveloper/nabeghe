@@ -53,6 +53,7 @@ export class SiteController {
       ],
     });
     return {
+      useSwiper: true,
       latestCourses,
       latestComment,
       latestArticles,

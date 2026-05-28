@@ -48,7 +48,7 @@ window.showAlert = function (message, type, duration) {
 
 window.toggleWishlistCard = function (slug, btn) {
     btn.disabled = true;
-    fetch("/api/courses/" + slug + "/wishlist", { method: "POST" })
+    fetch("/api/courses/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
         .then(function (res) {
             if (res.status === 401) {
                 showAlert("برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید", "warning");
@@ -75,15 +75,10 @@ window.toggleWishlistCard = function (slug, btn) {
         });
 };
 
-const darkMode = localStorage.getItem("darkMode");
+// Dark mode toggle (initial class is set via inline script in <head>)
 const darkModeCheckbox = document.querySelector("#dark-mode-checkbox");
-
-if (darkMode === "false") {
-    document.documentElement.classList.remove("dark");
-    if (darkModeCheckbox) darkModeCheckbox.checked = false;
-} else {
-    document.documentElement.classList.add("dark");
-    if (darkModeCheckbox) darkModeCheckbox.checked = true;
+if (darkModeCheckbox) {
+    darkModeCheckbox.checked = document.documentElement.classList.contains("dark");
 }
 
 const darkModeButton = document.querySelector("#dark-mode-button");
@@ -91,128 +86,14 @@ if (darkModeButton) darkModeButton.addEventListener("click", toggleDarkMode);
 if (darkModeCheckbox) darkModeCheckbox.addEventListener("change", toggleDarkMode);
 
 function toggleDarkMode() {
-    if (document.documentElement.classList.contains("dark")) {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("darkMode", "false");
-        darkModeCheckbox.checked = false;
-    } else {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("darkMode", "true");
-        darkModeCheckbox.checked = true;
-    }
-}
-
-const singleSwiperSlider = new Swiper(".single-swiper-slider", {
-    spaceBetween: 20,
-    slidesPerView: 1,
-    loop: true,
-    effect: "creative",
-    creativeEffect: {
-        prev: {
-            shadow: true,
-            translate: [0, 0, -400],
-        },
-        next: {
-            translate: ["100%", 0, 0],
-        },
-    },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-        el: ".swiper-pagination",
-    },
-    autoplay: {
-        delay: 3500,
-        disableOnInteraction: false,
-    },
-});
-
-const col3SwiperSlider = new Swiper(".col3-swiper-slider", {
-    spaceBetween: 20,
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-        992: {
-            slidesPerView: 3,
-        },
-        576: {
-            slidesPerView: 2,
-        },
-        0: {
-            slidesPerView: 1,
-        },
-    },
-});
-
-const col4SwiperSlider = new Swiper(".col4-swiper-slider", {
-    spaceBetween: 20,
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-        992: {
-            slidesPerView: 4,
-        },
-        768: {
-            slidesPerView: 3,
-        },
-        480: {
-            slidesPerView: 2,
-        },
-        0: {
-            slidesPerView: 1,
-        },
-    },
-});
-
-const autoSwiperSlider = new Swiper(".auto-swiper-slider", {
-    slidesPerView: "auto",
-    spaceBetween: 30,
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-});
-
-const cardSwiperSlider = new Swiper(".card-swiper-slider", {
-    effect: "cards",
-    grabCursor: true,
-    autoplay: {
-        delay: 3000,
-    },
-    cardsEffect: {
-        rotate: 50,
-        slideShadows: false,
-    },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-});
-
-const players = document.querySelectorAll(".js-player");
-
-if (players) {
-    Array.from(players).map(
-        (p) =>
-            new Plyr(p, {
-                // options
-            })
-    );
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("darkMode", isDark ? "true" : "false");
+    if (darkModeCheckbox) darkModeCheckbox.checked = isDark;
 }
 
 const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-
 if (scrollToTopBtn) {
     scrollToTopBtn.addEventListener("click", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }

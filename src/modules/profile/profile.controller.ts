@@ -44,6 +44,7 @@ export class ProfileController {
     );
 
     return {
+      useSwiper: true,
       pageTitle: 'داشبورد — لیان امیری',
       seoRobots: 'noindex, nofollow',
       user,
@@ -81,6 +82,7 @@ export class ProfileController {
     const completed = enrollmentsWithProgress.filter((r) => r.percentage >= 100);
 
     return {
+      useSwiper: true,
       pageTitle: 'دوره‌های من — لیان امیری',
       seoRobots: 'noindex, nofollow',
       user,

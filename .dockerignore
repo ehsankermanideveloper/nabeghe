@@ -1,0 +1,30 @@
+# Build output (rebuilt inside Docker)
+dist
+
+# Dev/test files
+test
+coverage
+*.spec.ts
+
+# Docker files themselves
+Dockerfile
+docker-compose.yml
+
+# Env files (use .env.docker inside compose)
+.env
+.env.local
+.env.example
+
+# Docs & HTML templates (not needed at runtime)
+docs
+html
+
+# Editor & OS
+.git
+.gitignore
+.eslintrc*
+eslint.config*
+prettier*
+*.md
+README*
+.DS_Store
