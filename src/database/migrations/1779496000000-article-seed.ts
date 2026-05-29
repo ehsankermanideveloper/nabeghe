@@ -2,6 +2,10 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class ArticleSeed1779496000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // Skip seed if no categories exist (fresh DB with no category data)
+    const [{ count }] = await queryRunner.query(`SELECT COUNT(*)::int AS count FROM "category"`);
+    if (count === 0) return;
+
     // ─── Articles ────────────────────────────────────────────────────────────
     await queryRunner.query(`
       INSERT INTO "article"

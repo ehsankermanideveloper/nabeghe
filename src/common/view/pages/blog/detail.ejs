@@ -3,7 +3,7 @@
     <div class="flex md:flex-nowrap flex-wrap items-start gap-5">
 
       <!-- left: main content -->
-      <div class="md:w-8/12 w-full">
+      <div class="md:w-8/12 w-full min-w-0">
         <div class="relative">
 
           <!-- thumbnail -->
@@ -83,20 +83,23 @@
 
               <!-- article body -->
               <% if (article.body) { %>
-              <div class="description prose prose-slate max-w-none bg-background border border-border rounded-3xl p-6 sm:p-10
+              <div class="description prose prose-slate max-w-none bg-background border border-border rounded-3xl p-6 sm:p-10 overflow-x-hidden
                 [&_h2]:font-black [&_h2]:text-xl [&_h2]:text-foreground [&_h2]:mt-8 [&_h2]:mb-4
                 [&_h3]:font-bold [&_h3]:text-lg [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-3
-                [&_p]:text-muted [&_p]:leading-8 [&_p]:text-sm [&_p]:mb-4
+                [&_p]:text-muted [&_p]:leading-8 [&_p]:text-sm [&_p]:mb-4 [&_p]:break-words
                 [&_ul]:list-disc [&_ul]:pr-6 [&_ul]:text-muted [&_ul]:text-sm [&_ul]:space-y-2 [&_ul]:mb-4
                 [&_ol]:list-decimal [&_ol]:pr-6 [&_ol]:text-muted [&_ol]:text-sm [&_ol]:space-y-2 [&_ol]:mb-4
-                [&_li]:leading-7
-                [&_a]:text-primary [&_a]:font-semibold [&_a]:hover:underline
+                [&_li]:leading-7 [&_li]:break-words
+                [&_a]:text-primary [&_a]:font-semibold [&_a]:hover:underline [&_a]:break-all
                 [&_strong]:text-foreground [&_strong]:font-bold
                 [&_code]:bg-secondary [&_code]:text-primary [&_code]:rounded [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-xs [&_code]:font-mono
-                [&_pre]:bg-secondary [&_pre]:rounded-2xl [&_pre]:p-5 [&_pre]:overflow-x-auto [&_pre]:mb-6
-                [&_pre_code]:bg-transparent [&_pre_code]:p-0
+                [&_pre]:bg-secondary [&_pre]:rounded-2xl [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre]:mb-6 [&_pre]:max-w-full
+                [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:whitespace-pre
                 [&_blockquote]:border-r-4 [&_blockquote]:border-primary [&_blockquote]:pr-4 [&_blockquote]:text-muted [&_blockquote]:italic [&_blockquote]:my-6
-                [&_img]:rounded-2xl [&_img]:max-w-full [&_img]:my-4
+                [&_img]:rounded-2xl [&_img]:max-w-full [&_img]:w-full [&_img]:h-auto [&_img]:my-4
+                [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_table]:text-sm [&_table]:mb-4
+                [&_th]:bg-secondary [&_th]:p-2 [&_th]:text-right [&_th]:font-bold [&_th]:text-foreground
+                [&_td]:p-2 [&_td]:text-right [&_td]:text-muted [&_td]:border-b [&_td]:border-border
                 [&_hr]:border-border [&_hr]:my-8">
                 <%- article.body %>
               </div>
@@ -225,7 +228,7 @@
       <!-- end left -->
 
       <!-- right: sidebar -->
-      <div class="md:w-4/12 w-full md:sticky md:top-24 space-y-8">
+      <div class="md:w-4/12 w-full min-w-0 md:sticky md:top-24 space-y-8">
 
         <!-- author section -->
         <% if (article.author) { %>
