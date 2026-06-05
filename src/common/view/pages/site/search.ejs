@@ -83,7 +83,7 @@
       </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10">
       <% courses.forEach(function(course) { %>
       <%- include('view/partials/course-card', { course, isWishlisted: false }) %>
       <% }) %>
@@ -108,7 +108,7 @@
       </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-8">
       <% articles.forEach(function(article) { %>
       <a href="/blog/<%= article.slug %>" class="group flex flex-col bg-background border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all">
         <div class="relative aspect-video bg-secondary overflow-hidden">
