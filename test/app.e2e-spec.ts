@@ -70,7 +70,7 @@ describe('HTTP (e2e)', () => {
       .expect(200)
       .expect('Content-Type', /html/)
       .expect((res) => {
-        expect(res.text).toContain('نـــابــــغه');
+        expect(res.text).toContain('لیان امیری');
       }));
 
   it('GET /unknown-route returns 404 page', () =>
@@ -88,7 +88,7 @@ describe('HTTP (e2e)', () => {
       .expect(200)
       .expect('Content-Type', /html/)
       .expect((res) => {
-        expect(res.text).toContain('نـــابــــغه');
+        expect(res.text).toContain('لیان امیری');
         expect(res.text).toContain('TypeORM');
       }));
 

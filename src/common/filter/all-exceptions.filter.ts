@@ -45,13 +45,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (this.prefersHtml(request)) {
       if (status === Number(HttpStatus.NOT_FOUND)) {
         response.status(status).render('view/pages/errors/not-found', {
-          pageTitle: 'قالب آموزشی نابغه - ۴۰۴',
+          pageTitle: 'آکادمی لیان امیری - ۴۰۴',
         });
         return;
       }
 
       response.status(status).render('view/pages/errors/error', {
-        pageTitle: `نابغه — ${status}`,
+        pageTitle: `لیان امیری — ${status}`,
         statusCode: status,
         title: error,
         message: Array.isArray(message) ? message.join(', ') : message,
