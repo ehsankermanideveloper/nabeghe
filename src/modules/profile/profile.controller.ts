@@ -4,6 +4,7 @@ import { CurrentUser } from '@modules/auth/decorator/current-user.decorator';
 import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
 import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
 import { AuthService } from '@modules/auth/service/auth.service';
+import { PasskeyService } from '@modules/auth/service/passkey.service';
 import { CourseCommentService } from '@modules/course/service/course-comment.service';
 import { CourseEnrollmentService } from '@modules/course/service/course-enrollment.service';
 import { CourseProgressService } from '@modules/course/service/course-progress.service';
@@ -14,6 +15,7 @@ import { CourseWishlistService } from '@modules/course/service/course-wishlist.s
 export class ProfileController {
   constructor(
     private readonly authService: AuthService,
+    private readonly passkeyService: PasskeyService,
     private readonly enrollmentService: CourseEnrollmentService,
     private readonly progressService: CourseProgressService,
     private readonly wishlistService: CourseWishlistService,
@@ -163,11 +165,13 @@ export class ProfileController {
     @Req() req: Request,
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
+    const passkeys = await this.passkeyService.listPasskeys(user.id);
     return {
       pageTitle: 'ویرایش پروفایل — لیان امیری',
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
+      passkeys,
     };
   }
 }

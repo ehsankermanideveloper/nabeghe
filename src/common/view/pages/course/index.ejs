@@ -196,7 +196,7 @@
                   </span>
                 </button>
 
-                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30" x-show="open" x-on:click.away="open = false">
+                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30" x-show="open" x-cloak x-on:click.away="open = false">
                   <ul class="max-h-48 overflow-y-auto">
                     <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
                       x-on:click="selected = 'جدیدترین'; open = false; window.location.href = '/courses?sort=newest<%= query && query.q ? '&q=' + encodeURIComponent(query.q) : '' %><%= query && query.level ? '&level=' + query.level : '' %><%= query && query.category ? '&category=' + query.category : '' %>'">جدیدترین</li>

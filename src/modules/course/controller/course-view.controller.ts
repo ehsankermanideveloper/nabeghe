@@ -57,8 +57,8 @@ export class CourseViewController {
         ? `${currentCategory.title} — دوره‌های آموزشی — لیان امیری`
         : 'دوره‌های آموزشی — لیان امیری',
       seoDescription: currentCategory
-        ? `دوره‌های آموزشی ${currentCategory.title} — بنیاد لیان امیری`
-        : 'دوره‌های آموزشی رایگان و تخصصی — بنیاد لیان امیری',
+        ? `دوره‌های آموزشی ${currentCategory.title} — آکادمی لیان امیری`
+        : 'دوره‌های آموزشی رایگان و تخصصی — آکادمی لیان امیری',
       seoCanonical: `${appUrl}/courses${catSlug}`,
       courses,
       pagination,
@@ -104,7 +104,7 @@ export class CourseViewController {
       image: thumbnail,
       provider: {
         '@type': 'Organization',
-        name: 'بنیاد لیان امیری',
+        name: 'آکادمی لیان امیری',
         '@id': `${appUrl}/#organization`,
       },
       offers: {
@@ -117,7 +117,7 @@ export class CourseViewController {
 
     return {
       pageTitle: `${course.title} — لیان امیری`,
-      seoDescription: course.shortDescription ?? `دوره آموزشی ${course.title} — بنیاد لیان امیری`,
+      seoDescription: course.shortDescription ?? `دوره آموزشی ${course.title} — آکادمی لیان امیری`,
       seoCanonical: courseUrl,
       ogType: 'website',
       ogImage: thumbnail,

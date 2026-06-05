@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { AppCacheService } from '@common/cache/cache.service';
 import type { PagedResult } from '@common/repository/base.repository';
 import { CategoryService } from '@modules/category/service/category.service';
 import type { CategoryEntity } from '@modules/category/entity/category.entity';
@@ -6,6 +7,9 @@ import { CourseQueryDto } from '@modules/course/dto/course-query.dto';
 import { CourseEntity } from '@modules/course/entity/course.entity';
 import { CourseSort } from '@modules/course/enum/course-sort.enum';
 import { CourseRepository } from '@modules/course/repository/course.repository';
+
+const LATEST_TTL = 2 * 60_000;
+const POPULAR_TTL = 3 * 60_000;
 
 export interface CourseIndexData {
   courses: CourseEntity[];
@@ -19,6 +23,7 @@ export class CourseService {
   constructor(
     private readonly courseRepository: CourseRepository,
     private readonly categoryService: CategoryService,
+    private readonly cache: AppCacheService,
   ) {}
 
   async findPublishedBySlugOrFail(slug: string): Promise<CourseEntity> {
@@ -66,15 +71,25 @@ export class CourseService {
   }
 
   findLatest(limit = 8): Promise<CourseEntity[]> {
-    return this.courseRepository.findLatestPublished(limit);
+    return this.cache.wrap(
+      this.cache.key('course', 'latest', limit),
+      () => this.courseRepository.findLatestPublished(limit),
+      LATEST_TTL,
+    );
   }
 
   searchPublished(q: string, limit = 6): Promise<CourseEntity[]> {
-    return this.courseRepository.findPublishedPaged({ q, page: 1, limit, sort: CourseSort.NEWEST }).then((r) => r.data);
+    return this.courseRepository
+      .findPublishedPaged({ q, page: 1, limit, sort: CourseSort.NEWEST })
+      .then((r) => r.data);
   }
 
   findPopular(limit = 8): Promise<CourseEntity[]> {
-    return this.courseRepository.findPopularPublished(limit);
+    return this.cache.wrap(
+      this.cache.key('course', 'popular', limit),
+      () => this.courseRepository.findPopularPublished(limit),
+      POPULAR_TTL,
+    );
   }
 
   findAllPublishedSlugs(): Promise<Pick<CourseEntity, 'slug' | 'updatedAt'>[]> {

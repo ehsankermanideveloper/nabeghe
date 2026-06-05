@@ -25,8 +25,8 @@ export class SiteController {
       this.articleService.findLatest(4),
     ]);
     const appUrl = this.config.app.appUrl;
-    const siteName = 'بنیاد لیان امیری';
-    const desc = 'بنیاد لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
+    const siteName = 'آکادمی لیان امیری';
+    const desc = 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
     const jsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@graph': [
@@ -59,7 +59,7 @@ export class SiteController {
       latestArticles,
       pageTitle: 'آکادمی لیان امیری - صفحه اصلی',
       seoDescription: desc,
-      seoKeywords: 'بنیاد لیان امیری, آموزش رایگان, دوره آموزشی, مقاله, بنیاد خیریه',
+      seoKeywords: 'آکادمی لیان امیری, آموزش رایگان, دوره آموزشی, مقاله, آکادمی خیریه',
       seoCanonical: `${appUrl}/`,
       jsonLd,
     };
@@ -71,7 +71,7 @@ export class SiteController {
     const appUrl = this.config.app.appUrl;
     return {
       pageTitle: 'قوانین و مقررات — لیان امیری',
-      seoDescription: 'قوانین و مقررات استفاده از خدمات بنیاد لیان امیری.',
+      seoDescription: 'قوانین و مقررات استفاده از خدمات آکادمی لیان امیری.',
       seoCanonical: `${appUrl}/terms`,
       seoRobots: 'noindex, follow',
     };
@@ -82,8 +82,8 @@ export class SiteController {
   aboutUs(): object {
     const appUrl = this.config.app.appUrl;
     return {
-      pageTitle: 'درباره بنیاد لیان امیری',
-      seoDescription: 'بنیاد لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم جامعه.',
+      pageTitle: 'درباره آکادمی لیان امیری',
+      seoDescription: 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم جامعه.',
       seoCanonical: `${appUrl}/about-us`,
     };
   }

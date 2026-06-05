@@ -15,10 +15,14 @@ export class CourseEpisodeRepository extends BaseRepository<CourseEpisodeEntity>
   }
 
   findPublishedByCourseId(courseId: number): Promise<CourseEpisodeEntity[]> {
-    return this.findMany({
-      where: { courseId, status: EpisodeStatus.PUBLISHED },
-      order: { sortOrder: 'ASC' },
-    });
+    return this.createQueryBuilder('ep')
+      .leftJoin('ep.chapter', 'ch')
+      .where('ep.courseId = :courseId', { courseId })
+      .andWhere('ep.status = :status', { status: EpisodeStatus.PUBLISHED })
+      .andWhere('ep.deletedAt IS NULL')
+      .orderBy('COALESCE(ch.sortOrder, 0)', 'ASC')
+      .addOrderBy('ep.sortOrder', 'ASC')
+      .getMany();
   }
 
   findPublishedBySlugAndCourseId(

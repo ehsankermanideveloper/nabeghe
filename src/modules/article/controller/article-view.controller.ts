@@ -32,8 +32,8 @@ export class ArticleViewController {
         ? `${currentCategory.title} — مقالات — لیان امیری`
         : 'مقالات — لیان امیری',
       seoDescription: currentCategory
-        ? `مقالات ${currentCategory.title} — بنیاد لیان امیری`
-        : 'مقالات آموزشی و تخصصی — بنیاد لیان امیری',
+        ? `مقالات ${currentCategory.title} — آکادمی لیان امیری`
+        : 'مقالات آموزشی و تخصصی — آکادمی لیان امیری',
       seoCanonical: `${appUrl}/blog${catSlug}`,
       articles,
       pagination,
@@ -75,7 +75,7 @@ export class ArticleViewController {
       dateModified: article.updatedAt?.toISOString() ?? new Date().toISOString(),
       author: {
         '@type': 'Organization',
-        name: 'بنیاد لیان امیری',
+        name: 'آکادمی لیان امیری',
         '@id': `${appUrl}/#organization`,
       },
       publisher: {
@@ -87,7 +87,7 @@ export class ArticleViewController {
 
     return {
       pageTitle: `${article.title} — لیان امیری`,
-      seoDescription: article.shortDescription ?? `مقاله ${article.title} — بنیاد لیان امیری`,
+      seoDescription: article.shortDescription ?? `مقاله ${article.title} — آکادمی لیان امیری`,
       seoCanonical: articleUrl,
       ogType: 'article',
       ogImage: thumbnail,

@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%
-      const _siteName  = 'بنیاد لیان امیری';
+      const _siteName  = 'آکادمی لیان امیری';
       const _title     = (typeof pageTitle     !== 'undefined' && pageTitle)     ? pageTitle     : _siteName;
-      const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: 'بنیاد لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
+      const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
       const _robots    = (typeof seoRobots     !== 'undefined' && seoRobots)     ? seoRobots     : 'index, follow';
       const _canonical = (typeof seoCanonical  !== 'undefined' && seoCanonical)  ? seoCanonical  : null;
       const _ogType    = (typeof ogType        !== 'undefined' && ogType)        ? ogType        : 'website';
       const _ogImage   = (typeof ogImage       !== 'undefined' && ogImage)       ? ogImage       : null;
       const _jsonLd    = (typeof jsonLd        !== 'undefined' && jsonLd)        ? jsonLd        : null;
-      const _keywords  = (typeof seoKeywords   !== 'undefined' && seoKeywords)   ? seoKeywords   : 'بنیاد لیان امیری, آموزش, دوره آموزشی, مقاله';
+      const _keywords  = (typeof seoKeywords   !== 'undefined' && seoKeywords)   ? seoKeywords   : 'آکادمی لیان امیری, آموزش, دوره آموزشی, مقاله';
     %>
 
     <title><%= _title %></title>
@@ -55,6 +55,10 @@
     <% if (_jsonLd) { %>
     <script type="application/ld+json"><%- _jsonLd %></script>
     <% } %>
+
+    <!-- Preconnect to external video/asset origins -->
+    <link rel="preconnect" href="https://assets.mediadelivery.net" crossorigin />
+    <link rel="dns-prefetch" href="https://b-cdn.net" />
 
     <!-- Preload critical fonts -->
     <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-Regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -101,10 +105,13 @@
     </div>
 
     <script src="/assets/js/img-skeleton.js" defer></script>
-    <script src="/assets/js/dependencies/alpinejs.min.js" defer></script>
+    <script src="/assets/js/dependencies/alpinejs.min.js"></script>
     <% if (locals.useSwiper) { %>
     <script src="/assets/js/dependencies/swiper-bundle.min.js" defer></script>
     <script src="/assets/js/swiper-init.js" defer></script>
+    <% } %>
+    <% if (locals.useHls) { %>
+    <script src="/assets/js/dependencies/hls.min.js" defer></script>
     <% } %>
     <% if (locals.usePlyr) { %>
     <script src="/assets/js/dependencies/plyr.min.js" defer></script>

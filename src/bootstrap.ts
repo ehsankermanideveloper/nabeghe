@@ -1,5 +1,6 @@
 import cluster from 'node:cluster';
 import compression from 'compression';
+import helmet from 'helmet';
 import expressLayouts from 'express-ejs-layouts';
 import { Logger as NestLogger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -25,6 +26,12 @@ export async function bootstrapApp(): Promise<void> {
 
   await configureSession(app, config);
 
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
   app.use(compression());
   app.disable('x-powered-by');
   app.set('etag', 'strong');
@@ -46,6 +53,10 @@ export async function bootstrapApp(): Promise<void> {
     join(__dirname, 'common'),
   ]);
   httpServer.set('view engine', 'ejs');
+
+  if (config.app.nodeEnv === 'production') {
+    httpServer.set('view cache', true);
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({

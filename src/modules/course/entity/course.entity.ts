@@ -48,6 +48,7 @@ export class CourseEntity extends BaseEntity {
   @Column({ type: 'enum', enum: CourseLevel, default: CourseLevel.ALL_LEVELS })
   level!: CourseLevel;
 
+  @Index()
   @Column({ type: 'enum', enum: CourseStatus, default: CourseStatus.DRAFT })
   status!: CourseStatus;
 

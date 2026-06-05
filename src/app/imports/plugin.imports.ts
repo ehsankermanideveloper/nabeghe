@@ -1,5 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import appConfig from '../../config/app.config';
 import authConfig from '../../config/auth.config';
@@ -18,6 +19,9 @@ export const pluginImports = [
     load: [appConfig, databaseConfig, cacheConfig, loggerConfig, authConfig],
   }),
   TypedConfigModule,
+  ThrottlerModule.forRoot([
+    { name: 'default', ttl: 60_000, limit: 120 },
+  ]),
   LoggerModule.forRootAsync({
     inject: [TypedConfigService],
     useFactory: (config: TypedConfigService) =>

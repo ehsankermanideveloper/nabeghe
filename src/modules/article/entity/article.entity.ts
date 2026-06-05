@@ -26,6 +26,7 @@ export class ArticleEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 500, nullable: true })
   thumbnail!: string | null;
 
+  @Index()
   @Column({ type: 'enum', enum: ArticleStatus, default: ArticleStatus.DRAFT })
   status!: ArticleStatus;
 

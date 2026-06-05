@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { AppCacheService } from '@common/cache/cache.service';
 import type { PagedResult } from '@common/repository/base.repository';
 import { CategoryService } from '@modules/category/service/category.service';
 import type { CategoryEntity } from '@modules/category/entity/category.entity';
 import { ArticleQueryDto } from '@modules/article/dto/article-query.dto';
 import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleRepository } from '@modules/article/repository/article.repository';
+
+const LATEST_TTL = 2 * 60_000;
 
 export interface ArticleIndexData {
   articles: ArticleEntity[];
@@ -18,6 +21,7 @@ export class ArticleService {
   constructor(
     private readonly articleRepository: ArticleRepository,
     private readonly categoryService: CategoryService,
+    private readonly cache: AppCacheService,
   ) {}
 
   async findPublishedBySlugOrFail(slug: string): Promise<ArticleEntity> {
@@ -27,11 +31,17 @@ export class ArticleService {
   }
 
   findLatest(limit = 5): Promise<ArticleEntity[]> {
-    return this.articleRepository.findLatestPublished(limit);
+    return this.cache.wrap(
+      this.cache.key('article', 'latest', limit),
+      () => this.articleRepository.findLatestPublished(limit),
+      LATEST_TTL,
+    );
   }
 
   searchPublished(q: string, limit = 6): Promise<ArticleEntity[]> {
-    return this.articleRepository.findPublishedPaged({ q, page: 1, limit }).then((r) => r.data);
+    return this.articleRepository
+      .findPublishedPaged({ q, page: 1, limit })
+      .then((r) => r.data);
   }
 
   async findIndexData(dto: ArticleQueryDto): Promise<ArticleIndexData> {

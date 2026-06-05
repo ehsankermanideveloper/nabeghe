@@ -69,6 +69,24 @@
                   </li><!-- end tabs:list:item -->
 
                   <!-- tabs:list:item -->
+                  <li>
+                    <button type="button"
+                      class="flex items-center gap-x-2 w-full relative rounded-full py-2 px-4"
+                      x-bind:class="activeTab === 'tabThree' ? 'text-foreground bg-background' : 'text-muted'"
+                      x-on:click="activeTab = 'tabThree'">
+                      <span x-show="activeTab === 'tabThree'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                          <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <span x-show="activeTab !== 'tabThree'">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>
+                      </span>
+                      <span class="font-semibold text-sm whitespace-nowrap">اثرانگشت</span>
+                    </button>
+                  </li><!-- end tabs:list:item -->
                 </ul><!-- end tabs:list -->
               </div><!-- end tabs:list-container -->
 
@@ -116,7 +134,7 @@
                         </button>
 
                         <!-- popup -->
-                        <div x-show="open" x-on:click.away="open = false"
+                        <div x-show="open" x-cloak x-on:click.away="open = false"
                           class="absolute right-0 top-full mt-2 z-40 bg-background border border-border rounded-2xl shadow-2xl p-4"
                           style="width:304px">
 
@@ -323,6 +341,68 @@
                   </div>
 
                 </div><!-- end tabs:contents:tabTwo -->
+
+                <!-- tabs:contents:tabThree -->
+                <div class="space-y-5" x-show="activeTab === 'tabThree'" x-data="passkeyManagerData()">
+                  <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                      <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                      <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                    </div>
+                    <div class="font-black text-foreground">اثرانگشت‌های ثبت‌شده</div>
+                  </div>
+
+                  <!-- registered passkeys list -->
+                  <div class="space-y-3">
+                    <template x-if="passkeys.length === 0">
+                      <div class="text-sm text-muted text-center py-6">هنوز اثرانگشتی ثبت نشده است.</div>
+                    </template>
+                    <template x-for="pk in passkeys" :key="pk.id">
+                      <div class="flex items-center justify-between gap-3 bg-secondary rounded-xl px-4 py-3">
+                        <div class="flex items-center gap-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-primary flex-shrink-0">
+                            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                          </svg>
+                          <div>
+                            <div class="font-semibold text-sm text-foreground" x-text="pk.name || 'اثرانگشت بدون نام'"></div>
+                            <div class="text-xs text-muted" x-text="pk.deviceType + (pk.backedUp ? ' · پشتیبان‌گیری شده' : '')"></div>
+                          </div>
+                        </div>
+                        <button type="button" x-on:click="remove(pk.id)" x-bind:disabled="loading"
+                          class="flex-shrink-0 text-error hover:opacity-80 transition-opacity disabled:opacity-40">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- register new passkey -->
+                  <div x-show="canRegister">
+                    <div class="space-y-3">
+                      <div class="space-y-1">
+                        <label for="passkey_name" class="font-medium text-xs text-muted">نام دستگاه (اختیاری)</label>
+                        <input type="text" id="passkey_name" x-model="newName" maxlength="120" placeholder="مثلاً: گوشی اندرویدم"
+                          class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5" />
+                      </div>
+                      <div class="flex justify-end">
+                        <button type="button" x-on:click="register()" x-bind:disabled="loading"
+                          class="h-11 inline-flex items-center justify-center gap-2 bg-primary rounded-full text-white px-4 disabled:opacity-60">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" />
+                          </svg>
+                          <span class="font-semibold text-sm" x-text="loading ? 'در حال ثبت...' : 'ثبت اثرانگشت جدید'"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div x-show="!canRegister" class="text-xs text-muted text-center">
+                    مرورگر یا دستگاه شما از اثرانگشت پشتیبانی نمی‌کند.
+                  </div>
+                </div><!-- end tabs:contents:tabThree -->
+
               </div><!-- end tabs:contents -->
             </div><!-- end tabs container -->
           </div>
@@ -484,6 +564,101 @@ function profileInfoData() {
           showAlert(data.message || 'اطلاعات با موفقیت بروزرسانی شد.', 'success');
         } else {
           showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || 'خطایی رخ داد'), 'error');
+        }
+      } catch {
+        showAlert('خطا در ارتباط با سرور', 'error');
+      } finally {
+        this.loading = false;
+      }
+    },
+  };
+}
+
+function _b64uToBuffer(b64u) {
+  var bin = atob(b64u.replace(/-/g, '+').replace(/_/g, '/'));
+  var buf = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+  return buf.buffer;
+}
+function _bufToB64u(buf) {
+  var bytes = new Uint8Array(buf);
+  var bin = '';
+  for (var i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function passkeyManagerData() {
+  return {
+    loading: false,
+    canRegister: false,
+    newName: '',
+    passkeys: <%- JSON.stringify(passkeys) %>,
+
+    async init() {
+      if (window.PublicKeyCredential) {
+        this.canRegister = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().catch(() => false);
+      }
+    },
+
+    async register() {
+      this.loading = true;
+      try {
+        const optRes = await fetch('/api/passkey/register/options', { headers: { 'Accept': 'application/json' } });
+        if (!optRes.ok) { showAlert('خطا در دریافت گزینه‌های ثبت', 'error'); return; }
+        const options = await optRes.json();
+
+        options.challenge = _b64uToBuffer(options.challenge);
+        options.user.id = _b64uToBuffer(options.user.id);
+        if (options.excludeCredentials) {
+          options.excludeCredentials = options.excludeCredentials.map(function(c) {
+            return Object.assign({}, c, { id: _b64uToBuffer(c.id) });
+          });
+        }
+
+        const cred = await navigator.credentials.create({ publicKey: options });
+        const credJSON = {
+          id: cred.id,
+          rawId: _bufToB64u(cred.rawId),
+          type: cred.type,
+          response: {
+            clientDataJSON: _bufToB64u(cred.response.clientDataJSON),
+            attestationObject: _bufToB64u(cred.response.attestationObject),
+            transports: cred.response.getTransports ? cred.response.getTransports() : [],
+          },
+        };
+
+        const verRes = await fetch('/api/passkey/register/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ response: credJSON, name: this.newName.trim() || undefined }),
+        });
+        const verData = await verRes.json();
+        if (verRes.ok && verData.ok) {
+          this.passkeys.push(verData.passkey);
+          this.newName = '';
+          showAlert('اثرانگشت با موفقیت ثبت شد.', 'success');
+        } else {
+          showAlert(verData.message || 'ثبت اثرانگشت ناموفق بود', 'error');
+        }
+      } catch(e) {
+        if (e && e.name !== 'NotAllowedError') {
+          showAlert('خطا در ثبت اثرانگشت', 'error');
+        }
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async remove(id) {
+      this.loading = true;
+      try {
+        const res = await fetch('/api/passkey/' + id, { method: 'DELETE', headers: { 'Accept': 'application/json' } });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          this.passkeys = this.passkeys.filter(function(p) { return p.id !== id; });
+          showAlert('اثرانگشت حذف شد.', 'success');
+        } else {
+          showAlert(data.message || 'خطا در حذف اثرانگشت', 'error');
         }
       } catch {
         showAlert('خطا در ارتباط با سرور', 'error');

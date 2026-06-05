@@ -14,6 +14,7 @@ export enum ModelEnum {
   ARTICLE = 'article',
   ARTICLE_COMMENT = 'article_comment',
   ARTICLE_TAG = 'article_tag',
+  PASSKEY = 'passkey',
 }
 
 export enum SchemaEnum {

@@ -1,4 +1,5 @@
 <% locals.usePlyr = true; %>
+<% if (episode && episode.videoUrl && episode.videoUrl.includes('.m3u8') && !episode.videoUrl.includes('mediadelivery.net') && !episode.videoUrl.includes('bunny.net')) { locals.useHls = true; } %>
 <main class="flex-auto py-5">
   <div class="max-w-7xl space-y-8 px-4 mx-auto">
 
@@ -47,6 +48,41 @@
 
         <!-- video player -->
         <% if (episode.videoUrl) { %>
+        <% const isBunny = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net'); %>
+        <% const isHls = !isBunny && episode.videoUrl.includes('.m3u8'); %>
+        <% if (isBunny) { %>
+        <div class="rounded-3xl overflow-hidden z-10 bg-black" style="position:relative;padding-top:56.25%;">
+          <iframe
+            id="player"
+            data-src="<%= episode.videoUrl %>?responsive=true&preload=true"
+            data-course="<%= course.slug %>"
+            data-episode="<%= episode.slug %>"
+            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen"
+            allowfullscreen
+            style="border:0;position:absolute;top:0;left:0;width:100%;height:100%;"
+          ></iframe>
+          <div id="player-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;<% if (course.thumbnail) { %>background-image:url('<%= course.thumbnail %>');background-size:cover;background-position:center;<% } else { %>background:#000;<% } %>z-index:20;transition:opacity 0.3s ease;">
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>
+            <div class="relative w-12 h-12 rounded-full border-4 border-white/10 border-t-white/80 animate-spin"></div>
+          </div>
+        </div>
+        <% } else if (isHls) { %>
+        <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-black">
+          <video
+            id="player"
+            class="w-full"
+            playsinline controls
+            data-course="<%= course.slug %>"
+            data-episode="<%= episode.slug %>"
+            data-src="<%= episode.videoUrl %>"
+            <% if (course.thumbnail) { %>poster="<%= course.thumbnail %>"<% } %>
+          ></video>
+          <div id="player-loader" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style="transition:opacity 0.3s ease;">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="relative w-12 h-12 rounded-full border-4 border-white/10 border-t-white/80 animate-spin"></div>
+          </div>
+        </div>
+        <% } else { %>
         <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-black">
           <video
             id="player"
@@ -54,11 +90,16 @@
             playsinline controls
             data-course="<%= course.slug %>"
             data-episode="<%= episode.slug %>"
-            <% if (course.thumbnail) { %>data-poster="<%= course.thumbnail %>"<% } %>
+            <% if (course.thumbnail) { %>poster="<%= course.thumbnail %>"<% } %>
           >
             <source src="<%= episode.videoUrl %>" type="video/mp4" />
           </video>
+          <div id="player-loader" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style="transition:opacity 0.3s ease;">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="relative w-12 h-12 rounded-full border-4 border-white/10 border-t-white/80 animate-spin"></div>
+          </div>
         </div>
+        <% } %>
         <% } else { %>
         <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-secondary border border-border aspect-video flex items-center justify-center">
           <p class="text-muted text-sm">ویدیو در دسترس نیست</p>
@@ -244,7 +285,7 @@
                 </span>
               </button>
 
-              <div class="flex flex-col relative" x-show="open">
+              <div class="flex flex-col relative" x-show="open" x-cloak>
                 <div class="bg-background border border-border rounded-2xl space-y-1 overflow-hidden">
                   <% if (chapter.episodes) { chapter.episodes.forEach(function(ep) { epIdx++; %>
                   <%
@@ -302,7 +343,152 @@
   </div>
 </main>
 
-<% if (isEnrolled && episode.videoUrl) { %>
+<% if (episode.videoUrl) { %>
+<script>
+(function () {
+  var loader = document.getElementById('player-loader');
+  function hideLoader() {
+    if (!loader) return;
+    loader.style.opacity = '0';
+    setTimeout(function () { loader.remove(); }, 300);
+  }
+  <% if (episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net')) { %>
+  window.addEventListener('load', function () {
+    var iframe = document.getElementById('player');
+    if (!iframe) return;
+    iframe.src = iframe.dataset.src || '';
+    iframe.addEventListener('load', hideLoader, { once: true });
+  });
+  <% } else { %>
+  document.addEventListener('DOMContentLoaded', function () {
+    var video = document.getElementById('player');
+    if (video) video.addEventListener('canplay', hideLoader, { once: true });
+  });
+  <% } %>
+})();
+</script>
+<% const isBunnyScript = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net'); %>
+<% const isHlsScript = !isBunnyScript && episode.videoUrl.includes('.m3u8'); %>
+<% if (isHlsScript) { %>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var video = document.getElementById('player');
+  if (!video) return;
+  var src = video.dataset.src;
+  var courseSlug = video.dataset.course;
+  var episodeSlug = video.dataset.episode;
+
+  function onReady() {
+    <% if (isEnrolled) { %>
+    <% if (progress && progress.watchedSeconds > 0) { %>
+    video.currentTime = <%= progress.watchedSeconds %>;
+    <% } else { %>
+    var saved = localStorage.getItem('progress:' + courseSlug + ':' + episodeSlug);
+    if (saved) video.currentTime = parseFloat(saved);
+    <% } %>
+    <% } %>
+    if (window.Plyr) new Plyr(video);
+  }
+
+  if (window.Hls && Hls.isSupported()) {
+    var hls = new Hls({ maxBufferLength: 30, maxMaxBufferLength: 60 });
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, onReady);
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = src;
+    video.addEventListener('loadedmetadata', onReady, { once: true });
+  }
+
+  <% if (isEnrolled) { %>
+  var saveTimer = null;
+  async function saveProgress(isCompleted) {
+    var watchedSeconds = Math.floor(video.currentTime);
+    localStorage.setItem('progress:' + courseSlug + ':' + episodeSlug, watchedSeconds);
+    try {
+      await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ watchedSeconds: watchedSeconds, isCompleted: isCompleted || false }),
+      });
+    } catch (e) {}
+  }
+  video.addEventListener('timeupdate', function () {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { saveProgress(false); }, 5000);
+  });
+  video.addEventListener('ended', function () { saveProgress(true); });
+  <% } %>
+});
+</script>
+<% if (isEnrolled) { %>
+<script>
+async function markComplete(courseSlug, episodeSlug) {
+  try {
+    const video = document.getElementById('player');
+    const res = await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ watchedSeconds: Math.floor(video ? video.currentTime : 0), isCompleted: true }),
+    });
+    if (res.ok) { window.location.reload(); }
+  } catch { }
+}
+</script>
+<% } %>
+<% } else if (isBunnyScript && isEnrolled) { %>
+<script src="https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js"></script>
+<script>
+(function () {
+  const iframe = document.getElementById('player');
+  if (!iframe) return;
+  const courseSlug = iframe.dataset.course;
+  const episodeSlug = iframe.dataset.episode;
+  const storageKey = 'progress:' + courseSlug + ':' + episodeSlug;
+  let saveTimer = null;
+  let currentSeconds = 0;
+
+  async function saveProgress(isCompleted) {
+    localStorage.setItem(storageKey, currentSeconds);
+    try {
+      await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ watchedSeconds: currentSeconds, isCompleted: isCompleted || false }),
+      });
+    } catch { }
+  }
+
+  var player = new playerjs.Player(iframe);
+  player.on('ready', function () {
+    <% if (progress && progress.watchedSeconds > 0) { %>
+    player.setCurrentTime(<%= progress.watchedSeconds %>);
+    <% } else { %>
+    var saved = localStorage.getItem(storageKey);
+    if (saved) player.setCurrentTime(parseFloat(saved));
+    <% } %>
+  });
+  player.on('timeupdate', function (data) {
+    currentSeconds = Math.floor(data.seconds || 0);
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { saveProgress(false); }, 5000);
+  });
+  player.on('ended', function () { saveProgress(true); });
+})();
+
+async function markComplete(courseSlug, episodeSlug) {
+  try {
+    const saved = parseInt(localStorage.getItem('progress:' + courseSlug + ':' + episodeSlug) || '0', 10);
+    const res = await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ watchedSeconds: saved, isCompleted: true }),
+    });
+    if (res.ok) { window.location.reload(); }
+  } catch { }
+}
+</script>
+<% } else if (!isBunnyScript && !isHlsScript && isEnrolled) { %>
 <script>
 (function () {
   const video = document.getElementById('player');
@@ -330,11 +516,11 @@
     } catch { }
   }
 
-  video.addEventListener('timeupdate', function() {
+  video.addEventListener('timeupdate', function () {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(function() { saveProgress(false); }, 5000);
+    saveTimer = setTimeout(function () { saveProgress(false); }, 5000);
   });
-  video.addEventListener('ended', function() { saveProgress(true); });
+  video.addEventListener('ended', function () { saveProgress(true); });
 })();
 
 async function markComplete(courseSlug, episodeSlug) {
@@ -349,4 +535,5 @@ async function markComplete(courseSlug, episodeSlug) {
   } catch { }
 }
 </script>
+<% } %>
 <% } %>
