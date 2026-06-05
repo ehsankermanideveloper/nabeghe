@@ -6,15 +6,18 @@ import { ArticleApiController } from '@modules/article/controller/article-api.co
 import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleCommentEntity } from '@modules/article/entity/article-comment.entity';
 import { ArticleTagEntity } from '@modules/article/entity/article-tag.entity';
+import { ArticleWishlistEntity } from '@modules/article/entity/article-wishlist.entity';
 import { ArticleRepository } from '@modules/article/repository/article.repository';
 import { ArticleCommentRepository } from '@modules/article/repository/article-comment.repository';
 import { ArticleTagRepository } from '@modules/article/repository/article-tag.repository';
+import { ArticleWishlistRepository } from '@modules/article/repository/article-wishlist.repository';
 import { ArticleService } from '@modules/article/service/article.service';
 import { ArticleCommentService } from '@modules/article/service/article-comment.service';
+import { ArticleWishlistService } from '@modules/article/service/article-wishlist.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArticleEntity, ArticleCommentEntity, ArticleTagEntity]),
+    TypeOrmModule.forFeature([ArticleEntity, ArticleCommentEntity, ArticleTagEntity, ArticleWishlistEntity]),
     CategoryModule,
   ],
   controllers: [ArticleViewController, ArticleApiController],
@@ -22,9 +25,11 @@ import { ArticleCommentService } from '@modules/article/service/article-comment.
     ArticleRepository,
     ArticleCommentRepository,
     ArticleTagRepository,
+    ArticleWishlistRepository,
     ArticleService,
     ArticleCommentService,
+    ArticleWishlistService,
   ],
-  exports: [ArticleService, ArticleCommentService],
+  exports: [ArticleService, ArticleCommentService, ArticleWishlistService],
 })
 export class ArticleModule {}

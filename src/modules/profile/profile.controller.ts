@@ -9,6 +9,7 @@ import { CourseCommentService } from '@modules/course/service/course-comment.ser
 import { CourseEnrollmentService } from '@modules/course/service/course-enrollment.service';
 import { CourseProgressService } from '@modules/course/service/course-progress.service';
 import { CourseWishlistService } from '@modules/course/service/course-wishlist.service';
+import { ArticleWishlistService } from '@modules/article/service/article-wishlist.service';
 
 @Controller('profile')
 @UseGuards(SessionAuthGuard)
@@ -19,6 +20,7 @@ export class ProfileController {
     private readonly enrollmentService: CourseEnrollmentService,
     private readonly progressService: CourseProgressService,
     private readonly wishlistService: CourseWishlistService,
+    private readonly articleWishlistService: ArticleWishlistService,
     private readonly commentService: CourseCommentService,
   ) {}
 
@@ -101,7 +103,10 @@ export class ProfileController {
     @Req() req: Request,
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
-    const wishlist = await this.wishlistService.getMyWishlist(user.id);
+    const [wishlist, articleWishlist] = await Promise.all([
+      this.wishlistService.getMyWishlist(user.id),
+      this.articleWishlistService.getMyWishlist(user.id),
+    ]);
 
     return {
       pageTitle: 'علاقه‌مندی‌ها — لیان امیری',
@@ -109,6 +114,7 @@ export class ProfileController {
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
       wishlist,
+      articleWishlist,
     };
   }
 

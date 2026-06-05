@@ -140,6 +140,87 @@
 
             <% } %>
           </div>
+
+          <!-- articles wishlist section -->
+          <div class="space-y-5">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1">
+                <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                <div class="w-2 h-2 bg-foreground rounded-full"></div>
+              </div>
+              <div class="font-black text-foreground">مقالاتی که پسندیدید</div>
+            </div>
+
+            <% if (!articleWishlist || articleWishlist.length === 0) { %>
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-muted/30 mb-3">
+                <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+              </svg>
+              <p class="text-muted text-sm mb-4">هنوز مقاله‌ای به علاقه‌مندی‌ها اضافه نکرده‌اید</p>
+              <a href="/blog" class="h-10 inline-flex items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground hover:opacity-80 transition-opacity">
+                مشاهده مقالات
+              </a>
+            </div>
+            <% } else { %>
+
+            <div class="divide-y divide-dashed divide-border">
+              <% articleWishlist.forEach(function(item) { %>
+              <% const a = item.article; %>
+              <div class="wishlist-article-row flex sm:flex-nowrap flex-wrap items-start gap-6 relative py-6">
+                <div class="sm:w-4/12 w-full">
+                  <a href="/blog/<%= a.slug %>" class="block">
+                    <% if (a.thumbnail) { %>
+                    <img src="<%= a.thumbnail %>" class="max-w-full rounded-2xl w-full aspect-video object-cover" alt="<%= a.title %>" />
+                    <% } else { %>
+                    <div class="w-full aspect-video bg-secondary rounded-2xl flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10 text-muted/30">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+                      </svg>
+                    </div>
+                    <% } %>
+                  </a>
+                </div>
+                <div class="sm:w-8/12 w-full space-y-3">
+                  <h2 class="font-bold text-sm">
+                    <a href="/blog/<%= a.slug %>" class="text-foreground transition-colors hover:text-primary line-clamp-2"><%= a.title %></a>
+                  </h2>
+                  <% if (a.shortDescription) { %>
+                  <p class="text-xs text-muted line-clamp-2"><%= a.shortDescription %></p>
+                  <% } %>
+                  <div class="flex items-center gap-3 text-muted">
+                    <% if (a.category) { %>
+                    <span class="inline-flex items-center h-6 px-3 rounded-full bg-primary/10 text-primary text-xs font-semibold"><%= a.category.title %></span>
+                    <% } %>
+                    <% if (a.readTime > 0) { %>
+                    <span class="text-xs font-medium"><%= a.readTime %> دقیقه مطالعه</span>
+                    <% } %>
+                  </div>
+                  <div class="flex gap-3 pt-1">
+                    <a href="/blog/<%= a.slug %>"
+                      class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                      <span class="font-semibold text-sm">مطالعه مقاله</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                      </svg>
+                    </a>
+                    <button type="button"
+                      class="flex-shrink-0 w-11 h-11 inline-flex items-center justify-center bg-secondary rounded-full text-red-500 transition-colors hover:bg-red-500/10"
+                      onclick="toggleWishlistArticle('<%= a.slug %>', this)"
+                      title="حذف از علاقه‌مندی‌ها">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+            </div>
+
+            <% } %>
+          </div>
+          <!-- end articles wishlist section -->
+
         </div>
       </div>
     </div>

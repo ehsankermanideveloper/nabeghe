@@ -75,6 +75,37 @@ window.toggleWishlistCard = function (slug, btn) {
         });
 };
 
+window.toggleWishlistArticle = function (slug, btn) {
+    btn.disabled = true;
+    fetch("/api/blog/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
+        .then(function (res) {
+            if (res.status === 401) {
+                showAlert("برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید", "warning");
+                return null;
+            }
+            return res.json();
+        })
+        .then(function (data) {
+            if (!data) return;
+            if (data.wishlisted) {
+                btn.classList.remove("text-muted");
+                btn.classList.add("text-red-500");
+            } else {
+                btn.classList.remove("text-red-500");
+                btn.classList.add("text-muted");
+            }
+            var row = btn.closest(".wishlist-article-row");
+            if (row && !data.wishlisted) row.remove();
+            showAlert(data.message, data.wishlisted ? "success" : "info");
+        })
+        .catch(function () {
+            showAlert("خطایی رخ داد، دوباره تلاش کنید", "error");
+        })
+        .finally(function () {
+            btn.disabled = false;
+        });
+};
+
 // Dark mode toggle (initial class is set via inline script in <head>)
 const darkModeCheckbox = document.querySelector("#dark-mode-checkbox");
 if (darkModeCheckbox) {
