@@ -114,8 +114,7 @@
     <script src="/assets/js/dependencies/hls.min.js" defer></script>
     <% } %>
     <% if (locals.usePlyr) { %>
-    <script src="/assets/js/dependencies/plyr.min.js" defer></script>
-    <script defer>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.js-player').forEach(function(p){new Plyr(p);});});</script>
+    <script src="/assets/js/dependencies/plyr.min.js" defer onload="document.querySelectorAll('.js-player').forEach(function(p){new Plyr(p);})"></script>
     <% } %>
     <script src="/assets/js/app.js" defer></script>
   </body>
