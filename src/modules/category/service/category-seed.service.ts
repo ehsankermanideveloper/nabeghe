@@ -45,7 +45,7 @@ export class CategorySeedService implements OnModuleInit {
   ): Promise<void> {
     const entity = this.categoryRepository.build({
       parentId,
-      title: node.title,
+      title: { fa: node.title },
       slug: node.slug,
       sortOrder: node.sortOrder,
       isActive: true,

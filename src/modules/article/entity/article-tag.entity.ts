@@ -9,8 +9,8 @@ export class ArticleTagEntity extends BaseEntity {
   @Column({ name: 'article_id', type: 'int' })
   articleId!: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Index()
   @Column({ type: 'varchar', length: 100 })

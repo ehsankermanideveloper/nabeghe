@@ -28,8 +28,9 @@ export class SessionAuthGuard implements CanActivate {
 
     if (this.prefersHtml(req)) {
       const res = context.switchToHttp().getResponse<Response>();
+      const lp: string = res.locals.lp ?? '';
       const returnTo = encodeURIComponent(req.originalUrl);
-      res.redirect(`/auth/login?returnTo=${returnTo}`);
+      res.redirect(`${lp}/auth/login?returnTo=${returnTo}`);
       return false;
     }
 

@@ -13,8 +13,8 @@
         clip-rule="evenodd"
       ></path>
     </svg>
-    <span class="font-semibold text-xs">دسته بندی آموزشها</span>
-    <span class="absolute left-3 transition-transform" x-bind:class="open ? 'rotate-180' : ''">
+    <span class="font-semibold text-xs"><%= t('nav_category') %></span>
+    <span class="absolute <%= dir === 'ltr' ? 'right-3' : 'left-3' %> transition-transform" x-bind:class="open ? 'rotate-180' : ''">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
       </svg>
@@ -24,11 +24,11 @@
   <div class="flex flex-col" x-show="open" x-transition x-cloak style="display: none">
 
     <a
-      href="/courses"
+      href="<%= lp %>/courses"
       class="flex items-center gap-2 text-primary font-bold text-xs py-2 px-3 rounded-xl hover:bg-secondary transition-colors"
     >
       <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
-      همه دسته‌بندی‌ها
+      <%= t('nav_all_categories') %>
     </a>
 
     <% if (typeof menuCategories !== 'undefined') { %>
@@ -36,11 +36,11 @@
     <div x-data="{ openChild: false }">
       <div class="flex items-center">
         <a
-          href="<%= item.href %>"
+          href="<%= lp %><%= item.href %>"
           class="flex-1 flex items-center gap-2 text-foreground font-semibold text-xs py-2 px-3 rounded-xl hover:text-primary transition-colors"
         >
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-border shrink-0"></span>
-          <%= item.title %>
+          <%= loc(item.title) %>
         </a>
         <% if (item.children && item.children.length > 0) { %>
         <button
@@ -56,15 +56,15 @@
         <% } %>
       </div>
       <% if (item.children && item.children.length > 0) { %>
-      <ul class="flex flex-col pr-6 border-r border-border mr-4" x-show="openChild" x-cloak x-transition>
+      <ul class="flex flex-col <%= dir === 'ltr' ? 'pl-6 border-l ml-4' : 'pr-6 border-r mr-4' %> border-border" x-show="openChild" x-cloak x-transition>
         <% item.children.forEach(function(child) { %>
         <li>
           <a
-            href="<%= child.href %>"
+            href="<%= lp %><%= child.href %>"
             class="flex items-center gap-2 text-muted text-xs font-medium py-1.5 px-3 rounded-xl hover:text-primary transition-colors"
           >
             <span class="inline-block w-1 h-1 rounded-full bg-border shrink-0"></span>
-            <%= child.title %>
+            <%= loc(child.title) %>
           </a>
         </li>
         <% }) %>

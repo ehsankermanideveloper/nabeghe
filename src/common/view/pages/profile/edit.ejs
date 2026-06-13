@@ -14,7 +14,7 @@
                 <div class="w-1 h-1 bg-foreground rounded-full"></div>
                 <div class="w-2 h-2 bg-foreground rounded-full"></div>
               </div>
-              <div class="font-black text-foreground">ویرایش پروفایل</div>
+              <div class="font-black text-foreground"><%= t('profile_edit_title') %></div>
             </div>
             <!-- end section:title -->
 
@@ -42,7 +42,7 @@
                           <path d="M16.7574 2.99677L14.7574 4.99677H5V18.9968H19V9.23941L21 7.23941V19.9968C21 20.5491 20.5523 20.9968 20 20.9968H4C3.44772 20.9968 3 20.5491 3 19.9968V3.99677C3 3.44448 3.44772 2.99677 4 2.99677H16.7574ZM20.4853 2.09727L21.8995 3.51149L12.7071 12.7039L11.2954 12.7063L11.2929 11.2897L20.4853 2.09727Z" />
                         </svg>
                       </span><!-- end inactive icon -->
-                      <span class="font-semibold text-sm whitespace-nowrap">اطلاعات حساب</span>
+                      <span class="font-semibold text-sm whitespace-nowrap"><%= t('profile_account_info') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
 
@@ -64,7 +64,7 @@
                           <path d="M7 4V20H17V4H7ZM6 2H18C18.5523 2 19 2.44772 19 3V21C19 21.5523 18.5523 22 18 22H6C5.44772 22 5 21.5523 5 21V3C5 2.44772 5.44772 2 6 2ZM12 17C12.5523 17 13 17.4477 13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17Z" />
                         </svg>
                       </span><!-- end inactive icon -->
-                      <span class="font-semibold text-sm whitespace-nowrap">شماره موبایل</span>
+                      <span class="font-semibold text-sm whitespace-nowrap"><%= t('profile_phone') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
 
@@ -84,7 +84,7 @@
                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                         </svg>
                       </span>
-                      <span class="font-semibold text-sm whitespace-nowrap">اثرانگشت</span>
+                      <span class="font-semibold text-sm whitespace-nowrap"><%= t('profile_fingerprints') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
                 </ul><!-- end tabs:list -->
@@ -99,13 +99,13 @@
                       <div class="w-1 h-1 bg-foreground rounded-full"></div>
                       <div class="w-2 h-2 bg-foreground rounded-full"></div>
                     </div>
-                    <div class="font-black text-foreground">اطلاعات حساب</div>
+                    <div class="font-black text-foreground"><%= t('profile_account_info') %></div>
                   </div>
 
                   <form x-data="profileInfoData()" x-on:submit.prevent="submit()" class="space-y-5">
                     <div class="grid sm:grid-cols-2 gap-5">
                       <div class="space-y-1">
-                        <label for="fullname" class="font-medium text-xs text-muted">نام و نام خانوادگی (فارسی)</label>
+                        <label for="fullname" class="font-medium text-xs text-muted"><%= t('profile_fullname_label') %></label>
                         <input type="text" id="fullname" x-model="displayName"
                           class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5" />
                       </div>
@@ -115,18 +115,18 @@
                         <div class="w-1 h-1 bg-foreground rounded-full"></div>
                         <div class="w-2 h-2 bg-foreground rounded-full"></div>
                       </div>
-                      <div class="font-black text-foreground">اطلاعات فردی</div>
+                      <div class="font-black text-foreground"><%= t('profile_personal_info') %></div>
                     </div>
                     <div class="space-y-1" x-data="jalaliPicker('<%= user.birthday || '' %>')" x-init="build()">
-                      <label class="font-medium text-xs text-muted">تاریخ تولد</label>
+                      <label class="font-medium text-xs text-muted"><%= t('profile_birthday') %></label>
                       <input type="hidden" name="birthday" x-bind:value="value" />
                       <div class="relative">
 
                         <!-- trigger -->
                         <button type="button" x-on:click="toggle()"
                           class="flex items-center w-full h-11 relative bg-secondary border border-border rounded-xl font-semibold text-xs text-right text-foreground px-3">
-                          <span class="line-clamp-1" x-text="display || 'انتخاب تاریخ تولد'"></span>
-                          <span class="absolute left-3 pointer-events-none transition-transform" x-bind:class="open ? 'rotate-180' : ''">
+                          <span class="line-clamp-1" x-text="display || '<%= t('profile_birthday_placeholder') %>'"></span>
+                          <span class="absolute <%= dir === 'ltr' ? 'right-3' : 'left-3' %> pointer-events-none transition-transform" x-bind:class="open ? 'rotate-180' : ''">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                             </svg>
@@ -135,7 +135,7 @@
 
                         <!-- popup -->
                         <div x-show="open" x-cloak x-on:click.away="open = false"
-                          class="absolute right-0 top-full mt-2 z-40 bg-background border border-border rounded-2xl shadow-2xl p-4"
+                          class="absolute <%= dir === 'ltr' ? 'left-0' : 'right-0' %> top-full mt-2 z-40 bg-background border border-border rounded-2xl shadow-2xl p-4"
                           style="width:304px">
 
                           <!-- ═══ view: cal ═══ -->
@@ -219,7 +219,7 @@
 
                           <!-- ═══ view: years ═══ -->
                           <div x-show="view === 'years'">
-                            <div class="font-bold text-sm text-foreground text-center mb-3">انتخاب سال</div>
+                            <div class="font-bold text-sm text-foreground text-center mb-3"><%= t('profile_year_select') %></div>
                             <div x-ref="yearList" style="max-height:232px;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
                               <template x-for="y in yearRange" :key="y">
                                 <button type="button" x-on:click="pickYear(y)"
@@ -235,14 +235,14 @@
                       </div>
                     </div>
                     <div class="space-y-1">
-                      <label for="bio" class="font-medium text-xs text-muted">درباره من</label>
+                      <label for="bio" class="font-medium text-xs text-muted"><%= t('profile_about_me') %></label>
                       <textarea rows="5" id="bio" x-model="bio"
                         class="form-textarea w-full !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5"></textarea>
                     </div>
                     <div class="flex justify-end gap-5">
                       <button type="submit" x-bind:disabled="loading"
                         class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-full text-white px-4 mr-auto disabled:opacity-60">
-                        <span class="font-semibold text-sm" x-text="loading ? 'در حال بروزرسانی...' : 'بروزرسانی'"></span>
+                        <span class="font-semibold text-sm" x-text="loading ? '<%= t('btn_updating') %>' : '<%= t('btn_update') %>'"></span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
                         </svg>
@@ -258,7 +258,7 @@
                       <div class="w-1 h-1 bg-foreground rounded-full"></div>
                       <div class="w-2 h-2 bg-foreground rounded-full"></div>
                     </div>
-                    <div class="font-black text-foreground">شماره موبایل</div>
+                    <div class="font-black text-foreground"><%= t('profile_phone') %></div>
                   </div>
 
                   <!-- alert -->
@@ -270,19 +270,19 @@
                       </svg>
                     </span>
                     <div class="flex flex-col items-start">
-                      <div class="font-bold text-sm text-blue-500 mb-2">توجه :‌</div>
+                      <div class="font-bold text-sm text-blue-500 mb-2"><%= t('profile_phone_notice_title') %> :‌</div>
                       <div class="font-semibold text-xs text-zinc-400">
-                        <p class="mb-3">شماره تلفن شما برای کارهای مختلفی در سایت مورد استفاده قرار میگیرد با وارد کردن شماره تلفن خود و فعال کردن آن میتوانید بخشی از فعالیت های خود را در لیان امیری سریع تر انجام دهید.</p>
+                        <p class="mb-3"><%= t('profile_phone_notice_body') %></p>
                         <ul>
-                          <li>۱.ورود به سایت تماما با شماره تلفن همراه انجام خواهد شد.</li>
-                          <li>۲.در هنگام ورود به سایت پیامکی برای شما ارسال میشود تا از ورود‌های بدون اجازه مطلع شوید.</li>
+                          <li><%= t('profile_phone_notice_item1') %></li>
+                          <li><%= t('profile_phone_notice_item2') %></li>
                         </ul>
                       </div>
                       <div class="flex flex-wrap items-center gap-3 mt-5">
                         <button type="button"
                           class="flex items-center gap-x-1 text-zinc-400 underline-offset-1 hover:underline"
                           x-on:click="alertOpen = false">
-                          <span class="font-bold text-xs">فهمیدم</span>
+                          <span class="font-bold text-xs"><%= t('btn_understood') %></span>
                         </button>
                       </div>
                     </div>
@@ -292,13 +292,13 @@
                   <div x-show="step === 1" class="space-y-5">
                     <div class="flex flex-col gap-5">
                       <div class="space-y-1 sm:w-1/2">
-                        <label class="block font-medium text-xs text-muted">شماره تماس فعلی</label>
+                        <label class="block font-medium text-xs text-muted"><%= t('profile_current_phone') %></label>
                         <input type="text" dir="ltr"
                           class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground disabled:text-muted px-5"
                           x-bind:value="currentPhone" disabled />
                       </div>
                       <div class="space-y-1 sm:w-1/2">
-                        <label for="new_phone" class="block font-medium text-xs text-muted">شماره تماس جدید</label>
+                        <label for="new_phone" class="block font-medium text-xs text-muted"><%= t('profile_new_phone') %></label>
                         <input type="text" dir="ltr" id="new_phone" placeholder="09xxxxxxxxx"
                           x-model="newPhone"
                           x-on:input="newPhone = normalizeDigits($event.target.value)"
@@ -308,7 +308,7 @@
                     <div class="flex justify-end">
                       <button type="button" x-on:click="requestOtp()" x-bind:disabled="loading"
                         class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-full text-white px-4 disabled:opacity-60">
-                        <span class="font-semibold text-sm" x-text="loading ? 'در حال ارسال...' : 'ارسال کد تایید'"></span>
+                        <span class="font-semibold text-sm" x-text="loading ? '<%= t('btn_sending') %>' : '<%= t('btn_send_otp') %>'"></span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
                         </svg>
@@ -319,7 +319,7 @@
                   <!-- step 2: verify OTP -->
                   <div x-show="step === 2" class="space-y-5">
                     <div class="space-y-1 sm:w-1/2">
-                      <label for="otp_code" class="block font-medium text-xs text-muted">کد تایید</label>
+                      <label for="otp_code" class="block font-medium text-xs text-muted"><%= t('profile_otp_code') %></label>
                       <input type="text" dir="ltr" id="otp_code" maxlength="8" autocomplete="one-time-code"
                         x-model="code"
                         x-on:input="code = normalizeDigits($event.target.value)"
@@ -328,11 +328,11 @@
                     <div class="flex items-center justify-between gap-5">
                       <button type="button" x-on:click="step = 1"
                         class="h-11 inline-flex items-center justify-center gap-2 border border-border rounded-full text-muted px-4 text-sm font-semibold hover:text-foreground transition-colors">
-                        انصراف
+                        <%= t('btn_cancel') %>
                       </button>
                       <button type="button" x-on:click="verifyOtp()" x-bind:disabled="loading"
                         class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-full text-white px-4 disabled:opacity-60">
-                        <span class="font-semibold text-sm" x-text="loading ? 'در حال تایید...' : 'تایید شماره'"></span>
+                        <span class="font-semibold text-sm" x-text="loading ? '<%= t('btn_verifying') %>' : '<%= t('btn_verify_phone') %>'"></span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                         </svg>
@@ -349,13 +349,13 @@
                       <div class="w-1 h-1 bg-foreground rounded-full"></div>
                       <div class="w-2 h-2 bg-foreground rounded-full"></div>
                     </div>
-                    <div class="font-black text-foreground">اثرانگشت‌های ثبت‌شده</div>
+                    <div class="font-black text-foreground"><%= t('profile_fingerprints_registered') %></div>
                   </div>
 
                   <!-- registered passkeys list -->
                   <div class="space-y-3">
                     <template x-if="passkeys.length === 0">
-                      <div class="text-sm text-muted text-center py-6">هنوز اثرانگشتی ثبت نشده است.</div>
+                      <div class="text-sm text-muted text-center py-6"><%= t('profile_no_fingerprints') %></div>
                     </template>
                     <template x-for="pk in passkeys" :key="pk.id">
                       <div class="flex items-center justify-between gap-3 bg-secondary rounded-xl px-4 py-3">
@@ -364,8 +364,8 @@
                             <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
                           </svg>
                           <div>
-                            <div class="font-semibold text-sm text-foreground" x-text="pk.name || 'اثرانگشت بدون نام'"></div>
-                            <div class="text-xs text-muted" x-text="pk.deviceType + (pk.backedUp ? ' · پشتیبان‌گیری شده' : '')"></div>
+                            <div class="font-semibold text-sm text-foreground" x-text="pk.name || '<%= t('profile_fingerprint_no_name') %>'"></div>
+                            <div class="text-xs text-muted" x-text="pk.deviceType + (pk.backedUp ? ' · <%= t('profile_fingerprint_backed_up') %>' : '')"></div>
                           </div>
                         </div>
                         <button type="button" x-on:click="remove(pk.id)" x-bind:disabled="loading"
@@ -382,8 +382,8 @@
                   <div x-show="canRegister">
                     <div class="space-y-3">
                       <div class="space-y-1">
-                        <label for="passkey_name" class="font-medium text-xs text-muted">نام دستگاه (اختیاری)</label>
-                        <input type="text" id="passkey_name" x-model="newName" maxlength="120" placeholder="مثلاً: گوشی اندرویدم"
+                        <label for="passkey_name" class="font-medium text-xs text-muted"><%= t('profile_device_name_label') %></label>
+                        <input type="text" id="passkey_name" x-model="newName" maxlength="120" placeholder="<%= t('profile_device_name_placeholder') %>"
                           class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5" />
                       </div>
                       <div class="flex justify-end">
@@ -392,14 +392,14 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" />
                           </svg>
-                          <span class="font-semibold text-sm" x-text="loading ? 'در حال ثبت...' : 'ثبت اثرانگشت جدید'"></span>
+                          <span class="font-semibold text-sm" x-text="loading ? '<%= t('btn_registering') %>' : '<%= t('btn_register_fingerprint') %>'"></span>
                         </button>
                       </div>
                     </div>
                   </div>
 
                   <div x-show="!canRegister" class="text-xs text-muted text-center">
-                    مرورگر یا دستگاه شما از اثرانگشت پشتیبانی نمی‌کند.
+                    <%= t('profile_fingerprint_not_supported') %>
                   </div>
                 </div><!-- end tabs:contents:tabThree -->
 
@@ -547,26 +547,26 @@ function jalaliPicker(initial) {
 function profileInfoData() {
   return {
     loading: false,
-    displayName: <%- JSON.stringify(user.displayName || '') %>,
+    displayName: <%- JSON.stringify((user.displayName && (user.displayName['fa'] || Object.values(user.displayName)[0])) || '') %>,
     bio: <%- JSON.stringify(user.bio || '') %>,
 
     async submit() {
       this.loading = true;
       try {
         const birthday = this.$el.querySelector('[name="birthday"]')?.value ?? '';
-        const res = await fetch('/api/profile/info', {
+        const res = await fetch((window._lp || '') + '/api/profile/info', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ displayName: this.displayName, birthday, bio: this.bio }),
         });
         const data = await res.json();
         if (res.ok) {
-          showAlert(data.message || 'اطلاعات با موفقیت بروزرسانی شد.', 'success');
+          showAlert(data.message || '<%= t('msg_update_success') %>', 'success');
         } else {
-          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || 'خطایی رخ داد'), 'error');
+          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || '<%= t('msg_error_generic') %>'), 'error');
         }
       } catch {
-        showAlert('خطا در ارتباط با سرور', 'error');
+        showAlert('<%= t('msg_error_server') %>', 'error');
       } finally {
         this.loading = false;
       }
@@ -603,8 +603,8 @@ function passkeyManagerData() {
     async register() {
       this.loading = true;
       try {
-        const optRes = await fetch('/api/passkey/register/options', { headers: { 'Accept': 'application/json' } });
-        if (!optRes.ok) { showAlert('خطا در دریافت گزینه‌های ثبت', 'error'); return; }
+        const optRes = await fetch((window._lp || '') + '/api/passkey/register/options', { headers: { 'Accept': 'application/json' } });
+        if (!optRes.ok) { showAlert('<%= t('msg_fingerprint_options_error') %>', 'error'); return; }
         const options = await optRes.json();
 
         options.challenge = _b64uToBuffer(options.challenge);
@@ -627,7 +627,7 @@ function passkeyManagerData() {
           },
         };
 
-        const verRes = await fetch('/api/passkey/register/verify', {
+        const verRes = await fetch((window._lp || '') + '/api/passkey/register/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ response: credJSON, name: this.newName.trim() || undefined }),
@@ -636,13 +636,13 @@ function passkeyManagerData() {
         if (verRes.ok && verData.ok) {
           this.passkeys.push(verData.passkey);
           this.newName = '';
-          showAlert('اثرانگشت با موفقیت ثبت شد.', 'success');
+          showAlert('<%= t('msg_fingerprint_registered') %>', 'success');
         } else {
-          showAlert(verData.message || 'ثبت اثرانگشت ناموفق بود', 'error');
+          showAlert(verData.message || '<%= t('msg_fingerprint_failed') %>', 'error');
         }
       } catch(e) {
         if (e && e.name !== 'NotAllowedError') {
-          showAlert('خطا در ثبت اثرانگشت', 'error');
+          showAlert('<%= t('msg_fingerprint_register_error') %>', 'error');
         }
       } finally {
         this.loading = false;
@@ -652,16 +652,16 @@ function passkeyManagerData() {
     async remove(id) {
       this.loading = true;
       try {
-        const res = await fetch('/api/passkey/' + id, { method: 'DELETE', headers: { 'Accept': 'application/json' } });
+        const res = await fetch((window._lp || '') + '/api/passkey/' + id, { method: 'DELETE', headers: { 'Accept': 'application/json' } });
         const data = await res.json();
         if (res.ok && data.ok) {
           this.passkeys = this.passkeys.filter(function(p) { return p.id !== id; });
-          showAlert('اثرانگشت حذف شد.', 'success');
+          showAlert('<%= t('msg_fingerprint_removed') %>', 'success');
         } else {
-          showAlert(data.message || 'خطا در حذف اثرانگشت', 'error');
+          showAlert(data.message || '<%= t('msg_fingerprint_delete_error') %>', 'error');
         }
       } catch {
-        showAlert('خطا در ارتباط با سرور', 'error');
+        showAlert('<%= t('msg_error_server') %>', 'error');
       } finally {
         this.loading = false;
       }
@@ -685,7 +685,7 @@ function phoneChangeData() {
     async requestOtp() {
       this.loading = true;
       try {
-        const res = await fetch('/api/profile/phone/request', {
+        const res = await fetch((window._lp || '') + '/api/profile/phone/request', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ phone: this.newPhone }),
@@ -694,12 +694,12 @@ function phoneChangeData() {
         if (res.ok) {
           this.masked = data.masked;
           this.step = 2;
-          showAlert(`کد با موفقیت به شماره ${this.newPhone} ارسال شد` , 'success')
+          showAlert('<%= t('msg_otp_sent') %>'.replace('{phone}', this.newPhone), 'success')
         } else {
-          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || 'خطایی رخ داد'), 'error');
+          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || '<%= t('msg_error_generic') %>'), 'error');
         }
       } catch {
-        showAlert('خطا در ارتباط با سرور', 'error');
+        showAlert('<%= t('msg_error_server') %>', 'error');
       } finally {
         this.loading = false;
       }
@@ -707,7 +707,7 @@ function phoneChangeData() {
     async verifyOtp() {
       this.loading = true;
       try {
-        const res = await fetch('/api/profile/phone/verify', {
+        const res = await fetch((window._lp || '') + '/api/profile/phone/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ code: this.code }),
@@ -718,12 +718,12 @@ function phoneChangeData() {
           this.newPhone = '';
           this.code = '';
           this.step = 1;
-          showAlert('شماره موبایل با موفقیت تغییر یافت.', 'success');
+          showAlert('<%= t('msg_phone_changed') %>', 'success');
         } else {
-          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || 'خطایی رخ داد'), 'error');
+          showAlert(Array.isArray(data.message) ? data.message.join(' ') : (data.message || '<%= t('msg_error_generic') %>'), 'error');
         }
       } catch {
-        showAlert('خطا در ارتباط با سرور', 'error');
+        showAlert('<%= t('msg_error_server') %>', 'error');
       } finally {
         this.loading = false;
       }

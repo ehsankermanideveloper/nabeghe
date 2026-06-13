@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0891b2"/>
+      <stop offset="100%" style="stop-color:#0e7490"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <circle cx="660" cy="80" r="190" fill="#22d3ee" opacity="0.2" filter="url(#blur)"/>
+  <circle cx="100" cy="390" r="160" fill="#164e63" opacity="0.4" filter="url(#blur)"/>
+  <!-- Flask icon -->
+  <g transform="translate(400,185)" fill="white" opacity="0.13">
+    <rect x="-15" y="-90" width="30" height="60" rx="4"/>
+    <polygon points="-15,-30 -55,60 55,60 15,-30"/>
+    <ellipse cx="0" cy="60" rx="55" ry="12" fill="white" opacity="0.5"/>
+    <circle cx="-15" cy="30" r="10"/>
+    <circle cx="18" cy="10" r="7"/>
+    <circle cx="-5" cy="48" r="8"/>
+  </g>
+  <text x="400" y="330" font-family="serif" font-size="52" font-weight="bold" fill="white" text-anchor="middle" opacity="0.95">کیمیا</text>
+  <text x="400" y="375" font-family="serif" font-size="22" fill="white" text-anchor="middle" opacity="0.6">د لیان امیري اکاډمي</text>
+</svg>

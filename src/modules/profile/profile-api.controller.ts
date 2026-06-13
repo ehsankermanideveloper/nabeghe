@@ -13,11 +13,13 @@ export class ProfileApiController {
   @Post('info')
   @HttpCode(200)
   async updateInfo(
+    @Req() req: Request,
     @CurrentUser() user: SessionUserPayload,
     @Body() body: { displayName?: string; birthday?: string; bio?: string },
   ) {
+    const t = (req.res as any).locals.t as (key: string) => string;
     await this.authService.updateProfile(user.id, body);
-    return { message: 'اطلاعات با موفقیت بروزرسانی شد.' };
+    return { message: t('msg_update_success') };
   }
 
   @Post('phone/request')
@@ -26,8 +28,9 @@ export class ProfileApiController {
     @CurrentUser() user: SessionUserPayload,
     @Body() body: { phone?: string },
   ) {
+    const t = (req.res as any).locals.t as (key: string) => string;
     if (!body.phone?.trim()) {
-      throw new BadRequestException('شماره موبایل را وارد کنید.');
+      throw new BadRequestException(t('msg_error_generic'));
     }
     const { masked } = await this.authService.requestPhoneChange(
       req,
@@ -43,11 +46,12 @@ export class ProfileApiController {
     @CurrentUser() user: SessionUserPayload,
     @Body() body: { code?: string },
   ) {
+    const t = (req.res as any).locals.t as (key: string) => string;
     if (!body.code?.trim()) {
-      throw new BadRequestException('کد تایید را وارد کنید.');
+      throw new BadRequestException(t('msg_error_generic'));
     }
     const phone = req.session.pendingNewPhone ?? '';
     await this.authService.verifyPhoneChange(req, user.id, body.code);
-    return { phone, message: 'شماره موبایل با موفقیت تغییر یافت.' };
+    return { phone, message: t('msg_phone_changed') };
   }
 }

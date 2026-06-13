@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="<%= typeof locale !== 'undefined' ? locale : 'fa' %>" dir="<%= typeof dir !== 'undefined' ? dir : 'rtl' %>">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,7 +32,7 @@
     <meta property="og:type"        content="<%= _ogType %>" />
     <meta property="og:title"       content="<%= _title %>" />
     <meta property="og:description" content="<%= _desc %>" />
-    <meta property="og:locale"      content="fa_IR" />
+    <meta property="og:locale"      content="<%= typeof locale !== 'undefined' && locale === 'en' ? 'en_US' : locale === 'ps' ? 'ps_AF' : 'fa_IR' %>" />
     <% if (_canonical) { %>
     <meta property="og:url" content="<%= _canonical %>" />
     <% } %>
@@ -68,13 +68,13 @@
     <!-- Assets -->
     <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
     <% if (locals.useSwiper) { %>
-    <link rel="stylesheet" href="/assets/css/dependencies/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/assets/css/dependencies/swiper-bundle.min.css?v=<%= assetVersion %>" />
     <% } %>
     <% if (locals.usePlyr) { %>
-    <link rel="stylesheet" href="/assets/css/dependencies/plyr.min.css" />
+    <link rel="stylesheet" href="/assets/css/dependencies/plyr.min.css?v=<%= assetVersion %>" />
     <% } %>
-    <link rel="stylesheet" href="/assets/css/fonts.css" />
-    <link rel="stylesheet" href="/assets/css/app.css" />
+    <link rel="stylesheet" href="/assets/css/fonts.css?v=<%= assetVersion %>" />
+    <link rel="stylesheet" href="/assets/css/app.css?v=<%= assetVersion %>" />
 
     <!-- Dark mode: must run before body paint to prevent flash -->
     <script>(function(){if(localStorage.getItem('darkMode')!=='false')document.documentElement.classList.add('dark');}());</script>
@@ -104,18 +104,19 @@
       <%- include('partials/footer') %>
     </div>
 
-    <script src="/assets/js/img-skeleton.js" defer></script>
-    <script src="/assets/js/dependencies/alpinejs.min.js"></script>
+    <script src="/assets/js/img-skeleton.js?v=<%= assetVersion %>" defer></script>
+    <script src="/assets/js/dependencies/alpinejs.min.js?v=<%= assetVersion %>"></script>
     <% if (locals.useSwiper) { %>
-    <script src="/assets/js/dependencies/swiper-bundle.min.js" defer></script>
-    <script src="/assets/js/swiper-init.js" defer></script>
+    <script src="/assets/js/dependencies/swiper-bundle.min.js?v=<%= assetVersion %>" defer></script>
+    <script src="/assets/js/swiper-init.js?v=<%= assetVersion %>" defer></script>
     <% } %>
     <% if (locals.useHls) { %>
-    <script src="/assets/js/dependencies/hls.min.js" defer></script>
+    <script src="/assets/js/dependencies/hls.min.js?v=<%= assetVersion %>" defer></script>
     <% } %>
     <% if (locals.usePlyr) { %>
-    <script src="/assets/js/dependencies/plyr.min.js" defer onload="document.querySelectorAll('.js-player').forEach(function(p){new Plyr(p);})"></script>
+    <script src="/assets/js/dependencies/plyr.min.js?v=<%= assetVersion %>" defer onload="document.querySelectorAll('.js-player').forEach(function(p){new Plyr(p);})"></script>
     <% } %>
-    <script src="/assets/js/app.js" defer></script>
+    <script>window._lp="<%= lp %>";window._i18n={msg_wishlist_login_required:"<%- t('msg_wishlist_login_required') %>",msg_error_generic:"<%- t('msg_error_generic') %>",msg_error_server:"<%- t('msg_error_server') %>"};</script>
+    <script src="/assets/js/app.js?v=<%= assetVersion %>" defer></script>
   </body>
 </html>

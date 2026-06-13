@@ -2,27 +2,35 @@ import { CourseCommentEntity } from '@modules/course/entity/course-comment.entit
 import { CourseEntity } from '@modules/course/entity/course.entity';
 import { CourseCommentService } from '@modules/course/service/course-comment.service';
 import { CourseService } from '@modules/course/service/course.service';
+import { CourseWishlistService } from '@modules/course/service/course-wishlist.service';
 import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleService } from '@modules/article/service/article.service';
 import { TypedConfigService } from '@common/config/typed-config.service';
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Render, Req } from '@nestjs/common';
+import type { Request } from 'express';
+import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
+
+type ReqWithUser = Request & { user?: SessionUserPayload };
 
 @Controller()
 export class SiteController {
   constructor(
     private readonly courseCommentService: CourseCommentService,
     private readonly courseService: CourseService,
+    private readonly wishlistService: CourseWishlistService,
     private readonly articleService: ArticleService,
     private readonly config: TypedConfigService,
   ) {}
 
   @Get()
   @Render('view/pages/site/home')
-  async home(): Promise<object> {
-    const [latestCourses, latestComment, latestArticles] = await Promise.all([
+  async home(@Req() req: ReqWithUser): Promise<object> {
+    const userId = req.user?.id;
+    const [latestCourses, latestComment, latestArticles, wishlistedIds] = await Promise.all([
       this.courseService.findLatest(4),
       this.courseCommentService.getApprovedComments(undefined, 4),
       this.articleService.findLatest(4),
+      userId ? this.wishlistService.getWishlistedCourseIds(userId) : Promise.resolve([]),
     ]);
     const appUrl = this.config.app.appUrl;
     const siteName = 'آکادمی لیان امیری';
@@ -57,6 +65,7 @@ export class SiteController {
       latestCourses,
       latestComment,
       latestArticles,
+      wishlistedIds,
       pageTitle: 'آکادمی لیان امیری - صفحه اصلی',
       seoDescription: desc,
       seoKeywords: 'آکادمی لیان امیری, آموزش رایگان, دوره آموزشی, مقاله, آکادمی خیریه',

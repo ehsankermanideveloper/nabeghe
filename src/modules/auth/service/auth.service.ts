@@ -234,15 +234,17 @@ export class AuthService {
     return this.toSessionUser(user);
   }
 
-  toViewUser(user: SessionUserPayload): ViewCurrentUser {
+  toViewUser(user: SessionUserPayload, locale = 'fa'): ViewCurrentUser {
     const maskedContact =
       user.phone != null
         ? `${user.phone.slice(0, 4)}*****${user.phone.slice(-2)}`
         : (user.email?.replace(/(^.).+(@.+$)/, '$1***$2') ?? '');
 
+    const name = (user.displayName?.[locale] ?? user.displayName?.['fa'] ?? Object.values(user.displayName ?? {})[0])?.trim();
+    const fallback = locale === 'en' ? 'User' : locale === 'ps' ? 'کاروونکی' : 'کاربر';
     const displayLabel =
-      user.displayName?.trim() ||
-      (user.phone != null ? 'کاربر' : (user.email?.split('@')[0] ?? 'کاربر'));
+      name ||
+      (user.phone != null ? fallback : (user.email?.split('@')[0] ?? fallback));
 
     return {
       id: user.id,
@@ -258,7 +260,7 @@ export class AuthService {
   ): Promise<void> {
     const patch: Partial<UserEntity> = {};
     if (data.displayName !== undefined)
-      patch.displayName = data.displayName.trim() || null;
+      patch.displayName = data.displayName.trim() ? { fa: data.displayName.trim() } : null;
     if (data.birthday !== undefined)
       patch.birthday = /^\d{4}\/\d{2}\/\d{2}$/.test(data.birthday)
         ? data.birthday

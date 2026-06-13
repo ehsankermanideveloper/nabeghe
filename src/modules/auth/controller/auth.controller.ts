@@ -27,7 +27,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly config: TypedConfigService,
     private readonly passkeyService: PasskeyService,
-  ) {}
+  ) { }
 
   @Get('login')
   loginPage(
@@ -59,6 +59,7 @@ export class AuthController {
     @Res() res: Response,
     @Body() body: StartAuthDto,
     @Query('returnTo') returnTo?: string,
+
   ): Promise<void> {
     try {
       this.authService.validateCsrf(req, body._csrf);
@@ -67,10 +68,10 @@ export class AuthController {
         returnTo && returnTo.startsWith('/')
           ? `?returnTo=${encodeURIComponent(returnTo)}`
           : '';
-      res.redirect(`/auth/verify${q}`);
+      res.redirect(`${res.locals.lp}/auth/verify${q}`);
     } catch (err: unknown) {
       res.redirect(
-        `/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
+        `${res.locals.lp}/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
       );
     }
   }
@@ -87,7 +88,7 @@ export class AuthController {
       return;
     }
     if (!req.session.otpChallengeId) {
-      res.redirect('/auth/login');
+      res.redirect(`${res.locals.lp}/auth/login`);
       return;
     }
     res.render('view/pages/auth/verify', {
@@ -115,14 +116,16 @@ export class AuthController {
     try {
       this.authService.validateCsrf(req, body._csrf);
       await this.authService.verifyOtp(req, body.code);
-      const target =
+      const lp: string = res.locals.lp ?? '';
+      const rawTarget =
         returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
           ? returnTo
           : '/profile';
+      const target = lp && !rawTarget.startsWith(`${lp}/`) ? `${lp}${rawTarget}` : rawTarget;
       res.redirect(target);
     } catch (err: unknown) {
       res.redirect(
-        `/auth/verify?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
+        `${res.locals.lp}/auth/verify?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
       );
     }
   }
@@ -167,7 +170,7 @@ export class AuthController {
   ): void {
     this.authService.validateCsrf(req, body._csrf);
     req.session.destroy(() => {
-      res.redirect('/');
+      res.redirect(res.locals.lp || '/');
     });
   }
 

@@ -3,7 +3,7 @@ import type { UserRole } from '@common/enum/user-role.enum';
 export interface SessionUserPayload {
   id: number;
   role: UserRole;
-  displayName: string | null;
+  displayName: Record<string, string> | null;
   phone: string | null;
   email: string | null;
   birthday: string | null;

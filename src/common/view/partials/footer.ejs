@@ -5,7 +5,7 @@
                     <button type="button"
                         class="flex-shrink-0 h-11 inline-flex items-center gap-3 bg-secondary rounded-full text-foreground transition-colors hover:text-primary px-4"
                         id="scrollToTopBtn">
-                        <span class="text-xs">برگشت به بالا</span>
+                        <span class="text-xs"><%= t('footer_back_to_top') %></span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
@@ -14,7 +14,7 @@
                 </div>
                 <div class="flex lg:flex-nowrap flex-wrap gap-8 py-10">
                     <div class="md:w-5/12 w-full">
-                        <a href="/" class="inline-flex items-center gap-2 text-primary">
+                        <a href="<%= lp %>/" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
@@ -24,8 +24,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">آکادمی</span>
-                                <span class="font-black text-xl">لیان امیری</span>
+                                <span class="font-semibold text-sm text-muted"><%= t('footer_academy') %></span>
+                                <span class="font-black text-xl"><%= t('site_name_short') %></span>
                             </span>
                         </a>
                     </div>
@@ -42,7 +42,7 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col font-black space-y-2">
-                                    <span class="text-sm text-primary">شماره تلفن</span>
+                                    <span class="text-sm text-primary"><%= t('footer_phone') %></span>
                                     <span class="text-foreground">۰۲۱−۱۲۳۴۵۶۷</span>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col font-black space-y-2">
-                                    <span class="text-sm text-primary">ساعات کاری</span>
+                                    <span class="text-sm text-primary"><%= t('footer_working_hours') %></span>
                                     <span class="text-foreground">۰۹:۰۰ - ۱۷:۰۰</span>
                                 </div>
                             </div>
@@ -72,14 +72,10 @@
                                     <div class="w-1 h-1 bg-foreground rounded-full"></div>
                                     <div class="w-2 h-2 bg-foreground rounded-full"></div>
                                 </div>
-                                <div class="font-black text-foreground">دربــــاره</div>
+                                <div class="font-black text-foreground"><%= t('footer_about_title') %></div>
                             </div>
                             <p class="font-semibold text-sm text-muted leading-7">
-                                آکادمی لیان امیری در سال ۱۳۹۴ ه.ش به هدف
-                                <span class="text-foreground">«تلاش جهت ارتقاء سطح دانش»</span>
-                                و با شعار
-                                <span class="text-foreground">«دانش اساس تکامل بشر»</span>
-                                تأسیس شد و همواره در تلاش است تا با ارائه بهترین محتوای آموزشی، گامی مؤثر در مسیر رشد و توسعه دانش در ایران بردارد.
+                                <%= t('footer_about_body') %>
                             </p>
                         </div>
                     </div>
@@ -91,28 +87,24 @@
                                         <div class="w-1 h-1 bg-foreground rounded-full"></div>
                                         <div class="w-2 h-2 bg-foreground rounded-full"></div>
                                     </div>
-                                    <div class="font-black text-foreground">لینک های مفید</div>
+                                    <div class="font-black text-foreground"><%= t('footer_useful_links') %></div>
                                 </div>
                                 <ul class="flex flex-col space-y-1">
                                     <li>
                                         <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">قوانین
-                                            و
-                                            مقررات</a>
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary"><%= t('footer_link_terms') %></a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">مدرسان</a>
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary"><%= t('footer_link_instructors') %></a>
                                     </li>
                                     <li>
-                                        <a href="/about-us"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">درباره آکادمی</a>
+                                        <a href="<%= lp %>/about-us"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary"><%= t('footer_link_about') %></a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">ارتباط
-                                            با
-                                            ما</a>
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary"><%= t('footer_link_contact') %></a>
                                     </li>
                                 </ul>
                             </div>
@@ -123,10 +115,10 @@
                                             <div class="w-1 h-1 bg-foreground rounded-full"></div>
                                             <div class="w-2 h-2 bg-foreground rounded-full"></div>
                                         </div>
-                                        <div class="font-black text-foreground">خبرنامه</div>
+                                        <div class="font-black text-foreground"><%= t('footer_newsletter') %></div>
                                     </div>
                                     <p class="text-sm text-muted">
-                                        برای اطلاع از جدیدترین اخبار، دوره‌ها و برنامه‌های حمایتی آکادمی لیان امیری ایمیل خود را وارد کنید.
+                                        <%= t('footer_newsletter_desc') %>
                                     </p>
                                     <form action="#">
                                         <div class="flex items-center gap-3 relative">
@@ -143,10 +135,9 @@
                                             </span>
                                             <input type="email"
                                                 class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border rounded-xl text-sm text-foreground pr-10"
-                                                placeholder="آدرس ایمیل" required />
+                                                placeholder="<%= t('footer_email_placeholder') %>" required />
                                             <button type="submit"
-                                                class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-xl whitespace-nowrap text-xs text-primary-foreground transition-all hover:opacity-80 px-4">ثبت
-                                                ایمیل</button>
+                                                class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-xl whitespace-nowrap text-xs text-primary-foreground transition-all hover:opacity-80 px-4"><%= t('footer_email_submit') %></button>
                                         </div>
                                     </form>
                                 </div>
@@ -156,7 +147,7 @@
                                             <div class="w-1 h-1 bg-foreground rounded-full"></div>
                                             <div class="w-2 h-2 bg-foreground rounded-full"></div>
                                         </div>
-                                        <div class="font-black text-foreground">شبکه های اجتماعی</div>
+                                        <div class="font-black text-foreground"><%= t('footer_social') %></div>
                                     </div>
                                     <ul class="flex flex-wrap items-center gap-5">
                                         <li>
@@ -202,7 +193,7 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3 py-5">
-                    <p class="text-xs text-muted">&#169; کليه حقوق محفوظ است</p>
+                    <p class="text-xs text-muted">&#169; <%= t('footer_rights') %></p>
                     <div class="flex-grow border-t border-border border-dashed"></div>
                 </div>
             </div>

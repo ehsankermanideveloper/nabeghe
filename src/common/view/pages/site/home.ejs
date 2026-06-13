@@ -18,21 +18,20 @@
                                                 d="m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                         </svg>
 
-                                        <span>جشنــــواره تخفیف !</span>
+                                        <span><%= t('home_festival') %></span>
                                     </span>
-                                    <span class="font-semibold text-xs text-primary">به زودی :)</span>
+                                    <span class="font-semibold text-xs text-primary"><%= t('home_coming_soon_smiley') %></span>
                                 </div>
                                 <h2 class="font-black sm:text-5xl text-3xl text-foreground">
-                                    دانش اساس تکامل بشر است <br />
-                                    یادگیری حق همه است!
+                                    <%= t('home_hero_text1') %> <br />
+                                    <%= t('home_hero_text2') %>
                                 </h2>
                                 <p class="sm:text-base text-sm text-muted">
-                                    آکادمی لیان امیری با هدف ارتقاء سطح دانش، دوره‌های آموزشی را
-                                    برای افراد محروم و کم‌برخوردار فراهم می‌کند.
+                                    <%= t('home_hero_desc') %>
                                 </p>
-                                <a href="/courses"
+                                <a href="<%= lp %>/courses"
                                     class="inline-flex items-center justify-center gap-1 h-11 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">مشاهده دوره‌ها</span>
+                                    <span class="font-semibold text-sm"><%= t('home_view_courses') %></span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         class="w-5 h-5">
                                         <path fill-rule="evenodd"
@@ -64,13 +63,13 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col font-black text-2xl space-y-2">
-                                    <span class="font-black xs:text-2xl text-lg text-primary">آخرین دوره های</span>
-                                    <span class="font-semibold xs:text-base text-sm text-foreground">منتشر شده</span>
+                                    <span class="font-black xs:text-2xl text-lg text-primary"><%= t('home_latest_courses') %></span>
+                                    <span class="font-semibold xs:text-base text-sm text-foreground"><%= t('home_latest_courses_subtitle') %></span>
                                 </div>
                             </div>
-                            <a href="/courses?sort=newest"
+                            <a href="<%= lp %>/courses?sort=newest"
                                 class="sm:w-auto w-11 h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-foreground transition-colors hover:text-primary sm:px-4">
-                                <span class="font-semibold text-sm sm:block hidden">مشاهده همه</span>
+                                <span class="font-semibold text-sm sm:block hidden"><%= t('btn_view_all') %></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                     class="w-5 h-5">
                                     <path fill-rule="evenodd"
@@ -86,13 +85,13 @@
                             <div class="swiper-wrapper">
                                 <% latestCourses.forEach(function(course) { %>
                                 <div class="swiper-slide">
-                                    <%- include('../../partials/course-card', { course: course, isWishlisted: false }) %>
+                                    <%- include('../../partials/course-card', { course: course, isWishlisted: wishlistedIds && wishlistedIds.includes(course.id) }) %>
                                 </div>
                                 <% }); %>
                                 <% if (!latestCourses.length) { %>
                                 <div class="swiper-slide">
                                     <div class="flex items-center justify-center h-48 text-muted font-semibold text-sm">
-                                        دوره‌ای منتشر نشده است.
+                                        <%= t('home_no_courses') %>
                                     </div>
                                 </div>
                                 <% } %>
@@ -107,10 +106,11 @@
                     <!-- features -->
                     <div class="relative bg-secondary rounded-3xl">
                         <div
-                            class="relative right-1/2 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-12 bg-background border border-border rounded-2xl font-black text-foreground text-lg text-center px-8">
-                            چرا آکادمی لیان امیری؟
+                            class="absolute inline-flex items-center justify-center h-12 bg-background border border-border rounded-2xl font-black text-foreground text-lg text-center px-8 whitespace-nowrap"
+                            style="<%= dir === 'ltr' ? 'left:50%;transform:translateX(-50%) translateY(-50%)' : 'right:50%;transform:translateX(50%) translateY(-50%)' %>">
+                            <%= t('home_why_academy') %>
                         </div>
-                        <div class="flex flex-wrap items-center justify-center gap-10 md:pb-10 pb-5 md:px-10 px-5">
+                        <div class="flex flex-wrap items-center justify-center gap-10 md:pb-10 pb-5 md:px-10 px-5 pt-8">
                             <div
                                 class="flex flex-col items-center justify-center text-center text-emerald-500 space-y-3 cursor-default animate-pulse">
                                 <span class="flex items-center justify-center w-20 h-20 bg-background rounded-full">
@@ -121,7 +121,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">چالش‌برانگیز</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_challenging') %></span>
                             </div>
                             <div
                                 class="flex flex-col items-center justify-center text-center text-yellow-500 space-y-3 cursor-default animate-pulse">
@@ -133,7 +133,7 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">پروژه‌محور</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_project_based') %></span>
                             </div>
                             <div
                                 class="flex flex-col items-center justify-center text-center text-blue-500 space-y-3 cursor-default animate-pulse">
@@ -145,7 +145,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">جامع</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_comprehensive') %></span>
                             </div>
                             <div
                                 class="flex flex-col items-center justify-center text-center text-green-500 space-y-3 cursor-default animate-pulse">
@@ -157,7 +157,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">به‌روز</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_new') %></span>
                             </div>
                             <div
                                 class="flex flex-col items-center justify-center text-center text-rose-500 space-y-3 cursor-default animate-pulse">
@@ -169,7 +169,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">ویدیویی</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_video') %></span>
                             </div>
                             <div
                                 class="flex flex-col items-center justify-center text-center text-cyan-500 space-y-3 cursor-default animate-pulse">
@@ -184,7 +184,7 @@
                                         </path>
                                     </svg>
                                 </span>
-                                <span class="font-bold text-sm line-clamp-1">منتورشیپ</span>
+                                <span class="font-bold text-sm line-clamp-1"><%= t('label_mentorship') %></span>
                             </div>
                         </div>
                     </div>
@@ -209,8 +209,8 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col space-y-2">
-                                    <span class="font-black xs:text-2xl text-lg text-primary">درباره آکادمی لیان امیری چه می‌گویند؟</span>
-                                    <span class="font-semibold xs:text-base text-sm text-muted">این‌ها بخشی از نظرات هنرجویان و افرادی هستند که از حمایت‌های آکادمی لیان امیری بهره‌مند شده‌اند.</span>
+                                    <span class="font-black xs:text-2xl text-lg text-primary"><%= t('home_testimonials') %></span>
+                                    <span class="font-semibold xs:text-base text-sm text-muted"><%= t('home_testimonials_hint') %></span>
                                 </div>
                             </div>
                             <div class="md:col-span-8 w-full max-w-xl mx-auto">
@@ -227,7 +227,7 @@
                                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-secondary">
                                                         <% if (comment.user && comment.user.avatar) { %>
                                                         <img src="<%= comment.user.avatar %>"
-                                                            class="w-full h-full object-cover" alt="<%= comment.user.displayName %>">
+                                                            class="w-full h-full object-cover" alt="<%= loc(comment.user.displayName) %>">
                                                         <% } else { %>
                                                         <div class="w-full h-full flex items-center justify-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-muted">
@@ -238,10 +238,10 @@
                                                     </div>
                                                     <div class="flex flex-col items-start space-y-1">
                                                         <span class="line-clamp-1 font-bold text-xs text-foreground">
-                                                            <%= (comment.user && comment.user.displayName) ? comment.user.displayName : 'کاربر' %>
+                                                            <%= (comment.user && loc(comment.user.displayName)) ? loc(comment.user.displayName) : t('label_user') %>
                                                         </span>
                                                         <span class="font-semibold text-xs text-muted">
-                                                            <%= (comment.course && comment.course.title) ? comment.course.title : '' %>
+                                                            <%= (comment.course && comment.course.title) ? loc(comment.course.title) : '' %>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -251,7 +251,7 @@
                                         <% if (!latestComment.length) { %>
                                         <div class="swiper-slide pb-8">
                                             <div class="flex items-center justify-center h-48 text-muted font-semibold text-sm">
-                                                هنوز نظری ثبت نشده است.
+                                                <%= t('home_no_comments') %>
                                             </div>
                                         </div>
                                         <% } %>
@@ -283,10 +283,9 @@
                                 </svg>
                             </span>
                             <div class="flex flex-col space-y-2">
-                                <span class="font-black xs:text-2xl text-lg text-primary">آخرین مقالات و اخبار آکادمی</span>
+                                <span class="font-black xs:text-2xl text-lg text-primary"><%= t('home_latest_articles') %></span>
                                 <span class="font-semibold xs:text-base text-sm text-muted">
-                                    با مطالعه مقالات و اخبار آکادمی لیان امیری از آخرین فعالیت‌ها، برنامه‌های حمایتی
-                                    و دوره‌های آموزشی جدید مطلع شوید.
+                                    <%= t('home_latest_articles_desc') %>
                                 </span>
                             </div>
                         </div>
@@ -296,9 +295,9 @@
                                 <% latestArticles.forEach(function(article) { %>
                                 <div class="relative bg-background rounded-xl p-4">
                                     <div class="relative mb-3 z-20">
-                                        <a href="/blog/<%= article.slug %>" class="block">
-                                            <% if (article.thumbnail) { %>
-                                            <img src="<%= article.thumbnail %>" class="max-w-full rounded-xl aspect-video object-cover" alt="<%= article.title %>" />
+                                        <a href="<%= lp %>/blog/<%= article.slug %>" class="block">
+                                            <% if (loc(article.thumbnail)) { %>
+                                            <img src="<%= loc(article.thumbnail) %>" class="max-w-full rounded-xl aspect-video object-cover" alt="<%= loc(article.title) %>" />
                                             <% } else { %>
                                             <div class="w-full aspect-video rounded-xl bg-secondary flex items-center justify-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10 text-muted/30">
@@ -310,8 +309,8 @@
                                     </div>
                                     <div class="relative space-y-3 z-10">
                                         <h2 class="font-bold text-sm">
-                                            <a href="/blog/<%= article.slug %>"
-                                                class="line-clamp-2 text-foreground transition-colors hover:text-primary"><%= article.title %></a>
+                                            <a href="<%= lp %>/blog/<%= article.slug %>"
+                                                class="line-clamp-2 text-foreground transition-colors hover:text-primary"><%= loc(article.title) %></a>
                                         </h2>
                                         <div class="flex items-center justify-between gap-2">
                                             <div class="flex items-center gap-2 min-w-0">
@@ -321,13 +320,13 @@
                                                     </svg>
                                                 </div>
                                                 <span class="line-clamp-1 font-semibold text-xs text-muted">
-                                                    <%= article.author ? (article.author.displayName || 'نویسنده') : 'نویسنده' %>
+                                                    <%= article.author ? (loc(article.author.displayName) || t('label_author')) : t('label_author') %>
                                                 </span>
                                             </div>
                                             <% if (article.category) { %>
-                                            <a href="/blog?category=<%= article.category.slug %>"
+                                            <a href="<%= lp %>/blog?category=<%= article.category.slug %>"
                                                 class="flex-shrink-0 bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-3">
-                                                <span class="font-bold text-xxs"><%= article.category.title %></span>
+                                                <span class="font-bold text-xxs"><%= loc(article.category.title) %></span>
                                             </a>
                                             <% } %>
                                         </div>
@@ -336,8 +335,8 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
-                                            <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                            <span class="font-semibold text-xs text-foreground"><%= article.readTime %> دقیقه</span>
+                                            <span class="font-semibold text-xs text-muted"><%= t('label_read_time') %>:</span>
+                                            <span class="font-semibold text-xs text-foreground"><%= article.readTime %> <%= t('article_read_time_unit') %></span>
                                         </div>
                                         <% } %>
                                     </div>
@@ -346,12 +345,12 @@
                             </div>
                             <% } else { %>
                             <div class="flex items-center justify-center h-32 text-muted font-semibold text-sm">
-                                مقاله‌ای منتشر نشده است.
+                                <%= t('home_no_articles') %>
                             </div>
                             <% } %>
                             <div class="mt-6 text-center">
-                                <a href="/blog" class="inline-flex items-center gap-1 h-10 bg-secondary rounded-full font-semibold text-sm text-foreground hover:text-primary transition-colors px-6">
-                                    مشاهده همه مقالات
+                                <a href="<%= lp %>/blog" class="inline-flex items-center gap-1 h-10 bg-secondary rounded-full font-semibold text-sm text-foreground hover:text-primary transition-colors px-6">
+                                    <%= t('btn_view_all_articles') %>
                                 </a>
                             </div>
                         </div>

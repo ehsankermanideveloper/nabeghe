@@ -8,7 +8,7 @@
     aria-haspopup="true"
     x-bind:aria-expanded="open"
   >
-    <span class="font-semibold text-sm">دسته بندی آمـــوزشها</span>
+    <span class="font-semibold text-sm"><%= t('nav_category') %></span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -23,7 +23,7 @@
   </button>
 
   <div
-    class="absolute right-0 top-full pt-5 z-30"
+    class="absolute top-full pt-5 z-30 <%= dir === 'ltr' ? 'left-0' : 'right-0' %>"
     x-show="open"
     x-transition
     x-cloak
@@ -36,29 +36,29 @@
       <% if (item.children && item.children.length > 0) { %>
       <li class="group relative">
         <a
-          href="<%= item.href %>"
+          href="<%= lp %><%= item.href %>"
           class="flex items-center relative text-foreground transition-colors hover:text-primary p-3"
           x-on:click="open = false"
         >
-          <span class="font-semibold text-sm"><%= item.title %></span>
-          <span class="absolute left-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <span class="font-semibold text-sm"><%= loc(item.title) %></span>
+          <span class="absolute <%= dir === 'ltr' ? 'right-3' : 'left-3' %>">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 <%= dir === 'ltr' ? 'rotate-180' : '' %>">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
           </span>
         </a>
-        <ul class="absolute top-0 right-full flex flex-wrap flex-col w-96 bg-background border border-border shadow-2xl shadow-black/5 space-y-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible px-3 pt-8 pb-3 z-20">
+        <ul class="absolute top-0 <%= dir === 'ltr' ? 'left-full' : 'right-full' %> flex flex-wrap flex-col w-96 bg-background border border-border shadow-2xl shadow-black/5 space-y-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible px-3 pt-8 pb-3 z-20">
           <li class="absolute top-2">
-            <span class="font-bold text-sm text-muted cursor-default">زیردسته‌ها</span>
+            <span class="font-bold text-sm text-muted cursor-default"><%= t('nav_subcategories') %></span>
           </li>
           <% item.children.forEach(function(child) { %>
           <li class="w-1/2">
             <a
-              href="<%= child.href %>"
+              href="<%= lp %><%= child.href %>"
               class="flex items-center gap-2 text-muted before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-border before:rounded-full transition-colors hover:text-primary hover:before:bg-primary py-1"
               x-on:click="open = false"
             >
-              <span class="font-semibold text-sm"><%= child.title %></span>
+              <span class="font-semibold text-sm"><%= loc(child.title) %></span>
             </a>
           </li>
           <% }) %>
@@ -67,11 +67,11 @@
       <% } else { %>
       <li>
         <a
-          href="<%= item.href %>"
+          href="<%= lp %><%= item.href %>"
           class="flex items-center relative text-foreground transition-colors hover:text-primary p-3"
           x-on:click="open = false"
         >
-          <span class="font-semibold text-sm"><%= item.title %></span>
+          <span class="font-semibold text-sm"><%= loc(item.title) %></span>
         </a>
       </li>
       <% } %>

@@ -45,7 +45,7 @@ export class CourseSeedService implements OnModuleInit {
     }
     if (!instructor) {
       const entity = userRepo.create({
-        displayName: 'مدرس نابغه',
+        displayName: { fa: 'مدرس نابغه' },
         email: 'instructor@nabeghe.ir',
         role: UserRole.LECTURER,
       });
@@ -60,10 +60,10 @@ export class CourseSeedService implements OnModuleInit {
       }
 
       const course = this.courseRepository.build({
-        title: data.title,
+        title: { fa: data.title },
         slug: data.slug,
-        shortDescription: data.shortDescription,
-        description: data.description,
+        shortDescription: data.shortDescription ? { fa: data.shortDescription } : null,
+        description: data.description ? { fa: data.description } : null,
         thumbnail: data.thumbnail,
         previewVideo: data.previewVideo,
         price: data.price,
@@ -82,7 +82,7 @@ export class CourseSeedService implements OnModuleInit {
       for (const chapterData of data.chapters) {
         const chapter = this.chapterRepository.build({
           courseId: savedCourse.id,
-          title: chapterData.title,
+          title: { fa: chapterData.title },
           sortOrder: chapterData.sortOrder,
           isActive: true,
         });
@@ -92,9 +92,9 @@ export class CourseSeedService implements OnModuleInit {
           const episode = this.episodeRepository.build({
             courseId: savedCourse.id,
             chapterId: savedChapter.id,
-            title: epData.title,
+            title: { fa: epData.title },
             slug: epData.slug,
-            description: epData.description,
+            description: epData.description ? { fa: epData.description } : null,
             videoUrl: epData.videoUrl,
             videoDuration: epData.videoDuration,
             isFree: epData.isFree,

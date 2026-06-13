@@ -10,21 +10,21 @@ import { ArticleTagEntity } from './article-tag.entity';
 
 @Entity({ name: ModelEnum.ARTICLE, schema: SchemaEnum.PUBLIC })
 export class ArticleEntity extends BaseEntity {
-  @Column({ type: 'varchar', length: 300 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Index({ unique: true })
   @Column({ type: 'varchar', length: 300 })
   slug!: string;
 
-  @Column({ name: 'short_description', type: 'varchar', length: 600, nullable: true })
-  shortDescription!: string | null;
+  @Column({ name: 'short_description', type: 'jsonb', nullable: true })
+  shortDescription!: Record<string, string> | null;
 
-  @Column({ type: 'text', nullable: true })
-  body!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  body!: Record<string, string> | null;
 
-  @Column({ type: 'varchar', length: 500, nullable: true })
-  thumbnail!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  thumbnail!: Record<string, string> | null;
 
   @Index()
   @Column({ type: 'enum', enum: ArticleStatus, default: ArticleStatus.DRAFT })

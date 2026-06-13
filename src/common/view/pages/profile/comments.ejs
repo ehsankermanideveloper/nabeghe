@@ -14,7 +14,7 @@
                 <div class="w-1 h-1 bg-foreground rounded-full"></div>
                 <div class="w-2 h-2 bg-foreground rounded-full"></div>
               </div>
-              <div class="font-black text-foreground">دیدگاه و پرسشهای شما</div>
+              <div class="font-black text-foreground"><%= t('profile_comments_title') %></div>
             </div>
             <!-- end section:title -->
 
@@ -46,7 +46,7 @@
                         </svg>
                       </span><!-- end inactive icon -->
 
-                      <span class="whitespace-nowrap font-semibold text-sm">دوره های آموزشی</span>
+                      <span class="whitespace-nowrap font-semibold text-sm"><%= t('search_results_courses') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
 
@@ -71,7 +71,7 @@
                         </svg>
                       </span><!-- end inactive icon -->
 
-                      <span class="whitespace-nowrap font-semibold text-sm">مقالات آموزشی</span>
+                      <span class="whitespace-nowrap font-semibold text-sm"><%= t('article_list_title') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
                 </ul>
@@ -88,7 +88,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 text-muted/30 mb-3">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
                     </svg>
-                    <p class="text-muted text-sm">هنوز دیدگاهی ثبت نکرده‌اید</p>
+                    <p class="text-muted text-sm"><%= t('profile_no_comments') %></p>
                   </div>
                   <% } else { %>
                   <!-- comments:wrapper -->
@@ -97,9 +97,9 @@
                     <!-- comment -->
                     <div class="flex sm:flex-nowrap flex-wrap items-start gap-3 relative py-6">
                       <div class="sm:w-4/12 w-full relative z-10">
-                        <a href="/courses/<%= comment.course.slug %>" class="block">
-                          <% if (comment.course.thumbnail) { %>
-                          <img src="<%= comment.course.thumbnail %>" class="max-w-full rounded-3xl" alt="<%= comment.course.title %>" />
+                        <a href="<%= lp %>/courses/<%= comment.course.slug %>" class="block">
+                          <% if (loc(comment.course.thumbnail)) { %>
+                          <img src="<%= loc(comment.course.thumbnail) %>" class="max-w-full rounded-3xl" alt="<%= loc(comment.course.title) %>" />
                           <% } else { %>
                           <div class="w-full aspect-video bg-secondary rounded-3xl flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-muted/30">
@@ -113,7 +113,7 @@
                         <div class="bg-gradient-to-b from-secondary to-background rounded-3xl">
                           <div class="bg-background rounded-b-3xl p-5 mx-5">
                             <h2 class="font-bold text-sm text-foreground">
-                              <a href="/courses/<%= comment.course.slug %>" class="line-clamp-1 transition-colors hover:text-primary"><%= comment.course.title %></a>
+                              <a href="<%= lp %>/courses/<%= comment.course.slug %>" class="line-clamp-1 transition-colors hover:text-primary"><%= loc(comment.course.title) %></a>
                             </h2>
                           </div>
                           <div class="space-y-3 p-5">
@@ -122,23 +122,23 @@
                               <div class="flex-shrink-0 rounded-full bg-green-500/20 p-1">
                                 <div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>
                               </div>
-                              <span class="font-bold text-sm text-green-500">تایید شده</span>
+                              <span class="font-bold text-sm text-green-500"><%= t('label_approved') %></span>
                               <% } else if (comment.status === 'rejected') { %>
                               <div class="flex-shrink-0 rounded-full bg-red-500/20 p-1">
                                 <div class="h-1.5 w-1.5 rounded-full bg-red-500"></div>
                               </div>
-                              <span class="font-bold text-sm text-red-500">رد شده</span>
+                              <span class="font-bold text-sm text-red-500"><%= t('label_rejected') %></span>
                               <% } else { %>
                               <div class="flex-shrink-0 rounded-full bg-yellow-500/20 p-1">
                                 <div class="h-1.5 w-1.5 rounded-full bg-yellow-500"></div>
                               </div>
-                              <span class="font-bold text-sm text-yellow-500">در انتظار بررسی</span>
+                              <span class="font-bold text-sm text-yellow-500"><%= t('label_pending_review') %></span>
                               <% } %>
                             </div>
                             <p class="text-sm text-muted"><%= comment.body %></p>
-                            <a href="/courses/<%= comment.course.slug %>"
+                            <a href="<%= lp %>/courses/<%= comment.course.slug %>"
                               class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                              <span class="font-semibold text-sm">مشاهده در صفحه دوره</span>
+                              <span class="font-semibold text-sm"><%= t('btn_view_course_page') %></span>
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                 <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                               </svg>
@@ -160,7 +160,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-muted">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                     </svg>
-                    <p class="font-semibold text-sm text-muted mt-3 mb-8">هیچ نتیجه ای یافت نشد!</p>
+                    <p class="font-semibold text-sm text-muted mt-3 mb-8"><%= t('search_empty') %></p>
                     <img src="/assets/images/theme/empty.svg" class="max-w-xs opacity-35" alt="" />
                   </div>
                 </div><!-- end tabs:contents:tabTwo -->

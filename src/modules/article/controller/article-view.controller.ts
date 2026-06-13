@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Query, Render, Req } from '@nestjs/common';
-import type { Request } from 'express';
+import { Controller, Get, Param, Query, Render, Req, Res } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { Public } from '@modules/auth/decorator/public.decorator';
 import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
 import { ArticleQueryDto } from '@modules/article/dto/article-query.dto';
@@ -52,7 +52,7 @@ export class ArticleViewController {
 
   @Get(':slug')
   @Render('view/pages/blog/detail')
-  async detail(@Param('slug') slug: string, @Req() req: ReqWithUser): Promise<object> {
+  async detail(@Param('slug') slug: string, @Req() req: ReqWithUser, @Res({ passthrough: true }) res: Response): Promise<object> {
     const article = await this.articleService.findPublishedBySlugOrFail(slug);
 
     void this.articleService.incrementViewCount(article.id);
@@ -69,8 +69,12 @@ export class ArticleViewController {
 
     const appUrl = this.config.app.appUrl;
     const articleUrl = `${appUrl}/blog/${article.slug}`;
-    const thumbnail = article.thumbnail
-      ? (article.thumbnail.startsWith('http') ? article.thumbnail : `${appUrl}${article.thumbnail}`)
+    const locale: string = res.locals.locale ?? 'fa';
+    const rawThumb = article.thumbnail
+      ? (article.thumbnail[locale] ?? article.thumbnail['fa'] ?? Object.values(article.thumbnail)[0] ?? null)
+      : null;
+    const thumbnail = rawThumb
+      ? (rawThumb.startsWith('http') ? rawThumb : `${appUrl}${rawThumb}`)
       : null;
 
     const jsonLd = JSON.stringify({

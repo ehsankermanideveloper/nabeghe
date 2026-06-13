@@ -14,8 +14,8 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   email!: string | null;
 
-  @Column({ type: 'varchar', length: 120, nullable: true })
-  displayName!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  displayName!: Record<string, string> | null;
 
   @Column({ type: 'varchar', length: 20, default: UserRole.STUDENT })
   role!: UserRole;

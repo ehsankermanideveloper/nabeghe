@@ -13,11 +13,11 @@
           name="q"
           value="<%= q %>"
           autofocus
-          placeholder="نام دوره یا مقاله..."
+          placeholder="<%= t('search_header_placeholder') %>"
           class="flex-1 min-w-0 bg-transparent border-0 outline-none ring-0 text-foreground placeholder-muted text-sm font-medium"
         />
         <% if (q) { %>
-        <a href="/search" class="shrink-0 text-muted hover:text-red-500 transition-colors">
+        <a href="<%= lp %>/search" class="shrink-0 text-muted hover:text-red-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
@@ -25,7 +25,7 @@
         <% } %>
       </div>
       <button type="submit" class="shrink-0 h-12 px-5 bg-primary text-primary-foreground rounded-2xl text-sm font-semibold transition-opacity hover:opacity-80 whitespace-nowrap">
-        جستجو
+        <%= t('btn_search') %>
       </button>
     </form>
   </div>
@@ -38,8 +38,8 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>
     </div>
-    <p class="font-bold text-lg text-foreground">چیزی جستجو کنید</p>
-    <p class="text-sm text-muted">نام دوره، مقاله یا دسته‌بندی مورد نظرتان را در کادر بالا وارد کنید.</p>
+    <p class="font-bold text-lg text-foreground"><%= t('search_type_hint') %></p>
+    <p class="text-sm text-muted"><%= t('search_query_hint') %></p>
   </div>
 
   <% } else if (total === 0) { %>
@@ -50,18 +50,18 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z" />
       </svg>
     </div>
-    <p class="font-bold text-lg text-foreground">نتیجه‌ای یافت نشد</p>
-    <p class="text-sm text-muted">برای «<span class="text-foreground font-semibold"><%= q %></span>» هیچ دوره یا مقاله‌ای پیدا نشد.</p>
-    <p class="text-xs text-muted">سعی کنید کلمات کمتر یا متفاوتی استفاده کنید.</p>
+    <p class="font-bold text-lg text-foreground"><%= t('search_empty') %></p>
+    <p class="text-sm text-muted">«<span class="text-foreground font-semibold"><%= q %></span>» — <%= t('search_no_results_for') %>.</p>
+    <p class="text-xs text-muted"><%= t('search_no_results_try') %></p>
   </div>
 
   <% } else { %>
   <!-- results summary -->
   <div class="min-w-0">
     <h1 class="font-bold text-xl text-foreground break-words">
-      نتایج جستجو برای «<span class="text-primary"><%= q %></span>»
+      <%= t('search_results_for') %> «<span class="text-primary"><%= q %></span>»
     </h1>
-    <p class="text-sm text-muted mt-1"><%= total %> نتیجه یافت شد</p>
+    <p class="text-sm text-muted mt-1"><%= total %> <%= t('search_results_found') %></p>
   </div>
 
   <% if (courses && courses.length > 0) { %>
@@ -70,11 +70,11 @@
     <div class="flex items-center justify-between gap-3 flex-wrap">
       <div class="flex items-center gap-3 min-w-0">
         <div class="w-1 h-6 bg-primary rounded-full shrink-0"></div>
-        <h2 class="font-bold text-lg text-foreground">دوره‌های آموزشی</h2>
+        <h2 class="font-bold text-lg text-foreground"><%= t('search_results_courses') %></h2>
         <span class="inline-flex items-center justify-center h-6 px-2.5 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0"><%= courses.length %></span>
       </div>
-      <a href="/courses?q=<%= encodeURIComponent(q) %>" class="shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
-        <span>همه دوره‌ها</span>
+      <a href="<%= lp %>/courses?q=<%= encodeURIComponent(q) %>" class="shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
+        <span><%= t('search_all_courses') %></span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
           <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
         </svg>
@@ -95,11 +95,11 @@
     <div class="flex items-center justify-between gap-3 flex-wrap">
       <div class="flex items-center gap-3 min-w-0">
         <div class="w-1 h-6 bg-primary rounded-full shrink-0"></div>
-        <h2 class="font-bold text-lg text-foreground">مقالات</h2>
+        <h2 class="font-bold text-lg text-foreground"><%= t('search_results_articles') %></h2>
         <span class="inline-flex items-center justify-center h-6 px-2.5 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0"><%= articles.length %></span>
       </div>
-      <a href="/blog?q=<%= encodeURIComponent(q) %>" class="shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
-        <span>همه مقالات</span>
+      <a href="<%= lp %>/blog?q=<%= encodeURIComponent(q) %>" class="shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
+        <span><%= t('search_all_articles') %></span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
           <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
         </svg>
@@ -108,10 +108,10 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-8">
       <% articles.forEach(function(article) { %>
-      <a href="/blog/<%= article.slug %>" class="group flex flex-col bg-background border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all">
+      <a href="<%= lp %>/blog/<%= article.slug %>" class="group flex flex-col bg-background border border-border rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all">
         <div class="relative aspect-video bg-secondary overflow-hidden">
-          <% if (article.thumbnail) { %>
-          <img src="<%= article.thumbnail %>" alt="<%= article.title %>" class="w-full h-full object-cover transition-transform group-hover:scale-105" />
+          <% if (loc(article.thumbnail)) { %>
+          <img src="<%= loc(article.thumbnail) %>" alt="<%= loc(article.title) %>" class="w-full h-full object-cover transition-transform group-hover:scale-105" />
           <% } else { %>
           <div class="w-full h-full flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-12 h-12 text-muted/30">
@@ -120,13 +120,13 @@
           </div>
           <% } %>
           <% if (article.category) { %>
-          <span class="absolute top-3 right-3 inline-flex items-center h-7 px-3 rounded-full bg-primary/80 text-white text-xs font-semibold backdrop-blur-sm"><%= article.category.title %></span>
+          <span class="absolute top-3 right-3 inline-flex items-center h-7 px-3 rounded-full bg-primary/80 text-white text-xs font-semibold backdrop-blur-sm"><%= loc(article.category.title) %></span>
           <% } %>
         </div>
         <div class="flex flex-col flex-1 p-5 space-y-3">
-          <h3 class="font-bold text-sm text-foreground line-clamp-2 group-hover:text-primary transition-colors"><%= article.title %></h3>
+          <h3 class="font-bold text-sm text-foreground line-clamp-2 group-hover:text-primary transition-colors"><%= loc(article.title) %></h3>
           <% if (article.shortDescription) { %>
-          <p class="text-xs text-muted line-clamp-2 flex-1"><%= article.shortDescription %></p>
+          <p class="text-xs text-muted line-clamp-2 flex-1"><%= loc(article.shortDescription) %></p>
           <% } %>
           <div class="flex items-center gap-4 pt-2 border-t border-border">
             <% if (article.readTime) { %>
@@ -134,11 +134,11 @@
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd" />
               </svg>
-              <span class="text-xs font-medium"><%= article.readTime %> دقیقه مطالعه</span>
+              <span class="text-xs font-medium"><%= article.readTime %> <%= t('article_read_time_unit') %></span>
             </div>
             <% } %>
             <span class="mr-auto inline-flex items-center gap-1 text-primary text-xs font-semibold">
-              <span>مطالعه</span>
+              <span><%= t('label_read') %></span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
                 <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
               </svg>

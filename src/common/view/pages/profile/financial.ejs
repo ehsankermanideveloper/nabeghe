@@ -14,14 +14,14 @@
                 <div class="w-1 h-1 bg-foreground rounded-full"></div>
                 <div class="w-2 h-2 bg-foreground rounded-full"></div>
               </div>
-              <div class="font-black text-foreground">تاریخچه تراکنشها</div>
+              <div class="font-black text-foreground"><%= t('profile_transactions') %></div>
             </div>
             <!-- end section:title -->
 
             <% if (transactions.length === 0) { %>
             <div class="flex flex-col items-center justify-center py-16 text-center">
               <img src="/assets/images/theme/empty.svg" class="w-full max-w-xs opacity-35 mb-8" alt="..." />
-              <p class="text-muted text-sm">هیچ تراکنشی یافت نشد</p>
+              <p class="text-muted text-sm"><%= t('profile_no_transactions') %></p>
             </div>
             <% } else { %>
 
@@ -29,11 +29,11 @@
               <table class="w-full text-sm text-right">
                 <thead class="text-xs text-muted uppercase bg-background border-b border-border">
                   <tr>
-                    <th class="whitespace-nowrap p-5">شماره پیگیری</th>
-                    <th class="whitespace-nowrap p-5">وضعیت</th>
-                    <th class="whitespace-nowrap p-5">شرح تراکنش</th>
-                    <th class="whitespace-nowrap p-5">مبلغ</th>
-                    <th class="whitespace-nowrap p-5">تاریخ ایجاد</th>
+                    <th class="whitespace-nowrap p-5"><%= t('tx_tracking_code') %></th>
+                    <th class="whitespace-nowrap p-5"><%= t('tx_status') %></th>
+                    <th class="whitespace-nowrap p-5"><%= t('tx_description') %></th>
+                    <th class="whitespace-nowrap p-5"><%= t('tx_amount') %></th>
+                    <th class="whitespace-nowrap p-5"><%= t('tx_date') %></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,34 +48,34 @@
                         <div class="flex-shrink-0 rounded-full bg-green-500/20 p-1">
                           <div class="h-1.5 w-1.5 rounded-full bg-green-500"></div>
                         </div>
-                        <span class="font-bold text-green-500">موفق</span>
+                        <span class="font-bold text-green-500"><%= t('label_success') %></span>
                       </div>
                       <% } else if (tx.status === 'failed') { %>
                       <div class="flex items-center gap-2">
                         <div class="flex-shrink-0 rounded-full bg-red-500/20 p-1">
                           <div class="h-1.5 w-1.5 rounded-full bg-red-500"></div>
                         </div>
-                        <span class="font-bold text-red-500">ناموفق</span>
+                        <span class="font-bold text-red-500"><%= t('label_failed') %></span>
                       </div>
                       <% } else { %>
                       <div class="flex items-center gap-2">
                         <div class="flex-shrink-0 rounded-full bg-yellow-500/20 p-1">
                           <div class="h-1.5 w-1.5 rounded-full bg-yellow-500"></div>
                         </div>
-                        <span class="font-bold text-yellow-500">در انتظار</span>
+                        <span class="font-bold text-yellow-500"><%= t('label_pending') %></span>
                       </div>
                       <% } %>
                     </td>
                     <td class="p-5">
                       <div class="flex flex-col items-start gap-1 w-36">
-                        <span class="font-bold text-xs text-muted"><%= tx.type || 'تراکنش' %></span>
+                        <span class="font-bold text-xs text-muted"><%= tx.type || t('label_transaction') %></span>
                         <span class="font-black text-sm text-foreground line-clamp-1"><%= tx.description %></span>
                       </div>
                     </td>
                     <td class="p-5">
                       <div class="flex items-center gap-1">
                         <span class="font-black text-sm text-foreground"><%= tx.amount.toLocaleString('fa-IR') %></span>
-                        <span class="text-xs text-muted">تومان</span>
+                        <span class="text-xs text-muted"><%= t('label_currency') %></span>
                       </div>
                     </td>
                     <td class="p-5">

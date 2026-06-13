@@ -15,7 +15,7 @@
                 <div class="w-1 h-1 bg-foreground rounded-full"></div>
                 <div class="w-2 h-2 bg-foreground rounded-full"></div>
               </div>
-              <div class="font-black text-foreground">دوره های من</div>
+              <div class="font-black text-foreground"><%= t('profile_my_courses') %></div>
             </div>
             <!-- end section:title -->
 
@@ -47,7 +47,7 @@
                         </svg>
                       </span><!-- end inactive icon -->
 
-                      <span class="font-semibold text-sm">در حال یادگیری</span>
+                      <span class="font-semibold text-sm"><%= t('label_in_progress') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
 
@@ -72,7 +72,7 @@
                         </svg>
                       </span><!-- end inactive icon -->
 
-                      <span class="font-semibold text-sm">تکمیل شده</span>
+                      <span class="font-semibold text-sm"><%= t('label_completed') %></span>
                     </button>
                   </li><!-- end tabs:list:item -->
                 </ul>
@@ -90,9 +90,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-muted/30 mb-3">
                       <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
                     </svg>
-                    <p class="text-muted text-sm mb-4">هنوز دوره‌ای را شروع نکرده‌اید</p>
-                    <a href="/courses" class="h-10 inline-flex items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground hover:opacity-80 transition-opacity">
-                      مشاهده دوره‌ها
+                    <p class="text-muted text-sm mb-4"><%= t('profile_no_courses_started') %></p>
+                    <a href="<%= lp %>/courses" class="h-10 inline-flex items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground hover:opacity-80 transition-opacity">
+                      <%= t('home_view_courses') %>
                     </a>
                   </div>
                   <% } else { %>
@@ -103,15 +103,15 @@
                       <%
                         const ch = c.totalDuration ? Math.floor(c.totalDuration / 3600) : 0;
                         const cm = c.totalDuration ? Math.floor((c.totalDuration % 3600) / 60) : 0;
-                        const dur = ch > 0 ? (ch + ' ساعت' + (cm > 0 ? ' و ' + cm + ' دقیقه' : '')) : (cm > 0 ? cm + ' دقیقه' : null);
+                        const dur = ch > 0 ? (ch + ' ' + t('label_hour') + (cm > 0 ? ' ' + t('label_and') + ' ' + cm + ' ' + t('label_minute') : '')) : (cm > 0 ? cm + ' ' + t('label_minute') : null);
                       %>
                       <div class="swiper-slide">
                         <!-- course:card -->
                         <div class="relative">
                           <div class="relative z-10">
-                            <a href="/courses/<%= c.slug %>" class="block">
-                              <% if (c.thumbnail) { %>
-                              <img src="<%= c.thumbnail %>" class="max-w-full rounded-3xl" alt="<%= c.title %>" />
+                            <a href="<%= lp %>/courses/<%= c.slug %>" class="block">
+                              <% if (loc(c.thumbnail)) { %>
+                              <img src="<%= loc(c.thumbnail) %>" class="max-w-full rounded-3xl" alt="<%= loc(c.title) %>" />
                               <% } else { %>
                               <div class="w-full aspect-video bg-secondary rounded-3xl flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-muted/30">
@@ -121,12 +121,12 @@
                               <% } %>
                             </a>
                             <% if (c.category) { %>
-                            <a href="/courses?category=<%= c.category.slug %>"
-                              class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
+                            <a href="<%= lp %>/courses?category=<%= c.category.slug %>"
+                              class="absolute <%= dir === 'ltr' ? 'left-3' : 'right-3' %> top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                               </svg>
-                              <span class="font-semibold text-sm"><%= c.category.title %></span>
+                              <span class="font-semibold text-sm"><%= loc(c.category.title) %></span>
                             </a>
                             <% } %>
                           </div>
@@ -135,17 +135,17 @@
                               <div class="flex items-center gap-2">
                                 <% if (item.percentage >= 100) { %>
                                 <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                <span class="font-bold text-xs text-success">تکمیل شده</span>
+                                <span class="font-bold text-xs text-success"><%= t('label_completed') %></span>
                                 <% } else if (item.percentage > 0) { %>
                                 <span class="block w-1 h-1 bg-primary rounded-full"></span>
-                                <span class="font-bold text-xs text-primary"><%= item.percentage %>% مشاهده شده</span>
+                                <span class="font-bold text-xs text-primary"><%= item.percentage %>% <%= t('label_watched') %></span>
                                 <% } else { %>
                                 <span class="block w-1 h-1 bg-muted rounded-full"></span>
-                                <span class="font-bold text-xs text-muted">شروع نشده</span>
+                                <span class="font-bold text-xs text-muted"><%= t('label_not_started') %></span>
                                 <% } %>
                               </div>
                               <h2 class="font-bold text-sm">
-                                <a href="/courses/<%= c.slug %>" class="line-clamp-1 text-foreground transition-colors hover:text-primary"><%= c.title %></a>
+                                <a href="<%= lp %>/courses/<%= c.slug %>" class="line-clamp-1 text-foreground transition-colors hover:text-primary"><%= loc(c.title) %></a>
                               </h2>
                             </div>
                             <div class="space-y-3 p-5">
@@ -155,7 +155,7 @@
                                     <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
                                     <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
                                   </svg>
-                                  <span class="font-semibold text-xs"><%= c.totalEpisodes %> قسمت</span>
+                                  <span class="font-semibold text-xs"><%= c.totalEpisodes %> <%= t('label_episodes') %></span>
                                 </div>
                                 <% if (dur) { %>
                                 <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
@@ -176,20 +176,20 @@
                                     </svg>
                                   </div>
                                   <div class="flex flex-col items-start space-y-1">
-                                    <span class="line-clamp-1 font-semibold text-xs text-muted">مدرس دوره:</span>
-                                    <span class="line-clamp-1 font-bold text-xs text-foreground"><%= c.instructor.displayName || 'مدرس' %></span>
+                                    <span class="line-clamp-1 font-semibold text-xs text-muted"><%= t('label_instructor_colon') %></span>
+                                    <span class="line-clamp-1 font-bold text-xs text-foreground"><%= loc(c.instructor.displayName) || t('label_instructor') %></span>
                                   </div>
                                 </div>
                                 <div class="flex flex-col items-end justify-center h-14">
                                   <% if (c.price === 0) { %>
-                                  <span class="font-black text-xl text-success">رایگان!</span>
+                                  <span class="font-black text-xl text-success"><%= t('label_free_exclaim') %></span>
                                   <% } else { %>
                                   <% if (c.discountPrice) { %>
                                   <span class="line-through text-muted"><%= c.price.toLocaleString('fa-IR') %></span>
                                   <% } %>
                                   <div class="flex items-center gap-1">
                                     <span class="font-black text-xl text-foreground"><%= (c.discountPrice ?? c.price).toLocaleString('fa-IR') %></span>
-                                    <span class="text-xs text-muted">تومان</span>
+                                    <span class="text-xs text-muted"><%= t('label_currency') %></span>
                                   </div>
                                   <% } %>
                                 </div>
@@ -197,14 +197,14 @@
                               <% } %>
                               <div class="space-y-3 mt-3">
                                 <div class="flex flex-col">
-                                  <span class="text-xs text-primary"><%= item.percentage %>% مشاهده شده</span>
+                                  <span class="text-xs text-primary"><%= item.percentage %>% <%= t('label_watched') %></span>
                                   <div class="relative w-full h-1.5 bg-border rounded-full overflow-hidden">
-                                    <span class="absolute right-0 h-full bg-primary" style="width: <%= item.percentage %>%;"></span>
+                                    <span class="absolute <%= dir === 'ltr' ? 'left-0' : 'right-0' %> h-full bg-primary" style="width: <%= item.percentage %>%;"></span>
                                   </div>
                                 </div>
-                                <a href="/courses/<%= c.slug %>/episodes"
+                                <a href="<%= lp %>/courses/<%= c.slug %>/episodes"
                                   class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                  <span class="font-semibold text-sm">ادامه یادگیری</span>
+                                  <span class="font-semibold text-sm"><%= t('btn_continue') %></span>
                                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                   </svg>
@@ -230,8 +230,8 @@
                   <div class="flex flex-col items-center justify-center w-full max-w-md space-y-12 mx-auto">
                     <img src="/assets/images/theme/empty.svg" class="w-full max-w-xs opacity-35" alt="..." />
                     <div class="text-center space-y-3">
-                      <h2 class="font-bold text-xl text-foreground">موردی یافت نشد :)</h2>
-                      <p class="font-semibold text-sm text-muted">هنوز دوره ای به صورت کامل مشاهده نکرده اید،بعد از اتمام دوره هایی که در آن شرکت کرده اید می توانید از این بخش برای گرفتن مدرک اقدام کنید.</p>
+                      <h2 class="font-bold text-xl text-foreground"><%= t('profile_courses_completed_empty') %></h2>
+                      <p class="font-semibold text-sm text-muted"><%= t('profile_courses_completed_hint') %></p>
                     </div>
                   </div>
                   <% } else { %>
@@ -242,15 +242,15 @@
                       <%
                         const ch2 = c.totalDuration ? Math.floor(c.totalDuration / 3600) : 0;
                         const cm2 = c.totalDuration ? Math.floor((c.totalDuration % 3600) / 60) : 0;
-                        const dur2 = ch2 > 0 ? (ch2 + ' ساعت' + (cm2 > 0 ? ' و ' + cm2 + ' دقیقه' : '')) : (cm2 > 0 ? cm2 + ' دقیقه' : null);
+                        const dur2 = ch2 > 0 ? (ch2 + ' ' + t('label_hour') + (cm2 > 0 ? ' ' + t('label_and') + ' ' + cm2 + ' ' + t('label_minute') : '')) : (cm2 > 0 ? cm2 + ' ' + t('label_minute') : null);
                       %>
                       <div class="swiper-slide">
                         <!-- course:card -->
                         <div class="relative">
                           <div class="relative z-10">
-                            <a href="/courses/<%= c.slug %>" class="block">
-                              <% if (c.thumbnail) { %>
-                              <img src="<%= c.thumbnail %>" class="max-w-full rounded-3xl" alt="<%= c.title %>" />
+                            <a href="<%= lp %>/courses/<%= c.slug %>" class="block">
+                              <% if (loc(c.thumbnail)) { %>
+                              <img src="<%= loc(c.thumbnail) %>" class="max-w-full rounded-3xl" alt="<%= loc(c.title) %>" />
                               <% } else { %>
                               <div class="w-full aspect-video bg-secondary rounded-3xl flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-muted/30">
@@ -260,12 +260,12 @@
                               <% } %>
                             </a>
                             <% if (c.category) { %>
-                            <a href="/courses?category=<%= c.category.slug %>"
-                              class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
+                            <a href="<%= lp %>/courses?category=<%= c.category.slug %>"
+                              class="absolute <%= dir === 'ltr' ? 'left-3' : 'right-3' %> top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                               </svg>
-                              <span class="font-semibold text-sm"><%= c.category.title %></span>
+                              <span class="font-semibold text-sm"><%= loc(c.category.title) %></span>
                             </a>
                             <% } %>
                           </div>
@@ -273,10 +273,10 @@
                             <div class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
                               <div class="flex items-center gap-2">
                                 <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                <span class="font-bold text-xs text-success">تکمیل شده</span>
+                                <span class="font-bold text-xs text-success"><%= t('label_completed') %></span>
                               </div>
                               <h2 class="font-bold text-sm">
-                                <a href="/courses/<%= c.slug %>" class="line-clamp-1 text-foreground transition-colors hover:text-primary"><%= c.title %></a>
+                                <a href="<%= lp %>/courses/<%= c.slug %>" class="line-clamp-1 text-foreground transition-colors hover:text-primary"><%= loc(c.title) %></a>
                               </h2>
                             </div>
                             <div class="space-y-3 p-5">
@@ -286,7 +286,7 @@
                                     <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
                                     <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
                                   </svg>
-                                  <span class="font-semibold text-xs"><%= c.totalEpisodes %> قسمت</span>
+                                  <span class="font-semibold text-xs"><%= c.totalEpisodes %> <%= t('label_episodes') %></span>
                                 </div>
                                 <% if (dur2) { %>
                                 <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
@@ -307,29 +307,29 @@
                                     </svg>
                                   </div>
                                   <div class="flex flex-col items-start space-y-1">
-                                    <span class="line-clamp-1 font-semibold text-xs text-muted">مدرس دوره:</span>
-                                    <span class="line-clamp-1 font-bold text-xs text-foreground"><%= c.instructor.displayName || 'مدرس' %></span>
+                                    <span class="line-clamp-1 font-semibold text-xs text-muted"><%= t('label_instructor_colon') %></span>
+                                    <span class="line-clamp-1 font-bold text-xs text-foreground"><%= loc(c.instructor.displayName) || t('label_instructor') %></span>
                                   </div>
                                 </div>
                                 <div class="flex flex-col items-end justify-center h-14">
                                   <% if (c.price === 0) { %>
-                                  <span class="font-black text-xl text-success">رایگان!</span>
+                                  <span class="font-black text-xl text-success"><%= t('label_free_exclaim') %></span>
                                   <% } else { %>
                                   <% if (c.discountPrice) { %>
                                   <span class="line-through text-muted"><%= c.price.toLocaleString('fa-IR') %></span>
                                   <% } %>
                                   <div class="flex items-center gap-1">
                                     <span class="font-black text-xl text-foreground"><%= (c.discountPrice ?? c.price).toLocaleString('fa-IR') %></span>
-                                    <span class="text-xs text-muted">تومان</span>
+                                    <span class="text-xs text-muted"><%= t('label_currency') %></span>
                                   </div>
                                   <% } %>
                                 </div>
                               </div>
                               <% } %>
                               <div class="space-y-3 mt-3">
-                                <a href="/courses/<%= c.slug %>/episodes"
+                                <a href="<%= lp %>/courses/<%= c.slug %>/episodes"
                                   class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                  <span class="font-semibold text-sm">مشاهده دوره</span>
+                                  <span class="font-semibold text-sm"><%= t('btn_view_course') %></span>
                                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                   </svg>

@@ -71,7 +71,7 @@ export class CourseViewController {
 
   @Get(':slug')
   @Render('view/pages/course/detail')
-  async detail(@Param('slug') slug: string, @Req() req: ReqWithUser): Promise<object> {
+  async detail(@Param('slug') slug: string, @Req() req: ReqWithUser, @Res({ passthrough: true }) res: Response): Promise<object> {
     const course = await this.courseService.findPublishedBySlugOrFail(slug);
     const chapters = await this.episodeService.getChaptersWithEpisodes(course.id);
     const comments = await this.commentService.getApprovedComments(course.id);
@@ -91,8 +91,12 @@ export class CourseViewController {
 
     const appUrl = this.config.app.appUrl;
     const courseUrl = `${appUrl}/courses/${course.slug}`;
-    const thumbnail = course.thumbnail
-      ? (course.thumbnail.startsWith('http') ? course.thumbnail : `${appUrl}${course.thumbnail}`)
+    const locale: string = res.locals.locale ?? 'fa';
+    const rawThumb = course.thumbnail
+      ? (course.thumbnail[locale] ?? course.thumbnail['fa'] ?? Object.values(course.thumbnail)[0] ?? null)
+      : null;
+    const thumbnail = rawThumb
+      ? (rawThumb.startsWith('http') ? rawThumb : `${appUrl}${rawThumb}`)
       : null;
 
     const jsonLd = JSON.stringify({

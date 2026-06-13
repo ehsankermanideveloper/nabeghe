@@ -40,7 +40,7 @@ export class CourseRepository extends BaseRepository<CourseEntity> {
 
     if (filter.q) {
       qb.andWhere(
-        '(course.title ILIKE :q OR course.short_description ILIKE :q)',
+        '(course.title::text ILIKE :q OR course.short_description::text ILIKE :q)',
         { q: `%${filter.q}%` },
       );
     }

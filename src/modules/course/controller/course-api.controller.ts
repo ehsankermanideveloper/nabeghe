@@ -8,8 +8,10 @@ import {
   Param,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { Public } from '@modules/auth/decorator/public.decorator';
 import { CurrentUser } from '@modules/auth/decorator/current-user.decorator';
 import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
@@ -85,11 +87,13 @@ export class CourseApiController {
   async toggleWishlist(
     @Param('slug') slug: string,
     @CurrentUser() user: SessionUserPayload,
+    @Req() req: Request,
   ) {
+    const t = (req.res as any).locals.t as (key: string) => string;
     const course = await this.courseService.findPublishedBySlugOrFail(slug);
     const result = await this.wishlistService.toggle(user.id, course.id);
     return {
-      message: result.wishlisted ? 'به علاقه‌مندی‌ها اضافه شد' : 'از علاقه‌مندی‌ها حذف شد',
+      message: result.wishlisted ? t('msg_wishlist_added') : t('msg_wishlist_removed'),
       ...result,
     };
   }

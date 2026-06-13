@@ -47,11 +47,13 @@ window.showAlert = function (message, type, duration) {
 };
 
 window.toggleWishlistCard = function (slug, btn) {
+    var lp = window._lp || "";
+    var i18n = window._i18n || {};
     btn.disabled = true;
-    fetch("/api/courses/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
+    fetch(lp + "/api/courses/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
         .then(function (res) {
             if (res.status === 401) {
-                showAlert("برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید", "warning");
+                showAlert(i18n.msg_wishlist_login_required || "Please sign in", "warning");
                 return null;
             }
             return res.json();
@@ -59,16 +61,22 @@ window.toggleWishlistCard = function (slug, btn) {
         .then(function (data) {
             if (!data) return;
             if (data.wishlisted) {
-                btn.classList.remove("text-muted");
+                btn.classList.remove("text-muted", "hover:text-red-500");
                 btn.classList.add("text-red-500");
             } else {
-                btn.classList.remove("text-red-500");
+                btn.classList.remove("text-red-500", "hover:text-red-500");
                 btn.classList.add("text-muted");
+                btn.addEventListener("mouseleave", function restoreHover() {
+                    btn.classList.add("hover:text-red-500");
+                    btn.removeEventListener("mouseleave", restoreHover);
+                });
+                var row = btn.closest(".wishlist-course-row");
+                if (row) row.remove();
             }
             showAlert(data.message, data.wishlisted ? "success" : "info");
         })
         .catch(function () {
-            showAlert("خطایی رخ داد، دوباره تلاش کنید", "error");
+            showAlert(i18n.msg_error_generic || "Error", "error");
         })
         .finally(function () {
             btn.disabled = false;
@@ -76,11 +84,13 @@ window.toggleWishlistCard = function (slug, btn) {
 };
 
 window.toggleWishlistArticle = function (slug, btn) {
+    var lp = window._lp || "";
+    var i18n = window._i18n || {};
     btn.disabled = true;
-    fetch("/api/blog/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
+    fetch(lp + "/api/blog/" + slug + "/wishlist", { method: "POST", headers: { "Accept": "application/json" } })
         .then(function (res) {
             if (res.status === 401) {
-                showAlert("برای افزودن به علاقه‌مندی‌ها ابتدا وارد شوید", "warning");
+                showAlert(i18n.msg_wishlist_login_required || "Please sign in", "warning");
                 return null;
             }
             return res.json();
@@ -88,18 +98,22 @@ window.toggleWishlistArticle = function (slug, btn) {
         .then(function (data) {
             if (!data) return;
             if (data.wishlisted) {
-                btn.classList.remove("text-muted");
+                btn.classList.remove("text-muted", "hover:text-red-500");
                 btn.classList.add("text-red-500");
             } else {
-                btn.classList.remove("text-red-500");
+                btn.classList.remove("text-red-500", "hover:text-red-500");
                 btn.classList.add("text-muted");
+                btn.addEventListener("mouseleave", function restoreHover() {
+                    btn.classList.add("hover:text-red-500");
+                    btn.removeEventListener("mouseleave", restoreHover);
+                });
             }
             var row = btn.closest(".wishlist-article-row");
             if (row && !data.wishlisted) row.remove();
             showAlert(data.message, data.wishlisted ? "success" : "info");
         })
         .catch(function () {
-            showAlert("خطایی رخ داد، دوباره تلاش کنید", "error");
+            showAlert(i18n.msg_error_generic || "Error", "error");
         })
         .finally(function () {
             btn.disabled = false;

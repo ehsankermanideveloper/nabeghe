@@ -15,8 +15,8 @@ export class CategoryEntity extends BaseEntity {
   @Column({ name: 'parent_id', type: 'int', nullable: true })
   parentId!: number | null;
 
-  @Column({ type: 'varchar', length: 200 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Index({ unique: true })
   @Column({ type: 'varchar', length: 200 })

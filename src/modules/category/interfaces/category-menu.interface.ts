@@ -1,6 +1,6 @@
 export interface CategoryMenuItem {
   id: number;
-  title: string;
+  title: Record<string, string>;
   slug: string;
   href: string;
   children: CategoryMenuItem[];

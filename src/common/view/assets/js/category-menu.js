@@ -20,7 +20,7 @@ function registerCategoryStore() {
 
       menuFetchPromise = (async () => {
         try {
-          const response = await fetch('/api/categories/menu', {
+          const response = await fetch((window._lp || '') + '/api/categories/menu', {
             headers: { Accept: 'application/json' },
           });
           if (!response.ok) {

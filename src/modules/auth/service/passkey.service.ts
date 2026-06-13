@@ -61,7 +61,7 @@ export class PasskeyService {
     }));
 
     const userName = user.phone ?? user.email ?? `user-${user.id}`;
-    const userDisplayName = user.displayName ?? userName;
+    const userDisplayName = (user.displayName ? (user.displayName['fa'] ?? Object.values(user.displayName)[0]) : null) ?? userName;
 
     const options = await generateRegistrationOptions({
       rpName: 'آکادمی نابغه',

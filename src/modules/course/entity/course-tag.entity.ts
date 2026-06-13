@@ -15,8 +15,8 @@ export class CourseTagEntity extends BaseEntity {
   @Column({ name: 'course_id', type: 'int' })
   courseId!: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  name!: string;
+  @Column({ type: 'jsonb' })
+  name!: Record<string, string>;
 
   @ManyToOne(() => CourseEntity, (course) => course.tags, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'course_id' })

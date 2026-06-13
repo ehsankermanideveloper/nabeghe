@@ -17,8 +17,8 @@ export class CourseChapterEntity extends BaseEntity {
   @Column({ name: 'course_id', type: 'int' })
   courseId!: number;
 
-  @Column({ type: 'varchar', length: 200 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Column({ name: 'sort_order', type: 'int', default: 0 })
   sortOrder!: number;

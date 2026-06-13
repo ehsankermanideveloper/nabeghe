@@ -20,15 +20,15 @@ export class CourseEpisodeEntity extends BaseEntity {
   @Column({ name: 'chapter_id', type: 'int', nullable: true })
   chapterId!: number | null;
 
-  @Column({ type: 'varchar', length: 200 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Index()
   @Column({ type: 'varchar', length: 200 })
   slug!: string;
 
-  @Column({ type: 'text', nullable: true })
-  description!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  description!: Record<string, string> | null;
 
   @Column({ name: 'video_url', type: 'varchar', length: 500, nullable: true })
   videoUrl!: string | null;

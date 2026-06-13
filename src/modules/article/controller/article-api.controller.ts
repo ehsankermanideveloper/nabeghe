@@ -5,8 +5,10 @@ import {
   HttpCode,
   Param,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { CurrentUser } from '@modules/auth/decorator/current-user.decorator';
 import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
 import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
@@ -41,11 +43,13 @@ export class ArticleApiController {
   async toggleWishlist(
     @Param('slug') slug: string,
     @CurrentUser() user: SessionUserPayload,
+    @Req() req: Request,
   ) {
+    const t = (req.res as any).locals.t as (key: string) => string;
     const article = await this.articleService.findPublishedBySlugOrFail(slug);
     const result = await this.wishlistService.toggle(user.id, article.id);
     return {
-      message: result.wishlisted ? 'به علاقه‌مندی‌ها اضافه شد' : 'از علاقه‌مندی‌ها حذف شد',
+      message: result.wishlisted ? t('msg_wishlist_added') : t('msg_wishlist_removed'),
       ...result,
     };
   }

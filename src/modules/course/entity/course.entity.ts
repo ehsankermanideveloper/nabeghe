@@ -19,21 +19,21 @@ import { CourseTagEntity } from './course-tag.entity';
 
 @Entity({ name: ModelEnum.COURSE, schema: SchemaEnum.PUBLIC })
 export class CourseEntity extends BaseEntity {
-  @Column({ type: 'varchar', length: 200 })
-  title!: string;
+  @Column({ type: 'jsonb' })
+  title!: Record<string, string>;
 
   @Index({ unique: true })
   @Column({ type: 'varchar', length: 200 })
   slug!: string;
 
-  @Column({ name: 'short_description', type: 'varchar', length: 500, nullable: true })
-  shortDescription!: string | null;
+  @Column({ name: 'short_description', type: 'jsonb', nullable: true })
+  shortDescription!: Record<string, string> | null;
 
-  @Column({ type: 'text', nullable: true })
-  description!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  description!: Record<string, string> | null;
 
-  @Column({ type: 'varchar', length: 500, nullable: true })
-  thumbnail!: string | null;
+  @Column({ type: 'jsonb', nullable: true })
+  thumbnail!: Record<string, string> | null;
 
   @Column({ name: 'preview_video', type: 'varchar', length: 500, nullable: true })
   previewVideo!: string | null;

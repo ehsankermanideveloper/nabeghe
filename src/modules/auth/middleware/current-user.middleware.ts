@@ -19,7 +19,7 @@ export class CurrentUserMiddleware implements NestMiddleware {
       const user = await this.authService.getSessionUser(userId);
       if (user) {
         req.user = user;
-        res.locals.currentUser = this.authService.toViewUser(user);
+        res.locals.currentUser = this.authService.toViewUser(user, res.locals.locale);
         res.locals.csrfToken = this.authService.ensureCsrfToken(req);
       } else {
         delete req.session.userId;

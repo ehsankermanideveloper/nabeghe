@@ -8,6 +8,10 @@
       {
         "include": "**/*.ejs",
         "watchAssets": true
+      },
+      {
+        "include": "i18n/**/*.json",
+        "watchAssets": true
       }
     ]
   }

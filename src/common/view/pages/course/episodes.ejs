@@ -1,56 +1,141 @@
 <% locals.usePlyr = true; %>
-<% if (episode && episode.videoUrl && episode.videoUrl.includes('.m3u8') && !episode.videoUrl.includes('mediadelivery.net') && !episode.videoUrl.includes('bunny.net')) { locals.useHls = true; } %>
+<% if (episode && episode.videoUrl && episode.videoUrl.includes('.m3u8') && !episode.videoUrl.includes('iframe.mediadelivery.net') && !episode.videoUrl.includes('iframe.bunny.net')) { locals.useHls = true; } %>
 <main class="flex-auto py-5">
   <div class="max-w-7xl space-y-8 px-4 mx-auto">
+     
+    <div class="flex lg:flex-nowrap flex-wrap items-start gap-5 episodes-layout">
+ <!-- right: episode list sidebar (4/12 sticky) -->
+      <div class="lg:w-4/12 w-full lg:sticky lg:top-24 episodes-sidebar">
+        <div class="bg-background rounded-2xl">
+          <div class="flex flex-col space-y-1">
+            <% if (chapters && chapters.length > 0) { %>
+            <% var epIdx = 0; %>
+            <% chapters.forEach(function(chapter, ci) { %>
+            <%
+              const hasCurrentEp = chapter.episodes && chapter.episodes.some(function(ep) { return episode && ep.id === episode.id; });
+            %>
+            <div class="w-full space-y-1" x-data="{ open: <%= hasCurrentEp || ci === 0 ? 'true' : 'false' %> }">
+              <button type="button"
+                class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
+                x-bind:class="open ? 'text-foreground' : 'text-muted'"
+                x-on:click="open = !open">
+                <span class="flex items-center gap-3 text-right">
+                  <span class="font-semibold text-xs line-clamp-1"><%= t('label_chapter') %> <%= ci + 1 %></span>
+                  <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                  <span class="font-semibold text-xs line-clamp-1"><%= loc(chapter.title) %></span>
+                </span>
+                <span x-bind:class="open ? 'rotate-180' : ''">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </span>
+              </button>
 
-    <div class="flex lg:flex-nowrap flex-wrap items-start gap-5">
-
+              <div class="flex flex-col relative" x-show="open" x-cloak>
+                <div class="bg-background border border-border rounded-2xl space-y-1 overflow-hidden">
+                  <% if (chapter.episodes) { chapter.episodes.forEach(function(ep) { epIdx++; %>
+                  <%
+                    const isCurrent = episode && ep.id === episode.id;
+                    const isDone = completedIds && completedIds.includes(ep.id);
+                    const canAccess = ep.isFree || isEnrolled;
+                  %>
+                  <% if (canAccess) { %>
+                  <a href="<%= lp %>/courses/<%= course.slug %>/episodes/<%= ep.slug %>"
+                    class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 p-4 transition-colors <%= isCurrent ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary/50' %>">
+                    <span class="text-xs <%= isCurrent ? '' : 'text-muted' %>"><%= epIdx %></span>
+                    <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                    <span class="font-semibold text-xs <%= isCurrent ? 'text-primary-foreground' : 'text-foreground' %> line-clamp-1 flex-1"><%= loc(ep.title) %></span>
+                    <div class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
+                      <% if (ep.videoDuration) { %>
+                      <span class="flex items-center gap-1 <%= isCurrent ? '' : 'text-muted' %>">
+                        <span class="text-xs"><%= ep.formattedDuration %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                      </span>
+                      <% } %>
+                      <% if (!isCurrent) { %>
+                      <span class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted px-3">
+                        <span class="text-xs"><%= t('btn_watch') %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <% } %>
+                    </div>
+                  </a>
+                  <% } else { %>
+                  <div class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 p-4 opacity-50">
+                    <span class="text-xs text-muted"><%= epIdx %></span>
+                    <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                    <span class="font-semibold text-xs text-muted line-clamp-1 flex-1"><%= loc(ep.title) %></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-muted mr-auto">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                  </div>
+                  <% } %>
+                  <% }) } %>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <!-- end right sidebar -->
       <!-- left: main content (8/12) -->
-      <div class="lg:w-8/12 w-full">
+      <div class="lg:w-8/12 w-full episodes-main">
 
         <!-- section header: back + episode title + course name + nav -->
         <div class="flex items-start justify-between gap-5 mb-5">
           <div class="flex items-center gap-5">
-            <a href="/courses/<%= course.slug %>"
+            <a href="<%= lp %>/courses/<%= course.slug %>"
               class="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-primary text-primary-foreground rounded-full transition-all hover:opacity-80">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" />
               </svg>
             </a>
             <div class="flex flex-col space-y-1">
-              <span class="font-black xs:text-xl text-lg text-primary line-clamp-1"><%= episode.title %></span>
-              <span class="font-semibold text-xs text-muted line-clamp-1"><%= course.title %></span>
+              <span class="font-black xs:text-xl text-lg text-primary line-clamp-1"><%= loc(episode.title) %></span>
+              <span class="font-semibold text-xs text-muted line-clamp-1"><%= loc(course.title) %></span>
             </div>
           </div>
 
           <!-- prev/next nav -->
           <div class="flex items-center gap-2 flex-shrink-0">
-            <% if (next) { %>
-            <a href="/courses/<%= course.slug %>/episodes/<%= next.slug %>"
-              class="flex items-center justify-center w-10 h-10 bg-secondary rounded-full text-muted transition-colors hover:text-primary"
-              title="قسمت بعدی">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
-            </a>
-            <% } %>
             <% if (prev) { %>
-            <a href="/courses/<%= course.slug %>/episodes/<%= prev.slug %>"
+            <a href="<%= lp %>/courses/<%= course.slug %>/episodes/<%= prev.slug %>"
               class="flex items-center justify-center w-10 h-10 bg-secondary rounded-full text-muted transition-colors hover:text-primary"
-              title="قسمت قبلی">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              title="<%= t('label_prev_episode') %>">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"<%- dir === 'ltr' ? ' style="transform:scaleX(-1)"' : '' %>>
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
               </svg>
             </a>
             <% } %>
+            <% if (next) { %>
+            <a href="<%= lp %>/courses/<%= course.slug %>/episodes/<%= next.slug %>"
+              class="flex items-center justify-center w-10 h-10 bg-secondary rounded-full text-muted transition-colors hover:text-primary"
+              title="<%= t('label_next_episode') %>">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"<%- dir === 'ltr' ? ' style="transform:scaleX(-1)"' : '' %>>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+            </a>
+            <% } %>
+           
           </div>
         </div>
 
         <!-- video player -->
         <% if (episode.videoUrl) { %>
-        <% const isBunny = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net'); %>
-        <% const isHls = !isBunny && episode.videoUrl.includes('.m3u8'); %>
-        <% if (isBunny) { %>
+        <%
+          // isBunnyEmbed: only legacy iframe embeds
+          const isBunnyEmbed = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('iframe.bunny.net');
+          // isHls: any .m3u8 URL (Bunny CDN b-cdn.net, self-hosted, etc.)
+          const isHls = !isBunnyEmbed && episode.videoUrl.includes('.m3u8');
+        %>
+        <% if (isBunnyEmbed) { %>
+        <!-- Legacy: Bunny iframe embed -->
         <div class="rounded-3xl overflow-hidden z-10 bg-black" style="position:relative;padding-top:56.25%;">
           <iframe
             id="player"
@@ -61,12 +146,13 @@
             allowfullscreen
             style="border:0;position:absolute;top:0;left:0;width:100%;height:100%;"
           ></iframe>
-          <div id="player-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;<% if (course.thumbnail) { %>background-image:url('<%= course.thumbnail %>');background-size:cover;background-position:center;<% } else { %>background:#000;<% } %>z-index:20;transition:opacity 0.3s ease;">
+          <div id="player-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;<% if (loc(course.thumbnail)) { %>background-image:url('<%= loc(course.thumbnail) %>');background-size:cover;background-position:center;<% } else { %>background:#000;<% } %>z-index:20;transition:opacity 0.3s ease;">
             <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>
             <div class="relative w-12 h-12 rounded-full border-4 border-white/10 border-t-white/80 animate-spin"></div>
           </div>
         </div>
         <% } else if (isHls) { %>
+        <!-- HLS: Bunny CDN b-cdn.net or any .m3u8 stream -->
         <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-black">
           <video
             id="player"
@@ -75,8 +161,9 @@
             data-course="<%= course.slug %>"
             data-episode="<%= episode.slug %>"
             data-src="<%= episode.videoUrl %>"
-            <% if (course.thumbnail) { %>poster="<%= course.thumbnail %>"<% } %>
+            <% if (loc(course.thumbnail)) { %>poster="<%= loc(course.thumbnail) %>"<% } %>
           >
+            <!-- Safari uses this <source> for native HLS; HLS.js removes it on other browsers -->
             <source src="<%= episode.videoUrl %>" type="application/vnd.apple.mpegurl">
           </video>
           <div id="player-loader" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style="transition:opacity 0.3s ease;">
@@ -85,6 +172,7 @@
           </div>
         </div>
         <% } else { %>
+        <!-- Direct MP4 -->
         <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-black">
           <video
             id="player"
@@ -92,7 +180,7 @@
             playsinline controls
             data-course="<%= course.slug %>"
             data-episode="<%= episode.slug %>"
-            <% if (course.thumbnail) { %>poster="<%= course.thumbnail %>"<% } %>
+            <% if (loc(course.thumbnail)) { %>poster="<%= loc(course.thumbnail) %>"<% } %>
           >
             <source src="<%= episode.videoUrl %>" type="video/mp4" />
           </video>
@@ -104,16 +192,16 @@
         <% } %>
         <% } else { %>
         <div class="relative max-w-full rounded-3xl overflow-hidden z-10 bg-secondary border border-border aspect-video flex items-center justify-center">
-          <p class="text-muted text-sm">ویدیو در دسترس نیست</p>
+          <p class="text-muted text-sm"><%- t('course_no_video') %></p>
         </div>
         <% } %>
 
         <!-- episode meta row -->
         <div class="flex items-center justify-between gap-3 mt-5">
           <div class="flex items-center gap-3 text-xs text-muted">
-            <span>قسمت <%= episodeIndex + 1 %> از <%= course.totalEpisodes %></span>
+            <span><%= t('label_episode') %> <%= episodeIndex + 1 %> <%= t('label_of') %> <%= course.totalEpisodes %></span>
             <% if (episode.isFree) { %>
-            <span class="inline-flex items-center bg-success/10 text-success rounded-full font-semibold px-2 py-0.5">رایگان</span>
+            <span class="inline-flex items-center bg-success/10 text-success rounded-full font-semibold px-2 py-0.5"><%= t('label_free') %></span>
             <% } %>
           </div>
           <% if (isEnrolled) { %>
@@ -122,7 +210,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
               <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
             </svg>
-            <%= (progress && progress.isCompleted) ? 'تکمیل شد' : 'علامت‌گذاری تکمیل' %>
+            <%= (progress && progress.isCompleted) ? t('btn_marked_complete') : t('btn_mark_complete') %>
           </button>
           <% } %>
         </div>
@@ -133,7 +221,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary shrink-0">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
           </svg>
-          <p class="text-sm font-semibold text-foreground flex-1">فایل ضمیمه</p>
+          <p class="text-sm font-semibold text-foreground flex-1"><%= t('label_attachment') %></p>
           <a href="<%= episode.attachmentUrl %>" download
             class="h-9 bg-primary text-primary-foreground rounded-full text-xs font-semibold px-4 flex items-center hover:opacity-80 transition-all">
             دانلود
@@ -145,7 +233,7 @@
         <% if (isEnrolled && completionPercent >= 0) { %>
         <div class="mt-5 space-y-1">
           <div class="flex items-center justify-between text-xs text-muted">
-            <span>پیشرفت دوره</span>
+            <span><%= t('label_progress') %></span>
             <span class="font-semibold text-foreground"><%= completionPercent %>%</span>
           </div>
           <div class="h-1.5 bg-secondary rounded-full overflow-hidden">
@@ -175,7 +263,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                       </svg>
                     </span>
-                    <span class="font-semibold text-sm whitespace-nowrap">توضیحات</span>
+                    <span class="font-semibold text-sm whitespace-nowrap"><%= t('course_description_tab') %></span>
                   </button>
                 </li>
                 <li>
@@ -194,7 +282,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
                       </svg>
                     </span>
-                    <span class="font-semibold text-sm whitespace-nowrap">دیدگاه و پرسش</span>
+                    <span class="font-semibold text-sm whitespace-nowrap"<%= t('course_comment_tab') %></span>
                   </button>
                 </li>
               </ul>
@@ -206,10 +294,10 @@
             <div class="bg-background rounded-3xl p-5" id="tabOne">
               <% if (episode.description) { %>
               <div class="description prose prose-sm max-w-none text-muted leading-7">
-                <%- episode.description %>
+                <%- loc(episode.description) %>
               </div>
               <% } else { %>
-              <p class="text-sm text-muted">توضیحاتی برای این قسمت ثبت نشده است.</p>
+              <p class="text-sm text-muted"><%- t('course_episode_no_description') %></p>
               <% } %>
             </div>
 
@@ -220,7 +308,7 @@
                   <div class="w-1 h-1 bg-foreground rounded-full"></div>
                   <div class="w-2 h-2 bg-foreground rounded-full"></div>
                 </div>
-                <div class="font-black text-foreground">دیدگاه و پرسش</div>
+                <div class="font-black text-foreground"><%= t('course_comment_tab') %></div>
               </div>
 
               <!-- comment form -->
@@ -230,16 +318,16 @@
                     <div class="w-1 h-1 bg-foreground rounded-full"></div>
                     <div class="w-2 h-2 bg-foreground rounded-full"></div>
                   </div>
-                  <div class="font-black text-xs text-foreground">ارسال دیدگاه یا پرسش</div>
+                  <div class="font-black text-xs text-foreground"<%= t('btn_submit_comment') %></div>
                 </div>
                 <% if (typeof currentUser !== 'undefined' && currentUser) { %>
                 <form class="flex flex-col space-y-5">
                   <textarea rows="6"
                     class="w-full !ring-0 !ring-offset-0 bg-secondary border-0 rounded-xl text-sm text-foreground p-5"
-                    placeholder="متن مورد نظر خود را وارد کنید ..."></textarea>
+                    placeholder="<%= t('course_comment_placeholder')%>"></textarea>
                   <button type="submit"
                     class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
-                    <span class="font-semibold text-sm">ثبت دیدگاه یا پرسش</span>
+                    <span class="font-semibold text-sm"><%= t('btn_submit_comment') %></span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                       <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                     </svg>
@@ -247,101 +335,20 @@
                 </form>
                 <% } else { %>
                 <div class="text-center py-4 text-sm text-muted">
-                  برای ثبت دیدگاه <a href="/auth/login?returnTo=/courses/<%= course.slug %>/episodes/<%= episode.slug %>" class="text-primary font-semibold hover:underline">وارد شوید</a>
+                  <%- t('course_episode_comment_login') %> <a href="<%= lp %>/auth/login?returnTo=/courses/<%= course.slug %>/episodes/<%= episode.slug %>" class="text-primary font-semibold hover:underline"><%- t('course_episode_comment_login_link') %></a>
                 </div>
                 <% } %>
               </div>
 
-              <div class="text-center py-6 text-sm text-muted">دیدگاه و پرسش برای قسمت‌های دوره بزودی فعال می‌شود</div>
+              <div class="text-center py-6 text-sm text-muted"><%- t('course_comment_empty') %></div>
             </div>
           </div>
         </div>
-
+ 
       </div>
       <!-- end left main -->
-
-      <!-- right: episode list sidebar (4/12 sticky) -->
-      <div class="lg:w-4/12 w-full lg:sticky lg:top-24">
-        <div class="bg-background rounded-2xl">
-          <div class="flex flex-col space-y-1">
-            <% if (chapters && chapters.length > 0) { %>
-            <% var epIdx = 0; %>
-            <% chapters.forEach(function(chapter, ci) { %>
-            <%
-              const hasCurrentEp = chapter.episodes && chapter.episodes.some(function(ep) { return episode && ep.id === episode.id; });
-            %>
-            <div class="w-full space-y-1" x-data="{ open: <%= hasCurrentEp || ci === 0 ? 'true' : 'false' %> }">
-              <button type="button"
-                class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
-                x-bind:class="open ? 'text-foreground' : 'text-muted'"
-                x-on:click="open = !open">
-                <span class="flex items-center gap-3 text-right">
-                  <span class="font-semibold text-xs line-clamp-1">فصل <%= ci + 1 %></span>
-                  <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
-                  <span class="font-semibold text-xs line-clamp-1"><%= chapter.title %></span>
-                </span>
-                <span x-bind:class="open ? 'rotate-180' : ''">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                  </svg>
-                </span>
-              </button>
-
-              <div class="flex flex-col relative" x-show="open" x-cloak>
-                <div class="bg-background border border-border rounded-2xl space-y-1 overflow-hidden">
-                  <% if (chapter.episodes) { chapter.episodes.forEach(function(ep) { epIdx++; %>
-                  <%
-                    const isCurrent = episode && ep.id === episode.id;
-                    const isDone = completedIds && completedIds.includes(ep.id);
-                    const canAccess = ep.isFree || isEnrolled;
-                  %>
-                  <% if (canAccess) { %>
-                  <a href="/courses/<%= course.slug %>/episodes/<%= ep.slug %>"
-                    class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 p-4 transition-colors <%= isCurrent ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary/50' %>">
-                    <span class="text-xs <%= isCurrent ? '' : 'text-muted' %>"><%= epIdx %></span>
-                    <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
-                    <span class="font-semibold text-xs <%= isCurrent ? 'text-primary-foreground' : 'text-foreground' %> line-clamp-1 flex-1"><%= ep.title %></span>
-                    <div class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                      <% if (ep.videoDuration) { %>
-                      <span class="flex items-center gap-1 <%= isCurrent ? '' : 'text-muted' %>">
-                        <span class="text-xs"><%= ep.formattedDuration %></span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                      </span>
-                      <% } %>
-                      <% if (!isCurrent) { %>
-                      <span class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted px-3">
-                        <span class="text-xs">مشاهده</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                          <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                        </svg>
-                      </span>
-                      <% } %>
-                    </div>
-                  </a>
-                  <% } else { %>
-                  <div class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 p-4 opacity-50">
-                    <span class="text-xs text-muted"><%= epIdx %></span>
-                    <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
-                    <span class="font-semibold text-xs text-muted line-clamp-1 flex-1"><%= ep.title %></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-muted mr-auto">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                    </svg>
-                  </div>
-                  <% } %>
-                  <% }) } %>
-                </div>
-              </div>
-            </div>
-            <% }) %>
-            <% } %>
-          </div>
-        </div>
-      </div>
-      <!-- end right sidebar -->
-
     </div>
+
   </div>
 </main>
 
@@ -354,7 +361,7 @@
     loader.style.opacity = '0';
     setTimeout(function () { loader.remove(); }, 300);
   }
-  <% if (episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net')) { %>
+  <% if (episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('iframe.bunny.net')) { %>
   window.addEventListener('load', function () {
     var iframe = document.getElementById('player');
     if (!iframe) return;
@@ -369,7 +376,7 @@
   <% } %>
 })();
 </script>
-<% const isBunnyScript = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('bunny.net'); %>
+<% const isBunnyScript = episode.videoUrl.includes('mediadelivery.net') || episode.videoUrl.includes('iframe.bunny.net'); %>
 <% const isHlsScript = !isBunnyScript && episode.videoUrl.includes('.m3u8'); %>
 <% if (isHlsScript) { %>
 <script>
@@ -392,7 +399,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (window.Hls && Hls.isSupported()) {
-    // Chrome, Firefox, Edge — HLS.js overrides the <source> tag
+    // Chrome, Firefox, Edge — remove <source> so HLS.js has exclusive control
+    var sourceEl = video.querySelector('source');
+    if (sourceEl) sourceEl.remove();
     var hls = new Hls({ maxBufferLength: 30, maxMaxBufferLength: 60 });
     hls.loadSource(src);
     hls.attachMedia(video);
@@ -400,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function () {
       restoreTime();
       if (window.Plyr) new Plyr(video);
     });
-  } else {
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
     // Safari — native HLS via <source type="application/vnd.apple.mpegurl">, no Plyr
     video.addEventListener('loadedmetadata', restoreTime, { once: true });
   }
@@ -411,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var watchedSeconds = Math.floor(video.currentTime);
     localStorage.setItem('progress:' + courseSlug + ':' + episodeSlug, watchedSeconds);
     try {
-      await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+      await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ watchedSeconds: watchedSeconds, isCompleted: isCompleted || false }),
@@ -431,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function markComplete(courseSlug, episodeSlug) {
   try {
     const video = document.getElementById('player');
-    const res = await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+    const res = await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ watchedSeconds: Math.floor(video ? video.currentTime : 0), isCompleted: true }),
@@ -456,7 +465,7 @@ async function markComplete(courseSlug, episodeSlug) {
   async function saveProgress(isCompleted) {
     localStorage.setItem(storageKey, currentSeconds);
     try {
-      await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+      await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ watchedSeconds: currentSeconds, isCompleted: isCompleted || false }),
@@ -484,7 +493,7 @@ async function markComplete(courseSlug, episodeSlug) {
 async function markComplete(courseSlug, episodeSlug) {
   try {
     const saved = parseInt(localStorage.getItem('progress:' + courseSlug + ':' + episodeSlug) || '0', 10);
-    const res = await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+    const res = await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ watchedSeconds: saved, isCompleted: true }),
@@ -513,7 +522,7 @@ async function markComplete(courseSlug, episodeSlug) {
     const watchedSeconds = Math.floor(video.currentTime);
     localStorage.setItem('progress:' + courseSlug + ':' + episodeSlug, watchedSeconds);
     try {
-      await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+      await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ watchedSeconds, isCompleted: isCompleted || false }),
@@ -531,7 +540,7 @@ async function markComplete(courseSlug, episodeSlug) {
 async function markComplete(courseSlug, episodeSlug) {
   try {
     const video = document.getElementById('player');
-    const res = await fetch('/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
+    const res = await fetch((window._lp || '') + '/api/courses/' + courseSlug + '/episodes/' + episodeSlug + '/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ watchedSeconds: Math.floor(video ? video.currentTime : 0), isCompleted: true }),
