@@ -329,7 +329,7 @@
                               </div>
                               <div class="flex flex-col items-start space-y-1">
                                 <span class="line-clamp-1 font-semibold text-sm text-foreground"><%= comment.user ? (loc(comment.user.displayName) || t('label_user')) : 'کاربر' %></span>
-                                <span class="text-xs text-muted"><%= comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('fa-IR') : '' %></span>
+                                <span class="text-xs text-muted"><%= comment.createdAt ? new Date(comment.createdAt).toLocaleDateString(numLocale) : '' %></span>
                               </div>
                             </div>
                             <div class="flex items-center gap-3 sm:mr-0 mr-auto">
@@ -361,7 +361,7 @@
                                 </div>
                                 <div class="flex flex-col items-start space-y-1">
                                   <span class="line-clamp-1 font-semibold text-sm text-foreground"><%= reply.user ? (loc(reply.user.displayName) || t('label_user')) : 'کاربر' %></span>
-                                  <span class="text-xs text-muted"><%= reply.createdAt ? new Date(reply.createdAt).toLocaleDateString('fa-IR') : '' %></span>
+                                  <span class="text-xs text-muted"><%= reply.createdAt ? new Date(reply.createdAt).toLocaleDateString(numLocale) : '' %></span>
                                 </div>
                               </div>
                             </div>
@@ -407,14 +407,14 @@
               <% if (course.price === 0) { %>
               <span class="font-black text-xl text-success"><%= t('label_free_exclaim') %></span>
               <% } else if (course.discountPrice !== null && course.discountPrice !== undefined) { %>
-              <span class="line-through text-muted text-sm"><%= course.price.toLocaleString('fa-IR') %></span>
+              <span class="line-through text-muted text-sm"><%= course.price.toLocaleString(numLocale) %></span>
               <div class="flex items-center gap-1">
-                <span class="font-black text-xl text-foreground"><%= course.discountPrice.toLocaleString('fa-IR') %></span>
+                <span class="font-black text-xl text-foreground"><%= course.discountPrice.toLocaleString(numLocale) %></span>
                 <span class="text-xs text-muted"><%= t('label_currency') %></span>
               </div>
               <% } else { %>
               <div class="flex items-center gap-1">
-                <span class="font-black text-xl text-foreground"><%= course.price.toLocaleString('fa-IR') %></span>
+                <span class="font-black text-xl text-foreground"><%= course.price.toLocaleString(numLocale) %></span>
                 <span class="text-xs text-muted"><%= t('label_currency') %></span>
               </div>
               <% } %>

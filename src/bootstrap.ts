@@ -59,6 +59,7 @@ export async function bootstrapApp(): Promise<void> {
     res.locals.locale = locale;
     res.locals.dir = RTL_LOCALES.includes(locale) ? 'rtl' : 'ltr';
     res.locals.lp = locale === 'fa' ? '' : `/${locale}`;
+    res.locals.numLocale = locale === 'en' ? 'en-US' : 'fa-IR';
     res.locals.assetVersion = ASSET_VERSION;
     res.locals.t = (key: string): string => i18n[locale]?.[key] ?? i18n['fa']?.[key] ?? key;
     res.locals.loc = (jsonb: unknown): string => {

@@ -106,14 +106,14 @@ const durationText = ch > 0
             <span class="font-black text-xl text-success"><%= t('label_free_exclaim') %></span>
           </div>
           <% } else if (course.discountPrice !== null && course.discountPrice !== undefined) { %>
-          <span class="line-through text-muted text-sm"><%= course.price.toLocaleString('fa-IR') %></span>
+          <span class="line-through text-muted text-sm"><%= course.price.toLocaleString(numLocale) %></span>
           <div class="flex items-center gap-1">
-            <span class="font-black text-xl text-foreground"><%= course.discountPrice.toLocaleString('fa-IR') %></span>
+            <span class="font-black text-xl text-foreground"><%= course.discountPrice.toLocaleString(numLocale) %></span>
             <span class="text-xs text-muted"><%= t('label_currency') %></span>
           </div>
           <% } else { %>
           <div class="flex items-center gap-1">
-            <span class="font-black text-xl text-foreground"><%= course.price.toLocaleString('fa-IR') %></span>
+            <span class="font-black text-xl text-foreground"><%= course.price.toLocaleString(numLocale) %></span>
             <span class="text-xs text-muted"><%= t('label_currency') %></span>
           </div>
           <% } %>

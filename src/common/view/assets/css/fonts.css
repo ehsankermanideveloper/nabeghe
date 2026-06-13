@@ -6,6 +6,12 @@
     src: url('../fonts/yekanBakh/woff2/YekanBakhFaNum-Regular.woff2') format('woff2');
 }
 
+/* English locale: put system-ui first so digits render as Latin (0–9), not Persian */
+html[lang="en"],
+html[lang="en"] body {
+    font-family: system-ui, -apple-system, ui-sans-serif, sans-serif, "YekanBakh";
+}
+
 @font-face {
     font-family: "YekanBakh";
     font-style: normal;

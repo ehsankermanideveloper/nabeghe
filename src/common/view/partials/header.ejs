@@ -349,7 +349,7 @@
                                 </div>
                                 <span class="shrink-0 text-xs font-bold"
                                     :class="course.price === 0 ? 'text-success' : 'text-foreground'"
-                                    x-text="course.price === 0 ? 'رایگان' : ((course.discountPrice ?? course.price).toLocaleString('fa-IR') + ' تومان')">
+                                    x-text="course.price === 0 ? 'رایگان' : ((course.discountPrice ?? course.price).toLocaleString('<%= numLocale %>') + ' تومان')">
                                 </span>
                             </a>
                         </template>

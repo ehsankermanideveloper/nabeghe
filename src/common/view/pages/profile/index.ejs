@@ -183,10 +183,10 @@
                             <span class="font-black text-xl text-success"><%= t('label_free_exclaim') %></span>
                             <% } else { %>
                             <% if (c.discountPrice) { %>
-                            <span class="line-through text-muted"><%= c.price.toLocaleString('fa-IR') %></span>
+                            <span class="line-through text-muted"><%= c.price.toLocaleString(numLocale) %></span>
                             <% } %>
                             <div class="flex items-center gap-1">
-                              <span class="font-black text-xl text-foreground"><%= (c.discountPrice ?? c.price).toLocaleString('fa-IR') %></span>
+                              <span class="font-black text-xl text-foreground"><%= (c.discountPrice ?? c.price).toLocaleString(numLocale) %></span>
                               <span class="text-xs text-muted"><%= t('label_currency') %></span>
                             </div>
                             <% } %>
