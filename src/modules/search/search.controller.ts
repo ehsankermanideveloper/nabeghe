@@ -10,11 +10,12 @@ export class SearchController {
 
   @Get('search')
   @Render('view/pages/site/search')
-  async searchPage(@Query('q') q = ''): Promise<object> {
+  async searchPage(@Query('q') q = '', @Req() req: Request): Promise<object> {
     const query = q.trim();
     const result = query ? await this.searchService.search(query, 12) : { courses: [], articles: [], total: 0 };
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: query ? `نتایج جستجو برای "${query}" - لیان امیری` : 'جستجو - لیان امیری',
+      pageTitle: query ? `${t('page_title_search_for')} "${query}" — ${t('site_name_short')}` : t('page_title_search'),
       seoRobots: 'noindex, follow',
       q: query,
       ...result,

@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%
-      const _siteName  = 'آکادمی لیان امیری';
+      const _siteName  = t('site_name');
       const _title     = (typeof pageTitle     !== 'undefined' && pageTitle)     ? pageTitle     : _siteName;
-      const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
+      const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: t('site_seo_desc');
       const _robots    = (typeof seoRobots     !== 'undefined' && seoRobots)     ? seoRobots     : 'index, follow';
       const _canonical = (typeof seoCanonical  !== 'undefined' && seoCanonical)  ? seoCanonical  : null;
       const _ogType    = (typeof ogType        !== 'undefined' && ogType)        ? ogType        : 'website';
       const _ogImage   = (typeof ogImage       !== 'undefined' && ogImage)       ? ogImage       : null;
       const _jsonLd    = (typeof jsonLd        !== 'undefined' && jsonLd)        ? jsonLd        : null;
-      const _keywords  = (typeof seoKeywords   !== 'undefined' && seoKeywords)   ? seoKeywords   : 'آکادمی لیان امیری, آموزش, دوره آموزشی, مقاله';
+      const _keywords  = (typeof seoKeywords   !== 'undefined' && seoKeywords)   ? seoKeywords   : t('site_seo_keywords');
     %>
 
     <title><%= _title %></title>

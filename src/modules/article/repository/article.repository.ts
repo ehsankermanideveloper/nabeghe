@@ -48,7 +48,10 @@ export class ArticleRepository extends BaseRepository<ArticleEntity> {
 
     if (filter.q) {
       qb.andWhere(
-        '(article.title::text ILIKE :q OR article.short_description::text ILIKE :q)',
+        `(
+          article.title->>'fa' ILIKE :q OR article.title->>'en' ILIKE :q OR article.title->>'ps' ILIKE :q
+          OR article.short_description->>'fa' ILIKE :q OR article.short_description->>'en' ILIKE :q OR article.short_description->>'ps' ILIKE :q
+        )`,
         { q: `%${filter.q}%` },
       );
     }

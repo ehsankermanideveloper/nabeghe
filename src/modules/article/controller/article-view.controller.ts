@@ -22,7 +22,7 @@ export class ArticleViewController {
 
   @Get()
   @Render('view/pages/blog/index')
-  async index(@Query() query: ArticleQueryDto, @Req() req: ReqWithUser): Promise<object> {
+  async index(@Query() query: ArticleQueryDto, @Req() req: ReqWithUser, @Res({ passthrough: true }) res: Response): Promise<object> {
     const userId = req.user?.id;
     const [{ articles, pagination, categories, currentCategory }, wishlistedIds] =
       await Promise.all([
@@ -32,14 +32,17 @@ export class ArticleViewController {
 
     const appUrl = this.config.app.appUrl;
     const catSlug = query.category ? `?category=${query.category}` : '';
+    const t = res.locals.t as (key: string) => string;
+    const locale: string = res.locals.locale ?? 'fa';
+    const catTitle = currentCategory ? (currentCategory.title[locale] ?? currentCategory.title['fa'] ?? '') : '';
 
     return {
       pageTitle: currentCategory
-        ? `${currentCategory.title} — مقالات — لیان امیری`
-        : 'مقالات — لیان امیری',
+        ? `${catTitle} — ${t('page_title_blog')}`
+        : t('page_title_blog'),
       seoDescription: currentCategory
-        ? `مقالات ${currentCategory.title} — آکادمی لیان امیری`
-        : 'مقالات آموزشی و تخصصی — آکادمی لیان امیری',
+        ? `${catTitle} — ${t('site_name')}`
+        : t('site_seo_desc'),
       seoCanonical: `${appUrl}/blog${catSlug}`,
       articles,
       pagination,
@@ -69,6 +72,7 @@ export class ArticleViewController {
 
     const appUrl = this.config.app.appUrl;
     const articleUrl = `${appUrl}/blog/${article.slug}`;
+    const t = res.locals.t as (key: string) => string;
     const locale: string = res.locals.locale ?? 'fa';
     const rawThumb = article.thumbnail
       ? (article.thumbnail[locale] ?? article.thumbnail['fa'] ?? Object.values(article.thumbnail)[0] ?? null)
@@ -77,11 +81,16 @@ export class ArticleViewController {
       ? (rawThumb.startsWith('http') ? rawThumb : `${appUrl}${rawThumb}`)
       : null;
 
+    const articleTitle = article.title[locale] ?? article.title['fa'] ?? '';
+    const articleDesc = article.shortDescription
+      ? (article.shortDescription[locale] ?? article.shortDescription['fa'] ?? '')
+      : null;
+
     const jsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Article',
-      headline: article.title,
-      description: article.shortDescription ?? article.title,
+      headline: articleTitle,
+      description: articleDesc ?? articleTitle,
       url: articleUrl,
       image: thumbnail,
       datePublished: article.publishedAt?.toISOString() ?? new Date().toISOString(),
@@ -99,8 +108,8 @@ export class ArticleViewController {
     });
 
     return {
-      pageTitle: `${article.title} — لیان امیری`,
-      seoDescription: article.shortDescription ?? `مقاله ${article.title} — آکادمی لیان امیری`,
+      pageTitle: `${articleTitle} — ${t('site_name_short')}`,
+      seoDescription: articleDesc ?? `${articleTitle} — ${t('site_name')}`,
       seoCanonical: articleUrl,
       ogType: 'article',
       ogImage: thumbnail,

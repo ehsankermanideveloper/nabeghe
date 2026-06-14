@@ -43,15 +43,17 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     if (this.prefersHtml(request)) {
+      const t = response.locals.t as ((key: string) => string) | undefined;
+      const siteName = t ? t('site_name_short') : 'لیان امیری';
       if (status === Number(HttpStatus.NOT_FOUND)) {
         response.status(status).render('view/pages/errors/not-found', {
-          pageTitle: 'آکادمی لیان امیری - ۴۰۴',
+          pageTitle: t ? t('page_title_not_found') : `${siteName} - 404`,
         });
         return;
       }
 
       response.status(status).render('view/pages/errors/error', {
-        pageTitle: `لیان امیری — ${status}`,
+        pageTitle: `${siteName} — ${status}`,
         statusCode: status,
         title: error,
         message: Array.isArray(message) ? message.join(', ') : message,

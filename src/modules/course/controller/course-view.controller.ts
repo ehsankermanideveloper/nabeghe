@@ -40,7 +40,7 @@ export class CourseViewController {
 
   @Get()
   @Render('view/pages/course/index')
-  async index(@Query() query: CourseQueryDto, @Req() req: ReqWithUser): Promise<object> {
+  async index(@Query() query: CourseQueryDto, @Req() req: ReqWithUser, @Res({ passthrough: true }) res: Response): Promise<object> {
     const { courses, pagination, categories, currentCategory } =
       await this.courseService.findIndexData(query);
 
@@ -51,14 +51,17 @@ export class CourseViewController {
 
     const appUrl = this.config.app.appUrl;
     const catSlug = query.category ? `?category=${query.category}` : '';
+    const t = res.locals.t as (key: string) => string;
+    const locale: string = res.locals.locale ?? 'fa';
+    const catTitle = currentCategory ? (currentCategory.title[locale] ?? currentCategory.title['fa'] ?? '') : '';
 
     return {
       pageTitle: currentCategory
-        ? `${currentCategory.title} — دوره‌های آموزشی — لیان امیری`
-        : 'دوره‌های آموزشی — لیان امیری',
+        ? `${catTitle} — ${t('page_title_courses')}`
+        : t('page_title_courses'),
       seoDescription: currentCategory
-        ? `دوره‌های آموزشی ${currentCategory.title} — آکادمی لیان امیری`
-        : 'دوره‌های آموزشی رایگان و تخصصی — آکادمی لیان امیری',
+        ? `${catTitle} — ${t('site_name')}`
+        : t('site_seo_desc'),
       seoCanonical: `${appUrl}/courses${catSlug}`,
       courses,
       pagination,
@@ -91,6 +94,7 @@ export class CourseViewController {
 
     const appUrl = this.config.app.appUrl;
     const courseUrl = `${appUrl}/courses/${course.slug}`;
+    const t = res.locals.t as (key: string) => string;
     const locale: string = res.locals.locale ?? 'fa';
     const rawThumb = course.thumbnail
       ? (course.thumbnail[locale] ?? course.thumbnail['fa'] ?? Object.values(course.thumbnail)[0] ?? null)
@@ -99,11 +103,16 @@ export class CourseViewController {
       ? (rawThumb.startsWith('http') ? rawThumb : `${appUrl}${rawThumb}`)
       : null;
 
+    const courseTitle = course.title[locale] ?? course.title['fa'] ?? '';
+    const courseDesc = course.shortDescription
+      ? (course.shortDescription[locale] ?? course.shortDescription['fa'] ?? '')
+      : null;
+
     const jsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Course',
-      name: course.title,
-      description: course.shortDescription ?? course.title,
+      name: courseTitle,
+      description: courseDesc ?? courseTitle,
       url: courseUrl,
       image: thumbnail,
       provider: {
@@ -120,8 +129,8 @@ export class CourseViewController {
     });
 
     return {
-      pageTitle: `${course.title} — لیان امیری`,
-      seoDescription: course.shortDescription ?? `دوره آموزشی ${course.title} — آکادمی لیان امیری`,
+      pageTitle: `${courseTitle} — ${t('site_name_short')}`,
+      seoDescription: courseDesc ?? `${courseTitle} — ${t('site_name')}`,
       seoCanonical: courseUrl,
       ogType: 'website',
       ogImage: thumbnail,
@@ -199,10 +208,14 @@ export class CourseViewController {
 
     const allEpisodes = chapters.flatMap((ch) => ch.episodes);
     const episodeIndex = allEpisodes.findIndex((e) => e.id === episode.id);
+    const t = (req as any).res?.locals?.t as (key: string) => string;
+    const locale: string = (req as any).res?.locals?.locale ?? 'fa';
+    const episodeTitle = episode.title[locale] ?? episode.title['fa'] ?? '';
+    const courseTitle = course.title[locale] ?? course.title['fa'] ?? '';
 
     return {
       usePlyr: true,
-      pageTitle: `${episode.title} — ${course.title} — لیان امیری`,
+      pageTitle: `${episodeTitle} — ${courseTitle} — ${t('site_name_short')}`,
       seoRobots: 'noindex, follow',
       course,
       chapters,

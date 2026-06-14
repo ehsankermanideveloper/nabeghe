@@ -40,9 +40,10 @@ export class AuthController {
       res.redirect('/profile');
       return;
     }
+    const t = res.locals.t as (key: string) => string;
     res.render('view/pages/auth/login', {
       layout: false,
-      pageTitle: 'ورود یا ثبت نام — لیان امیری',
+      pageTitle: t('page_title_login'),
       seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       error: error ?? null,
@@ -91,9 +92,10 @@ export class AuthController {
       res.redirect(`${res.locals.lp}/auth/login`);
       return;
     }
+    const t = res.locals.t as (key: string) => string;
     res.render('view/pages/auth/verify', {
       layout: false,
-      pageTitle: 'تایید حساب — لیان امیری',
+      pageTitle: t('page_title_verify'),
       seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       masked: req.session.pendingMasked ?? '',

@@ -47,9 +47,10 @@ export class ProfileController {
       (r) => r.percentage > 0 && r.percentage < 100,
     );
 
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
       useSwiper: true,
-      pageTitle: 'داشبورد — لیان امیری',
+      pageTitle: t('page_title_dashboard'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -85,9 +86,10 @@ export class ProfileController {
     const notStarted = enrollmentsWithProgress.filter((r) => r.percentage === 0);
     const completed = enrollmentsWithProgress.filter((r) => r.percentage >= 100);
 
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
       useSwiper: true,
-      pageTitle: 'دوره‌های من — لیان امیری',
+      pageTitle: t('page_title_my_courses'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -108,8 +110,9 @@ export class ProfileController {
       this.articleWishlistService.getMyWishlist(user.id),
     ]);
 
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: 'علاقه‌مندی‌ها — لیان امیری',
+      pageTitle: t('page_title_wishlist'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -126,8 +129,9 @@ export class ProfileController {
   ): Promise<Record<string, unknown>> {
     const comments = await this.commentService.getMyComments(user.id);
 
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: 'دیدگاه‌های من — لیان امیری',
+      pageTitle: t('page_title_my_comments'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -141,8 +145,9 @@ export class ProfileController {
     @Req() req: Request,
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: 'مالی و اشتراک — لیان امیری',
+      pageTitle: t('page_title_financial'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -156,8 +161,9 @@ export class ProfileController {
     @Req() req: Request,
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: 'اعلانات — لیان امیری',
+      pageTitle: t('page_title_notifications'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),
@@ -172,8 +178,9 @@ export class ProfileController {
     @CurrentUser() user: SessionUserPayload,
   ): Promise<Record<string, unknown>> {
     const passkeys = await this.passkeyService.listPasskeys(user.id);
+    const t = (req as any).res?.locals?.t as (key: string) => string;
     return {
-      pageTitle: 'ویرایش پروفایل — لیان امیری',
+      pageTitle: t('page_title_edit_profile'),
       seoRobots: 'noindex, nofollow',
       user,
       csrfToken: this.authService.ensureCsrfToken(req),

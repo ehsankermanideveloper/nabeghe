@@ -6,8 +6,8 @@ import { CourseWishlistService } from '@modules/course/service/course-wishlist.s
 import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleService } from '@modules/article/service/article.service';
 import { TypedConfigService } from '@common/config/typed-config.service';
-import { Controller, Get, Render, Req } from '@nestjs/common';
-import type { Request } from 'express';
+import { Controller, Get, Render, Req, Res } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import type { SessionUserPayload } from '@modules/auth/interfaces/auth-session.interface';
 
 type ReqWithUser = Request & { user?: SessionUserPayload };
@@ -24,7 +24,7 @@ export class SiteController {
 
   @Get()
   @Render('view/pages/site/home')
-  async home(@Req() req: ReqWithUser): Promise<object> {
+  async home(@Req() req: ReqWithUser, @Res({ passthrough: true }) res: Response): Promise<object> {
     const userId = req.user?.id;
     const [latestCourses, latestComment, latestArticles, wishlistedIds] = await Promise.all([
       this.courseService.findLatest(4),
@@ -32,9 +32,10 @@ export class SiteController {
       this.articleService.findLatest(4),
       userId ? this.wishlistService.getWishlistedCourseIds(userId) : Promise.resolve([]),
     ]);
+    const t = res.locals.t as (key: string) => string;
     const appUrl = this.config.app.appUrl;
-    const siteName = 'آکادمی لیان امیری';
-    const desc = 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم.';
+    const siteName = t('site_name');
+    const desc = t('site_seo_desc');
     const jsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@graph': [
@@ -49,7 +50,7 @@ export class SiteController {
           '@type': 'WebSite',
           '@id': `${appUrl}/#website`,
           url: appUrl,
-          name: 'آکادمی لیان امیری',
+          name: siteName,
           description: desc,
           publisher: { '@id': `${appUrl}/#organization` },
           potentialAction: {
@@ -66,9 +67,9 @@ export class SiteController {
       latestComment,
       latestArticles,
       wishlistedIds,
-      pageTitle: 'آکادمی لیان امیری - صفحه اصلی',
+      pageTitle: t('page_title_home'),
       seoDescription: desc,
-      seoKeywords: 'آکادمی لیان امیری, آموزش رایگان, دوره آموزشی, مقاله, آکادمی خیریه',
+      seoKeywords: t('site_seo_keywords'),
       seoCanonical: `${appUrl}/`,
       jsonLd,
     };
@@ -76,11 +77,12 @@ export class SiteController {
 
   @Get('terms')
   @Render('view/pages/site/terms')
-  terms(): object {
+  terms(@Res({ passthrough: true }) res: Response): object {
+    const t = res.locals.t as (key: string) => string;
     const appUrl = this.config.app.appUrl;
     return {
-      pageTitle: 'قوانین و مقررات — لیان امیری',
-      seoDescription: 'قوانین و مقررات استفاده از خدمات آکادمی لیان امیری.',
+      pageTitle: t('page_title_terms'),
+      seoDescription: t('site_seo_desc'),
       seoCanonical: `${appUrl}/terms`,
       seoRobots: 'noindex, follow',
     };
@@ -88,11 +90,12 @@ export class SiteController {
 
   @Get('about-us')
   @Render('view/pages/site/about-us')
-  aboutUs(): object {
+  aboutUs(@Res({ passthrough: true }) res: Response): object {
+    const t = res.locals.t as (key: string) => string;
     const appUrl = this.config.app.appUrl;
     return {
-      pageTitle: 'درباره آکادمی لیان امیری',
-      seoDescription: 'آکادمی لیان امیری در سال ۱۳۹۴ با هدف ارتقاء سطح دانش و با شعار «دانش اساس تکامل بشر» تأسیس شد. دوره‌های آموزشی رایگان برای افراد محروم جامعه.',
+      pageTitle: t('page_title_about'),
+      seoDescription: t('site_seo_desc'),
       seoCanonical: `${appUrl}/about-us`,
     };
   }
