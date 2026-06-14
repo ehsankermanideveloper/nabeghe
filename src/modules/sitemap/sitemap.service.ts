@@ -65,10 +65,7 @@ export class SitemapService {
     const appUrl = this.config.app.appUrl;
     return [
       'User-agent: *',
-      'Allow: /',
-      'Disallow: /profile',
-      'Disallow: /auth',
-      'Disallow: /api/',
+      'Disallow: /',
       '',
       `Sitemap: ${appUrl}/sitemap.xml`,
     ].join('\n');

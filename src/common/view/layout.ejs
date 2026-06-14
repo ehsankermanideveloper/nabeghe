@@ -7,7 +7,7 @@
       const _siteName  = t('site_name');
       const _title     = (typeof pageTitle     !== 'undefined' && pageTitle)     ? pageTitle     : _siteName;
       const _desc      = (typeof seoDescription!== 'undefined' && seoDescription)? seoDescription: t('site_seo_desc');
-      const _robots    = (typeof seoRobots     !== 'undefined' && seoRobots)     ? seoRobots     : 'index, follow';
+      const _robots    = (typeof seoRobots     !== 'undefined' && seoRobots)     ? seoRobots     : 'noindex, nofollow';
       const _canonical = (typeof seoCanonical  !== 'undefined' && seoCanonical)  ? seoCanonical  : null;
       const _ogType    = (typeof ogType        !== 'undefined' && ogType)        ? ogType        : 'website';
       const _ogImage   = (typeof ogImage       !== 'undefined' && ogImage)       ? ogImage       : null;
