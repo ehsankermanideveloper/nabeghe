@@ -30,25 +30,30 @@ export class SearchController {
     }
     const result = await this.searchService.search(query, 5);
     const loc = (req as any).res?.locals?.loc as ((v: unknown) => string) | undefined;
+    const resolve = (jsonb: Record<string, string> | null | undefined): string => {
+      if (!jsonb) return '';
+      return loc ? loc(jsonb) : (jsonb['fa'] ?? Object.values(jsonb)[0] ?? '');
+    };
     const resolveThumbnail = (thumb: Record<string, string> | null): string | null => {
       if (!thumb) return null;
-      return loc ? loc(thumb) || null : (thumb['fa'] ?? Object.values(thumb)[0] ?? null);
+      const val = loc ? loc(thumb) : (thumb['fa'] ?? Object.values(thumb)[0] ?? null);
+      return val || null;
     };
     return {
       total: result.total,
       courses: result.courses.map((c) => ({
-        title: c.title,
+        title: resolve(c.title),
         slug: c.slug,
         thumbnail: resolveThumbnail(c.thumbnail),
-        category: c.category ? { title: c.category.title, slug: c.category.slug } : null,
+        category: c.category ? { title: resolve(c.category.title), slug: c.category.slug } : null,
         price: c.price,
         discountPrice: c.discountPrice ?? null,
       })),
       articles: result.articles.map((a) => ({
-        title: a.title,
+        title: resolve(a.title),
         slug: a.slug,
         thumbnail: resolveThumbnail(a.thumbnail),
-        category: a.category ? { title: a.category.title, slug: a.category.slug } : null,
+        category: a.category ? { title: resolve(a.category.title), slug: a.category.slug } : null,
         readTime: a.readTime,
       })),
     };
