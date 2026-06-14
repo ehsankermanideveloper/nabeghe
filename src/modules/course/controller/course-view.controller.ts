@@ -55,6 +55,20 @@ export class CourseViewController {
     const locale: string = res.locals.locale ?? 'fa';
     const catTitle = currentCategory ? (currentCategory.title[locale] ?? currentCategory.title['fa'] ?? '') : '';
 
+    const listJsonLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: currentCategory ? catTitle : t('nav_courses'),
+      url: `${appUrl}/courses${catSlug}`,
+      numberOfItems: courses.length,
+      itemListElement: courses.map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${appUrl}/courses/${c.slug}`,
+        name: (c.title[locale] ?? c.title['fa'] ?? ''),
+      })),
+    });
+
     return {
       pageTitle: currentCategory
         ? `${catTitle} — ${t('page_title_courses')}`
@@ -63,6 +77,7 @@ export class CourseViewController {
         ? `${catTitle} — ${t('site_name')}`
         : t('site_seo_desc'),
       seoCanonical: `${appUrl}/courses${catSlug}`,
+      jsonLd: listJsonLd,
       courses,
       pagination,
       query,
@@ -108,23 +123,32 @@ export class CourseViewController {
       ? (course.shortDescription[locale] ?? course.shortDescription['fa'] ?? '')
       : null;
 
+    const safeTitle = courseTitle || t('site_name');
+    const safeDesc = (courseDesc && courseDesc.length > 10) ? courseDesc : safeTitle;
     const jsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Course',
-      name: courseTitle,
-      description: courseDesc ?? courseTitle,
+      name: safeTitle,
+      description: safeDesc,
       url: courseUrl,
-      image: thumbnail,
+      ...(thumbnail ? { image: thumbnail } : {}),
       provider: {
         '@type': 'Organization',
-        name: 'آکادمی لیان امیری',
+        name: t('site_name'),
+        sameAs: appUrl,
         '@id': `${appUrl}/#organization`,
       },
+      hasCourseInstance: [{
+        '@type': 'CourseInstance',
+        courseMode: 'online',
+        inLanguage: locale,
+      }],
       offers: {
         '@type': 'Offer',
-        price: course.price ?? 0,
+        price: String(course.price ?? 0),
         priceCurrency: 'IRR',
         availability: 'https://schema.org/InStock',
+        url: courseUrl,
       },
     });
 

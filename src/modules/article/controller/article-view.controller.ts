@@ -36,6 +36,20 @@ export class ArticleViewController {
     const locale: string = res.locals.locale ?? 'fa';
     const catTitle = currentCategory ? (currentCategory.title[locale] ?? currentCategory.title['fa'] ?? '') : '';
 
+    const listJsonLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: currentCategory ? catTitle : t('nav_articles'),
+      url: `${appUrl}/blog${catSlug}`,
+      numberOfItems: articles.length,
+      itemListElement: articles.map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${appUrl}/blog/${a.slug}`,
+        name: (a.title[locale] ?? a.title['fa'] ?? ''),
+      })),
+    });
+
     return {
       pageTitle: currentCategory
         ? `${catTitle} — ${t('page_title_blog')}`
@@ -44,6 +58,7 @@ export class ArticleViewController {
         ? `${catTitle} — ${t('site_name')}`
         : t('site_seo_desc'),
       seoCanonical: `${appUrl}/blog${catSlug}`,
+      jsonLd: listJsonLd,
       articles,
       pagination,
       query,

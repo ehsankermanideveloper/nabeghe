@@ -1,6 +1,11 @@
 <main class="flex-auto py-5">
   <div class="max-w-7xl space-y-14 px-4 mx-auto">
     <div class="space-y-8">
+    <% const _bc = currentCategory
+      ? [{ name: t('nav_home'), url: lp + '/' }, { name: t('nav_articles'), url: lp + '/blog' }, { name: loc(currentCategory.title), url: null }]
+      : [{ name: t('nav_home'), url: lp + '/' }, { name: t('nav_articles'), url: null }];
+    %>
+    <%- include('../../partials/_breadcrumb', { breadcrumbs: _bc }) %>
 
       <!-- section:title -->
       <div class="flex items-center gap-5">
@@ -11,11 +16,11 @@
         </span>
         <div class="flex flex-col space-y-2">
           <% if (currentCategory) { %>
-          <span class="font-black xs:text-2xl text-lg text-primary"><%= loc(currentCategory.title) %></span>
-          <span class="font-semibold text-xs text-muted"><a href="<%= lp %>/blog" class="hover:underline"><%= t('article_list_title') %></a> › <%= loc(currentCategory.title) %></span>
+          <h1 class="font-black xs:text-2xl text-lg text-primary"><%= loc(currentCategory.title) %></h1>
+          <p class="font-semibold text-xs text-muted"><a href="<%= lp %>/blog" class="hover:underline"><%= t('article_list_title') %></a> › <%= loc(currentCategory.title) %></p>
           <% } else { %>
-          <span class="font-black xs:text-2xl text-lg text-primary"><%= t('article_list_title') %></span>
-          <span class="font-semibold text-xs text-muted"><%= t('article_list_subtitle') %></span>
+          <h1 class="font-black xs:text-2xl text-lg text-primary"><%= t('article_list_title') %></h1>
+          <p class="font-semibold text-xs text-muted"><%= t('article_list_subtitle') %></p>
           <% } %>
         </div>
       </div>

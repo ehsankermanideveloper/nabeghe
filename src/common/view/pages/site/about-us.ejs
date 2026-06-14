@@ -2,6 +2,10 @@
 <main class="flex-auto py-5">
     <!-- container -->
     <div class="max-w-7xl space-y-14 px-4 mx-auto">
+        <%- include('../../partials/_breadcrumb', { breadcrumbs: [
+          { name: t('nav_home'), url: lp + '/' },
+          { name: t('nav_about'), url: null }
+        ]}) %>
         <div class="max-w-xl space-y-5 mx-auto">
             <div class="flex flex-col items-center justify-center space-y-3">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

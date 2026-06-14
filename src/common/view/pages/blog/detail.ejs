@@ -1,5 +1,10 @@
 <main class="flex-auto py-5">
   <div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <%- include('../../partials/_breadcrumb', { breadcrumbs: [
+      { name: t('nav_home'), url: lp + '/' },
+      { name: t('nav_articles'), url: lp + '/blog' },
+      { name: loc(article.title), url: null }
+    ]}) %>
     <div class="flex md:flex-nowrap flex-wrap items-start gap-5">
 
       <!-- left: main content -->

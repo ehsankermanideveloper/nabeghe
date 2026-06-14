@@ -1,5 +1,10 @@
 <main class="flex-auto py-5">
   <div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <%- include('../../partials/_breadcrumb', { breadcrumbs: [
+      { name: t('nav_home'), url: lp + '/' },
+      { name: t('nav_courses'), url: lp + '/courses' },
+      { name: loc(course.title), url: null }
+    ]}) %>
     <% if (mustEnroll) { %>
     <div class="flex items-center gap-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-amber-600 text-sm font-semibold font-black text-foreground">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 shrink-0">

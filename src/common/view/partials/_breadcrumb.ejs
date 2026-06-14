@@ -1,0 +1,40 @@
+<%
+/* breadcrumbs: Array<{ name: string, url: string|null }> */
+if (typeof breadcrumbs !== 'undefined' && breadcrumbs && breadcrumbs.length > 1) {
+%>
+<nav aria-label="breadcrumb" class="mb-4">
+  <ol class="flex flex-wrap items-center gap-1 text-xs text-muted" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <% breadcrumbs.forEach(function(crumb, i) { %>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <% if (crumb.url) { %>
+      <a itemprop="item" href="<%= crumb.url %>" class="hover:text-primary transition-colors">
+        <span itemprop="name"><%= crumb.name %></span>
+      </a>
+      <% } else { %>
+      <span itemprop="item"><span itemprop="name" class="text-foreground font-semibold line-clamp-1"><%= crumb.name %></span></span>
+      <% } %>
+      <meta itemprop="position" content="<%= i + 1 %>" />
+    </li>
+    <% if (i < breadcrumbs.length - 1) { %>
+    <li aria-hidden="true" class="text-muted/40">›</li>
+    <% } %>
+    <% }); %>
+  </ol>
+</nav>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    <% breadcrumbs.forEach(function(crumb, i) { %>
+    {
+      "@type": "ListItem",
+      "position": <%= i + 1 %>,
+      "name": "<%- crumb.name.replace(/"/g, '\\"') %>",
+      "item": "<%= crumb.url || (typeof seoCanonical !== 'undefined' && seoCanonical ? seoCanonical : '') %>"
+    }<%= i < breadcrumbs.length - 1 ? ',' : '' %>
+    <% }); %>
+  ]
+}
+</script>
+<% } %>
