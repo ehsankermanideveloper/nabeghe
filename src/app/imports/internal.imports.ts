@@ -1,4 +1,5 @@
 import { AuthModule } from '@modules/auth/auth.module';
+import { NotificationModule } from '@modules/notification/notification.module';
 import { ArticleModule } from '@modules/article/article.module';
 import { CategoryModule } from '@modules/category/category.module';
 import { CourseModule } from '@modules/course/course.module';
@@ -10,6 +11,7 @@ import { SearchModule } from '@modules/search/search.module';
 import { SitemapModule } from '@modules/sitemap/sitemap.module';
 
 export const internalImports = [
+  NotificationModule,
   HealthModule,
   AuthModule,
   CategoryModule,

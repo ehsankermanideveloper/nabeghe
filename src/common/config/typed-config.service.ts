@@ -5,6 +5,7 @@ import type { AuthConfig } from '../../config/auth.config';
 import type { CacheConfig } from '../../config/cache.config';
 import type { DatabaseConfig } from '../../config/database.config';
 import type { LoggerConfig } from '../../config/logger.config';
+import type { NotificationConfig } from '../../config/notification.config';
 
 /** Typed accessors over global `ConfigService` (prefer this over `process.env` in app code). */
 @Injectable()
@@ -29,5 +30,9 @@ export class TypedConfigService {
 
   get auth(): AuthConfig {
     return this.configService.getOrThrow<AuthConfig>('auth');
+  }
+
+  get notification(): NotificationConfig {
+    return this.configService.getOrThrow<NotificationConfig>('notification');
   }
 }

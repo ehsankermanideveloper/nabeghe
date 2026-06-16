@@ -17,6 +17,8 @@ import {
   parseIdentifier,
   type ParsedIdentifier,
 } from '@modules/auth/util/identifier.util';
+import { SmsService } from '@modules/notification/sms.service';
+import { MailService } from '@modules/notification/mail.service';
 
 export interface StartAuthResult {
   masked: string;
@@ -31,6 +33,8 @@ export class AuthService {
     private readonly config: TypedConfigService,
     private readonly userRepository: UserRepository,
     private readonly otpChallengeRepository: OtpChallengeRepository,
+    private readonly smsService: SmsService,
+    private readonly mailService: MailService,
   ) {}
 
   ensureCsrfToken(req: Request): string {
@@ -50,6 +54,7 @@ export class AuthService {
   async startLogin(
     req: Request,
     rawIdentifier: string,
+    locale = 'fa',
   ): Promise<StartAuthResult> {
     const parsed = parseIdentifier(rawIdentifier);
     if (!parsed) {
@@ -74,9 +79,13 @@ export class AuthService {
     req.session.pendingMasked = parsed.masked;
     req.session.pendingKind = parsed.kind;
 
-    this.logger.log(
-      `OTP challenge #${saved.id} for ${parsed.masked} — dev code: ${auth.otpCode} (SMS disabled)`,
-    );
+    this.logger.log(`OTP challenge #${saved.id} for ${parsed.masked} — code: ${auth.otpCode}`);
+
+    if (parsed.kind === 'phone') {
+      void this.smsService.sendOtp(parsed.normalized, auth.otpCode, locale);
+    } else {
+      void this.mailService.sendOtp(parsed.normalized, auth.otpCode, locale);
+    }
 
     return { masked: parsed.masked, kind: parsed.kind };
   }

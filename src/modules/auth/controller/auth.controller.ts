@@ -64,7 +64,8 @@ export class AuthController {
   ): Promise<void> {
     try {
       this.authService.validateCsrf(req, body._csrf);
-      await this.authService.startLogin(req, body.identifier);
+      const locale: string = res.locals.locale ?? 'fa';
+      await this.authService.startLogin(req, body.identifier, locale);
       const q =
         returnTo && returnTo.startsWith('/')
           ? `?returnTo=${encodeURIComponent(returnTo)}`

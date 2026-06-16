@@ -7,6 +7,7 @@ import authConfig from '../../config/auth.config';
 import cacheConfig from '../../config/cache.config';
 import databaseConfig from '../../config/database.config';
 import loggerConfig, { createPinoParams } from '../../config/logger.config';
+import notificationConfig from '../../config/notification.config';
 import { TypedConfigModule } from '@common/config/typed-config.module';
 import { TypedConfigService } from '@common/config/typed-config.service';
 import { AppCacheModule } from '@common/cache/cache.module';
@@ -16,7 +17,7 @@ export const pluginImports = [
   ConfigModule.forRoot({
     isGlobal: true,
     // `.env` is loaded in `loadEnvFiles()` before Nest boots (see `bootstrap.ts`, `cluster.ts`).
-    load: [appConfig, databaseConfig, cacheConfig, loggerConfig, authConfig],
+    load: [appConfig, databaseConfig, cacheConfig, loggerConfig, authConfig, notificationConfig],
   }),
   TypedConfigModule,
   ThrottlerModule.forRoot([
