@@ -34,6 +34,8 @@ export interface AuthConfig {
   otpCode: string;
   otpTtlMinutes: number;
   otpMaxAttempts: number;
+  googleClientId: string | null;
+  googleClientSecret: string | null;
 }
 
 export const getAuthConfig = (): AuthConfig => {
@@ -57,6 +59,8 @@ export const getAuthConfig = (): AuthConfig => {
     otpCode: env.AUTH_OTP_CODE ?? '252525',
     otpTtlMinutes: Number(env.AUTH_OTP_TTL_MINUTES ?? 5),
     otpMaxAttempts: Number(env.AUTH_OTP_MAX_ATTEMPTS ?? 5),
+    googleClientId: env.GOOGLE_CLIENT_ID ?? null,
+    googleClientSecret: env.GOOGLE_CLIENT_SECRET ?? null,
   };
 };
 

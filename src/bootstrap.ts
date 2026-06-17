@@ -1,5 +1,6 @@
 import cluster from 'node:cluster';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import expressLayouts from 'express-ejs-layouts';
 import { Logger as NestLogger, ValidationPipe } from '@nestjs/common';
@@ -44,6 +45,7 @@ export async function bootstrapApp(): Promise<void> {
   const logger = new NestLogger('Bootstrap');
 
   await configureSession(app, config);
+  app.use(cookieParser(config.auth.sessionSecret));
 
   // Locale middleware — strips /en or /ps prefix, sets res.locals
   app.use((req: any, res: any, next: any) => {
@@ -62,6 +64,10 @@ export async function bootstrapApp(): Promise<void> {
     res.locals.numLocale = locale === 'en' ? 'en-US' : 'fa-IR';
     res.locals.assetVersion = ASSET_VERSION;
     res.locals.t = (key: string): string => i18n[locale]?.[key] ?? i18n['fa']?.[key] ?? key;
+    if ((req as any).session?.flash) {
+      res.locals.flash = (req as any).session.flash;
+      delete (req as any).session.flash;
+    }
     res.locals.loc = (jsonb: unknown): string => {
       if (!jsonb) return '';
       if (typeof jsonb === 'string') return jsonb;

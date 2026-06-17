@@ -6,6 +6,7 @@ export interface SessionUserPayload {
   displayName: Record<string, string> | null;
   phone: string | null;
   email: string | null;
+  googleId: string | null;
   birthday: string | null;
   bio: string | null;
 }
@@ -28,5 +29,8 @@ declare module 'express-session' {
     pendingNewPhone?: string;
     passkeyRegChallenge?: string;
     passkeyAuthChallenge?: string;
+    oauthState?: string;
+    oauthReturnTo?: string;
+    flash?: { type: 'success' | 'error' | 'info'; messageKey: string };
   }
 }

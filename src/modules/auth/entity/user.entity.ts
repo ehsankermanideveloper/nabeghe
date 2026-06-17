@@ -14,6 +14,10 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   email!: string | null;
 
+  @Index({ unique: true, where: '"google_id" IS NOT NULL' })
+  @Column({ name: 'google_id', type: 'varchar', length: 255, nullable: true })
+  googleId!: string | null;
+
   @Column({ type: 'jsonb', nullable: true })
   displayName!: Record<string, string> | null;
 

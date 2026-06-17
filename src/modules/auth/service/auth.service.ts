@@ -123,7 +123,7 @@ export class AuthService {
     }
 
     const parsed = this.parseFromChallenge(challenge.identifier);
-    const user = await this.userRepository.findOrCreateByIdentifier(parsed);
+    const { user, isNew } = await this.userRepository.findOrCreateByIdentifier(parsed);
 
     await this.otpChallengeRepository.updateOneById(challenge.id, {
       consumedAt: new Date(),
@@ -134,6 +134,7 @@ export class AuthService {
     });
 
     req.session.userId = user.id;
+    req.session.flash = { type: 'success', messageKey: isNew ? 'flash_register_success' : 'flash_login_success' };
     delete req.session.otpChallengeId;
     delete req.session.pendingMasked;
     delete req.session.pendingKind;
@@ -286,6 +287,7 @@ export class AuthService {
       displayName: user.displayName,
       phone: user.phone,
       email: user.email,
+      googleId: user.googleId,
       birthday: user.birthday,
       bio: user.bio,
     };

@@ -10,6 +10,7 @@ import { OtpChallengeRepository } from '@modules/auth/repository/otp-challenge.r
 import { PasskeyRepository } from '@modules/auth/repository/passkey.repository';
 import { UserRepository } from '@modules/auth/repository/user.repository';
 import { AuthService } from '@modules/auth/service/auth.service';
+import { GoogleAuthService } from '@modules/auth/service/google-auth.service';
 import { PasskeyService } from '@modules/auth/service/passkey.service';
 import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
 
@@ -21,10 +22,11 @@ import { SessionAuthGuard } from '@modules/auth/guard/session-auth.guard';
     OtpChallengeRepository,
     PasskeyRepository,
     AuthService,
+    GoogleAuthService,
     PasskeyService,
     SessionAuthGuard,
   ],
-  exports: [AuthService, PasskeyService, SessionAuthGuard],
+  exports: [AuthService, GoogleAuthService, PasskeyService, SessionAuthGuard],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

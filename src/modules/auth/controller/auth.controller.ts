@@ -18,6 +18,7 @@ import { StartAuthDto } from '@modules/auth/dto/start-auth.dto';
 import { VerifyOtpDto } from '@modules/auth/dto/verify-otp.dto';
 import { PasskeyAuthenticateVerifyDto } from '@modules/auth/dto/passkey-authenticate-verify.dto';
 import { AuthService } from '@modules/auth/service/auth.service';
+import { GoogleAuthService } from '@modules/auth/service/google-auth.service';
 import { PasskeyService } from '@modules/auth/service/passkey.service';
 
 @Public()
@@ -25,6 +26,7 @@ import { PasskeyService } from '@modules/auth/service/passkey.service';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly googleAuthService: GoogleAuthService,
     private readonly config: TypedConfigService,
     private readonly passkeyService: PasskeyService,
   ) { }
@@ -47,8 +49,9 @@ export class AuthController {
       seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       error: error ?? null,
-      returnTo: returnTo ?? '/profile',
+      returnTo: returnTo ?? '/',
       showDevHint: this.isDevHintVisible(),
+      googleEnabled: this.googleAuthService.isEnabled(),
     });
   }
 
@@ -73,7 +76,7 @@ export class AuthController {
       res.redirect(`${res.locals.lp}/auth/verify${q}`);
     } catch (err: unknown) {
       res.redirect(
-        `${res.locals.lp}/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
+        `${res.locals.lp}/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/')}`,
       );
     }
   }
@@ -86,7 +89,7 @@ export class AuthController {
     @Query('returnTo') returnTo?: string,
   ): void {
     if (req.session.userId) {
-      res.redirect(returnTo?.startsWith('/') ? returnTo : '/profile');
+      res.redirect(returnTo?.startsWith('/') ? returnTo : '/');
       return;
     }
     if (!req.session.otpChallengeId) {
@@ -102,7 +105,7 @@ export class AuthController {
       masked: req.session.pendingMasked ?? '',
       pendingKind: req.session.pendingKind ?? 'phone',
       error: error ?? null,
-      returnTo: returnTo ?? '/profile',
+      returnTo: returnTo ?? '/',
       showDevHint: this.isDevHintVisible(),
     });
   }
@@ -123,12 +126,12 @@ export class AuthController {
       const rawTarget =
         returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
           ? returnTo
-          : '/profile';
-      const target = lp && !rawTarget.startsWith(`${lp}/`) ? `${lp}${rawTarget}` : rawTarget;
-      res.redirect(target);
+          : '/';
+      const target = lp && rawTarget !== '/' && !rawTarget.startsWith(`${lp}/`) ? `${lp}${rawTarget}` : rawTarget;
+      this.saveAndRedirect(req, res, target);
     } catch (err: unknown) {
       res.redirect(
-        `${res.locals.lp}/auth/verify?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/profile')}`,
+        `${res.locals.lp}/auth/verify?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/')}`,
       );
     }
   }
@@ -165,6 +168,47 @@ export class AuthController {
     }
   }
 
+  @Get('google')
+  googleLogin(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query('returnTo') returnTo?: string,
+  ): void {
+    if (req.session.userId) {
+      res.redirect('/profile');
+      return;
+    }
+    if (!this.googleAuthService.isEnabled()) {
+      res.redirect(`${res.locals.lp}/auth/login`);
+      return;
+    }
+    const url = this.googleAuthService.buildAuthUrl(req, res, returnTo ?? '/profile');
+    res.redirect(url);
+  }
+
+  @Get('google/callback')
+  async googleCallback(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query('code') code?: string,
+    @Query('state') state?: string,
+    @Query('error') error?: string,
+  ): Promise<void> {
+    const lp: string = res.locals.lp ?? '';
+    if (error || !code || !state) {
+      res.redirect(`${lp}/auth/login?error=${encodeURIComponent('ورود با گوگل لغو شد')}`);
+      return;
+    }
+    try {
+      const { returnTo } = await this.googleAuthService.handleCallback(req, res, code, state);
+      const target = returnTo && returnTo.startsWith('/') ? returnTo : '/';
+      const finalTarget = lp && target !== '/' && !target.startsWith(`${lp}/`) ? `${lp}${target}` : target;
+      this.saveAndRedirect(req, res, finalTarget);
+    } catch (err: unknown) {
+      res.redirect(`${lp}/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}`);
+    }
+  }
+
   @Post('logout')
   logout(
     @Req() req: Request,
@@ -175,6 +219,10 @@ export class AuthController {
     req.session.destroy(() => {
       res.redirect(res.locals.lp || '/');
     });
+  }
+
+  private saveAndRedirect(req: Request, res: Response, url: string): void {
+    req.session.save(() => res.redirect(url));
   }
 
   private isDevHintVisible(): boolean {

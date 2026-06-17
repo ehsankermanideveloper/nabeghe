@@ -364,6 +364,10 @@
   "auth_verify_sim": "(Simulated — not sent)",
   "auth_verify_btn": "Verify",
   "auth_verify_change": "Change phone or email",
+  "auth_or": "or",
+  "auth_google_btn": "Continue with Google",
+  "flash_login_success": "Welcome back! You have logged in successfully.",
+  "flash_register_success": "Welcome! Your account has been created successfully.",
 
   "about_intro": "Liyan Amiri Academy was founded in 2015 with the mission of 'advancing the level of knowledge' and the motto 'knowledge is the foundation of human progress.' It is a charitable and supportive institution focused on improving the educational and scientific level of underprivileged individuals, striving to provide equal learning opportunities for all. The academy's learning platform allows students to access educational courses for free or with the academy's financial support.",
   "about_edu_title": "Educational Support for the Underprivileged",

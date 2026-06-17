@@ -23,10 +23,10 @@ export class UserRepository extends BaseRepository<UserEntity> {
 
   async findOrCreateByIdentifier(
     parsed: ParsedIdentifier,
-  ): Promise<UserEntity> {
+  ): Promise<{ user: UserEntity; isNew: boolean }> {
     const existing = await this.findByIdentifier(parsed);
     if (existing) {
-      return existing;
+      return { user: existing, isNew: false };
     }
 
     const created = this.build(
@@ -34,6 +34,41 @@ export class UserRepository extends BaseRepository<UserEntity> {
         ? { email: parsed.normalized, phone: null }
         : { phone: parsed.normalized, email: null },
     );
-    return (await this.save(created)) as UserEntity;
+    const user = (await this.save(created)) as UserEntity;
+    return { user, isNew: true };
+  }
+
+  findByGoogleId(googleId: string): Promise<UserEntity | null> {
+    return this.findOne({ where: { googleId } });
+  }
+
+  findByEmail(email: string): Promise<UserEntity | null> {
+    return this.findOne({ where: { email } });
+  }
+
+  async findOrCreateByGoogle(profile: {
+    googleId: string;
+    email: string;
+    displayName: string | null;
+  }): Promise<{ user: UserEntity; isNew: boolean }> {
+    const byGoogleId = await this.findByGoogleId(profile.googleId);
+    if (byGoogleId) return { user: byGoogleId, isNew: false };
+
+    // Link to existing account if email already registered
+    const byEmail = profile.email ? await this.findByEmail(profile.email) : null;
+    if (byEmail) {
+      await this.updateOneById(byEmail.id, { googleId: profile.googleId });
+      byEmail.googleId = profile.googleId;
+      return { user: byEmail, isNew: false };
+    }
+
+    const created = this.build({
+      googleId: profile.googleId,
+      email: profile.email,
+      phone: null,
+      displayName: profile.displayName ? { fa: profile.displayName } : null,
+    });
+    const user = (await this.save(created)) as UserEntity;
+    return { user, isNew: true };
   }
 }
