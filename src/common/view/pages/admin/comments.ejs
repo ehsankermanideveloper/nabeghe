@@ -1,0 +1,133 @@
+<!-- Filter Tabs -->
+<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+  <div style="display:flex;gap:.375rem">
+    <a href="/admin/comments?type=course&status=<%= status %>&page=1" class="tab-btn <%= type === 'course' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">دوره‌ها</a>
+    <a href="/admin/comments?type=article&status=<%= status %>&page=1" class="tab-btn <%= type === 'article' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">مقالات</a>
+  </div>
+  <div style="width:1px;height:1.5rem;background:#334155"></div>
+  <div style="display:flex;gap:.375rem">
+    <a href="/admin/comments?type=<%= type %>&status=pending&page=1" class="tab-btn <%= status === 'pending' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">در انتظار</a>
+    <a href="/admin/comments?type=<%= type %>&status=approved&page=1" class="tab-btn <%= status === 'approved' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">تأیید شده</a>
+    <a href="/admin/comments?type=<%= type %>&status=rejected&page=1" class="tab-btn <%= status === 'rejected' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">رد شده</a>
+    <a href="/admin/comments?type=<%= type %>&status=all&page=1" class="tab-btn <%= status === 'all' ? 'active' : '' %>" style="text-decoration:none;border-radius:.375rem;border:1px solid #334155">همه</a>
+  </div>
+  <span style="color:#94a3b8;font-size:.8rem;margin-right:auto">مجموع: <%= total %></span>
+</div>
+
+<div class="table-wrap">
+  <% if (comments.length === 0) { %>
+    <div style="padding:2rem;text-align:center;color:#94a3b8">دیدگاهی یافت نشد</div>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>متن</th>
+        <th>کاربر</th>
+        <th>موضوع</th>
+        <th>امتیاز</th>
+        <th>وضعیت</th>
+        <th>تاریخ</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% comments.forEach(function(c) { %>
+      <tr x-data="{ status: '<%= c.status %>' }">
+        <td style="color:#64748b;font-size:.8rem"><%= c.id %></td>
+        <td style="max-width:220px">
+          <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.875rem"><%= c.body %></div>
+        </td>
+        <td style="font-size:.8rem;color:#94a3b8">
+          <div><%= c.userPhone || '—' %></div>
+          <div style="font-size:.75rem;color:#64748b"><%= c.userEmail || '' %></div>
+        </td>
+        <td style="font-size:.8rem;color:#a5b4fc;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= c.subjectTitle %></td>
+        <td style="font-size:.8rem">
+          <% if (c.rating) { %>
+            <span class="badge badge-yellow"><%= c.rating %>/۵</span>
+          <% } else { %>
+            <span style="color:#64748b">—</span>
+          <% } %>
+        </td>
+        <td>
+          <span
+            class="badge"
+            :class="{
+              'badge-yellow': status === 'pending',
+              'badge-green': status === 'approved',
+              'badge-red': status === 'rejected'
+            }"
+            x-text="status === 'pending' ? 'در انتظار' : status === 'approved' ? 'تأیید شده' : 'رد شده'"
+          ></span>
+        </td>
+        <td style="font-size:.8rem;color:#94a3b8"><%= new Date(c.createdAt).toLocaleDateString('fa-IR') %></td>
+        <td>
+          <div style="display:flex;gap:.375rem">
+            <% if (type === 'course') { %>
+            <button
+              class="btn-success"
+              style="font-size:.75rem;padding:.25rem .5rem"
+              x-show="status !== 'approved'"
+              @click="
+                fetch('/admin/api/comments/course/<%= c.id %>', {
+                  method: 'PATCH',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({status: 'approved'})
+                }).then(() => status = 'approved')
+              "
+            >تأیید</button>
+            <button
+              class="btn-danger"
+              style="font-size:.75rem;padding:.25rem .5rem"
+              x-show="status !== 'rejected'"
+              @click="
+                fetch('/admin/api/comments/course/<%= c.id %>', {
+                  method: 'PATCH',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({status: 'rejected'})
+                }).then(() => status = 'rejected')
+              "
+            >رد</button>
+            <% } else { %>
+            <button
+              class="btn-success"
+              style="font-size:.75rem;padding:.25rem .5rem"
+              x-show="status !== 'approved'"
+              @click="
+                fetch('/admin/api/comments/article/<%= c.id %>', {
+                  method: 'PATCH',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({status: 'approved'})
+                }).then(() => status = 'approved')
+              "
+            >تأیید</button>
+            <button
+              class="btn-danger"
+              style="font-size:.75rem;padding:.25rem .5rem"
+              x-show="status !== 'rejected'"
+              @click="
+                fetch('/admin/api/comments/article/<%= c.id %>', {
+                  method: 'PATCH',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({status: 'rejected'})
+                }).then(() => status = 'rejected')
+              "
+            >رد</button>
+            <% } %>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/admin/comments?type=<%= type %>&status=<%= status %>&page=<%= i %>" class="page-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+  <% } %>
+</div>
+<% } %>

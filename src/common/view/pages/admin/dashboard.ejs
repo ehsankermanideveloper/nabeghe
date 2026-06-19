@@ -1,0 +1,57 @@
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem">
+  <div class="stat-card">
+    <div class="stat-label">کاربران</div>
+    <div class="stat-value"><%= totalUsers %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">دوره‌ها</div>
+    <div class="stat-value"><%= totalCourses %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">مقالات</div>
+    <div class="stat-value"><%= totalArticles %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">ثبت‌نام‌ها</div>
+    <div class="stat-value"><%= totalEnrollments %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">دیدگاه دوره در انتظار</div>
+    <div class="stat-value" style="color:<%= pendingCourseComments > 0 ? '#facc15' : '#4ade80' %>"><%= pendingCourseComments %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">دیدگاه مقاله در انتظار</div>
+    <div class="stat-value" style="color:<%= pendingArticleComments > 0 ? '#facc15' : '#4ade80' %>"><%= pendingArticleComments %></div>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div style="padding:.875rem 1rem;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
+    <h2 style="font-size:.9rem;font-weight:700;color:#f1f5f9">آخرین ثبت‌نام‌ها</h2>
+    <a href="/admin/enrollments" class="btn-secondary" style="font-size:.75rem;padding:.3rem .625rem">مشاهده همه</a>
+  </div>
+  <% if (recentEnrollments.length === 0) { %>
+    <div style="padding:2rem;text-align:center;color:#94a3b8;font-size:.875rem">ثبت‌نامی یافت نشد</div>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>کاربر</th>
+        <th>دوره</th>
+        <th>تاریخ ثبت</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% recentEnrollments.forEach(function(e) { %>
+      <tr>
+        <td>
+          <div style="font-size:.8rem;color:#94a3b8"><%= e.userPhone || e.userEmail || e.userId %></div>
+        </td>
+        <td style="color:#a5b4fc"><%= e.courseTitle %></td>
+        <td style="color:#94a3b8;font-size:.8rem"><%= new Date(e.enrolledAt).toLocaleDateString('fa-IR') %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>

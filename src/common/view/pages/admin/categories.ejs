@@ -1,0 +1,215 @@
+<div x-data="catManager()" style="display:grid;grid-template-columns:1fr 360px;gap:1.5rem;align-items:start">
+
+  <!-- Categories Table -->
+  <div>
+    <div class="table-wrap">
+      <div style="padding:.875rem 1rem;border-bottom:1px solid #334155">
+        <h2 style="font-size:.9rem;font-weight:700;color:#f1f5f9">لیست دسته‌بندی‌ها (<%= categories.length %>)</h2>
+      </div>
+      <% if (categories.length === 0) { %>
+        <div style="padding:2rem;text-align:center;color:#94a3b8">دسته‌بندی‌ای یافت نشد</div>
+      <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>عنوان</th>
+            <th>والد</th>
+            <th>Slug</th>
+            <th>ترتیب</th>
+            <th>فعال</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% categories.forEach(function(cat) { %>
+          <tr x-data="{ active: <%= cat.isActive ? 'true' : 'false' %>, loading: false, deleting: false }">
+            <td style="font-weight:600"><%= '　'.repeat(cat.depth) %><%= cat.depth > 0 ? '└ ' : '' %><%= cat.title['fa'] || cat.title['en'] || '' %></td>
+            <td style="font-size:.8rem;color:#94a3b8"><%= cat.parentTitle || '—' %></td>
+            <td style="font-size:.8rem;color:#64748b;direction:ltr"><%= cat.slug %></td>
+            <td style="font-size:.8rem;color:#94a3b8"><%= cat.sortOrder %></td>
+            <td>
+              <button
+                type="button"
+                :class="active ? 'btn-success' : 'btn-danger'"
+                style="font-size:.75rem;padding:.25rem .5rem"
+                :disabled="loading"
+                @click="
+                  loading = true;
+                  fetch('/admin/api/categories/<%= cat.id %>/toggle', {method:'PATCH'})
+                    .then(r => r.json())
+                    .then(d => { active = d.isActive; loading = false; })
+                    .catch(() => loading = false)
+                "
+                x-text="active ? 'فعال' : 'غیرفعال'"
+              ></button>
+            </td>
+            <td>
+              <div style="display:flex;gap:.375rem">
+                <button
+                  class="btn-secondary"
+                  style="font-size:.75rem;padding:.25rem .5rem"
+                  @click="openEdit({
+                    id: <%= cat.id %>,
+                    title_fa: <%= JSON.stringify(cat.title['fa'] || '') %>,
+                    title_en: <%= JSON.stringify(cat.title['en'] || '') %>,
+                    title_ps: <%= JSON.stringify(cat.title['ps'] || '') %>,
+                    slug: <%= JSON.stringify(cat.slug || '') %>,
+                    parentId: <%= cat.parentId || 'null' %>,
+                    sortOrder: <%= cat.sortOrder %>
+                  })"
+                >ویرایش</button>
+                <button
+                  class="btn-danger"
+                  style="font-size:.75rem;padding:.25rem .5rem"
+                  :disabled="deleting"
+                  @click="
+                    if (!confirm('آیا مطمئن هستید؟')) return;
+                    deleting = true;
+                    fetch('/admin/api/categories/<%= cat.id %>', {method:'DELETE'})
+                      .then(() => $el.closest('tr').remove())
+                      .catch(() => deleting = false)
+                  "
+                >حذف</button>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Create Form -->
+  <div class="card">
+    <h3 style="font-size:.9rem;font-weight:700;color:#f1f5f9;margin-bottom:1rem">دسته‌بندی جدید</h3>
+    <form method="POST" action="/admin/api/categories">
+      <div class="form-group">
+        <label class="form-label">عنوان فارسی *</label>
+        <input type="text" name="title_fa" class="form-input" placeholder="عنوان فارسی" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">عنوان انگلیسی</label>
+        <input type="text" name="title_en" class="form-input" dir="ltr" placeholder="English title" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Slug</label>
+        <input type="text" name="slug" class="form-input" dir="ltr" placeholder="category-slug" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">دسته والد</label>
+        <select name="parentId" class="form-input">
+          <option value="">— بدون والد —</option>
+          <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>">
+            <%= '　'.repeat(cat.depth) %><%= cat.depth > 0 ? '└ ' : '' %><%= cat.title['fa'] || cat.title['en'] || '' %>
+          </option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ترتیب</label>
+        <input type="number" name="sortOrder" class="form-input" value="0" />
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%">ایجاد دسته‌بندی</button>
+    </form>
+  </div>
+
+  <!-- Edit Modal -->
+  <div x-show="modal.show" x-cloak style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)">
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:1rem;width:90%;max-width:480px;padding:1.5rem">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+        <h4 style="font-weight:700;color:#f1f5f9">ویرایش دسته‌بندی</h4>
+        <button type="button" @click="modal.show = false" style="background:none;border:none;cursor:pointer;color:#94a3b8;line-height:0">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:1.25rem;height:1.25rem"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">عنوان فارسی</label>
+        <input type="text" x-model="modal.title_fa" class="form-input" placeholder="عنوان فارسی" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">عنوان انگلیسی</label>
+        <input type="text" x-model="modal.title_en" class="form-input" dir="ltr" placeholder="English title" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Slug</label>
+        <input type="text" x-model="modal.slug" class="form-input" dir="ltr" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">دسته والد</label>
+        <select x-model="modal.parentId" class="form-input">
+          <option value="">— بدون والد —</option>
+          <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>">
+            <%= '　'.repeat(cat.depth) %><%= cat.depth > 0 ? '└ ' : '' %><%= cat.title['fa'] || cat.title['en'] || '' %>
+          </option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ترتیب</label>
+        <input type="number" x-model="modal.sortOrder" class="form-input" />
+      </div>
+
+      <div style="display:flex;gap:.75rem;margin-top:.25rem">
+        <button type="button" class="btn-primary" @click="saveEdit()" :disabled="modal.loading">
+          <span x-show="modal.loading">در حال ذخیره...</span>
+          <span x-show="!modal.loading">ذخیره تغییرات</span>
+        </button>
+        <button type="button" class="btn-secondary" @click="modal.show = false">انصراف</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function catManager() {
+  return {
+    modal: { show: false, loading: false, id: null, title_fa: '', title_en: '', title_ps: '', slug: '', parentId: '', sortOrder: 0 },
+
+    openEdit(cat) {
+      this.modal = {
+        show: true, loading: false,
+        id: cat.id,
+        title_fa: cat.title_fa,
+        title_en: cat.title_en,
+        title_ps: cat.title_ps,
+        slug: cat.slug,
+        parentId: cat.parentId ? String(cat.parentId) : '',
+        sortOrder: cat.sortOrder,
+      };
+    },
+
+    async saveEdit() {
+      this.modal.loading = true;
+      try {
+        const r = await fetch('/admin/api/categories/' + this.modal.id, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title_fa: this.modal.title_fa,
+            title_en: this.modal.title_en,
+            title_ps: this.modal.title_ps,
+            slug: this.modal.slug,
+            parentId: this.modal.parentId || null,
+            sortOrder: this.modal.sortOrder,
+          }),
+        });
+        if (r.ok) {
+          window.location.reload();
+        } else {
+          alert('خطا در ذخیره');
+          this.modal.loading = false;
+        }
+      } catch {
+        alert('خطا در ارتباط با سرور');
+        this.modal.loading = false;
+      }
+    },
+  };
+}
+</script>

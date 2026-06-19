@@ -1,0 +1,106 @@
+<div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start">
+  <!-- Table -->
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <form method="GET" action="/admin/enrollments" style="display:flex;gap:.5rem;align-items:center">
+        <input type="text" name="search" value="<%= search %>" placeholder="جستجو کاربر (تلفن / ایمیل)" class="form-input" style="width:240px" />
+        <button type="submit" class="btn-primary">جستجو</button>
+        <% if (search) { %>
+          <a href="/admin/enrollments" class="btn-secondary">پاک کردن</a>
+        <% } %>
+      </form>
+      <div style="color:#94a3b8;font-size:.8rem">مجموع: <%= total %></div>
+    </div>
+
+    <div class="table-wrap">
+      <% if (enrollments.length === 0) { %>
+        <div style="padding:2rem;text-align:center;color:#94a3b8">ثبت‌نامی یافت نشد</div>
+      <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>کاربر</th>
+            <th>دوره</th>
+            <th>تاریخ ثبت</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% enrollments.forEach(function(e) { %>
+          <tr x-data="{ removing: false }">
+            <td style="color:#64748b;font-size:.8rem"><%= e.id %></td>
+            <td>
+              <div style="font-size:.875rem"><%= e.userPhone || e.userEmail || e.userId %></div>
+              <% if (e.userPhone && e.userEmail) { %>
+                <div style="font-size:.75rem;color:#94a3b8"><%= e.userEmail %></div>
+              <% } %>
+            </td>
+            <td style="color:#a5b4fc;font-size:.875rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= e.courseTitle %></td>
+            <td style="font-size:.8rem;color:#94a3b8"><%= new Date(e.enrolledAt).toLocaleDateString('fa-IR') %></td>
+            <td>
+              <button
+                class="btn-danger"
+                style="font-size:.75rem;padding:.25rem .5rem"
+                :disabled="removing"
+                @click="
+                  if (!confirm('حذف این ثبت‌نام؟')) return;
+                  removing = true;
+                  fetch('/admin/api/enrollments/<%= e.id %>', {method:'DELETE'})
+                    .then(r => r.json())
+                    .then(d => { if(d.ok) $el.closest('tr').remove(); else removing = false; })
+                    .catch(() => removing = false)
+                "
+              >حذف</button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+    <div class="pagination">
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="/admin/enrollments?page=<%= i %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="page-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Manual Enrollment Form -->
+  <div class="card" x-data="{ courseId: '', userId: '', loading: false, msg: '' }">
+    <h3 style="font-size:.9rem;font-weight:700;color:#f1f5f9;margin-bottom:1rem">ثبت‌نام دستی</h3>
+    <div class="form-group">
+      <label class="form-label">انتخاب دوره</label>
+      <select class="form-input" x-model="courseId">
+        <option value="">— انتخاب دوره —</option>
+        <% courses.forEach(function(c) { %>
+          <option value="<%= c.id %>"><%= c.title %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">شناسه کاربر (ID)</label>
+      <input type="number" class="form-input" x-model="userId" placeholder="مثال: 42" />
+    </div>
+    <div x-show="msg" style="padding:.5rem .75rem;border-radius:.375rem;font-size:.8rem;margin-bottom:.75rem" :class="msg.startsWith('خطا') ? 'alert-danger' : 'alert-info'" style="border:1px solid #334155;background:rgba(59,130,246,.1);color:#93c5fd" x-text="msg"></div>
+    <button
+      class="btn-primary"
+      style="width:100%"
+      :disabled="loading || !courseId || !userId"
+      @click="
+        loading = true; msg = '';
+        fetch('/admin/api/enrollments', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({courseId: parseInt(courseId), userId: parseInt(userId)})
+        })
+        .then(r => r.json())
+        .then(d => { msg = d.ok ? 'ثبت‌نام با موفقیت انجام شد' : ('خطا: ' + (d.message || '')); loading = false; })
+        .catch(() => { msg = 'خطا در ارتباط با سرور'; loading = false; })
+      "
+    >ثبت‌نام</button>
+  </div>
+</div>

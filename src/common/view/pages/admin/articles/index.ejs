@@ -1,0 +1,88 @@
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+  <div style="color:#94a3b8;font-size:.8rem">مجموع: <%= total %> مقاله</div>
+  <a href="/admin/articles/new" class="btn-primary">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:1rem;height:1rem">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+    مقاله جدید
+  </a>
+</div>
+
+<div class="table-wrap">
+  <% if (articles.length === 0) { %>
+    <div style="padding:2rem;text-align:center;color:#94a3b8">مقاله‌ای یافت نشد</div>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>عنوان</th>
+        <th>وضعیت</th>
+        <th>بازدید</th>
+        <th>نویسنده</th>
+        <th>تاریخ</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% articles.forEach(function(a) { %>
+      <tr x-data="{ status: '<%= a.status %>', loading: false, deleting: false }">
+        <td style="color:#64748b;font-size:.8rem"><%= a.id %></td>
+        <td>
+          <div style="font-weight:600;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= a.title && a.title['fa'] ? a.title['fa'] : '' %></div>
+          <div style="font-size:.75rem;color:#64748b;direction:ltr"><%= a.slug %></div>
+        </td>
+        <td>
+          <select
+            class="form-input"
+            style="width:auto;font-size:.8rem;padding:.3rem .5rem"
+            x-model="status"
+            :disabled="loading"
+            @change="
+              loading = true;
+              fetch('/admin/api/articles/<%= a.id %>/status', {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({status})
+              }).finally(() => loading = false)
+            "
+          >
+            <option value="draft">پیش‌نویس</option>
+            <option value="published">منتشر شده</option>
+            <option value="archived">آرشیو</option>
+          </select>
+        </td>
+        <td style="font-size:.875rem"><%= a.viewCount.toLocaleString('fa-IR') %></td>
+        <td style="font-size:.8rem;color:#94a3b8"><%= a.authorName %></td>
+        <td style="font-size:.8rem;color:#94a3b8"><%= a.publishedAt ? new Date(a.publishedAt).toLocaleDateString('fa-IR') : '—' %></td>
+        <td>
+          <div style="display:flex;gap:.375rem;align-items:center">
+            <a href="/admin/articles/<%= a.id %>/edit" class="btn-secondary" style="font-size:.75rem;padding:.3rem .5rem">ویرایش</a>
+            <button
+              class="btn-danger"
+              style="font-size:.75rem;padding:.3rem .5rem"
+              :disabled="deleting"
+              @click="
+                if (!confirm('آیا مطمئن هستید؟')) return;
+                deleting = true;
+                fetch('/admin/api/articles/<%= a.id %>', {method:'DELETE'})
+                  .then(() => $el.closest('tr').remove())
+                  .catch(() => deleting = false)
+              "
+            >حذف</button>
+          </div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/admin/articles?page=<%= i %>" class="page-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+  <% } %>
+</div>
+<% } %>

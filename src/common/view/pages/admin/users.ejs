@@ -1,0 +1,79 @@
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+  <form method="GET" action="/admin/users" style="display:flex;gap:.5rem;align-items:center">
+    <input type="text" name="search" value="<%= search %>" placeholder="جستجو (تلفن یا ایمیل)" class="form-input" style="width:260px" />
+    <button type="submit" class="btn-primary">جستجو</button>
+    <% if (search) { %>
+      <a href="/admin/users" class="btn-secondary">پاک کردن</a>
+    <% } %>
+  </form>
+  <div style="color:#94a3b8;font-size:.8rem">مجموع: <%= total %> کاربر</div>
+</div>
+
+<div class="table-wrap">
+  <% if (users.length === 0) { %>
+    <div style="padding:2rem;text-align:center;color:#94a3b8;font-size:.875rem">کاربری یافت نشد</div>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>تلفن / ایمیل</th>
+        <th>نام</th>
+        <th>نقش</th>
+        <th>تاریخ ثبت</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(u) { %>
+      <tr x-data="{ role: '<%= u.role %>', loading: false }">
+        <td style="color:#64748b;font-size:.8rem"><%= u.id %></td>
+        <td>
+          <div style="font-size:.875rem"><%= u.phone || '—' %></div>
+          <div style="font-size:.75rem;color:#94a3b8"><%= u.email || '' %></div>
+        </td>
+        <td style="color:#94a3b8;font-size:.8rem"><%= u.displayName && u.displayName['fa'] ? u.displayName['fa'] : '—' %></td>
+        <td>
+          <% if (u.role === 'admin') { %>
+            <span class="badge badge-red">ادمین</span>
+          <% } else if (u.role === 'lecturer') { %>
+            <span class="badge badge-blue">مدرس</span>
+          <% } else { %>
+            <span class="badge badge-gray">دانشجو</span>
+          <% } %>
+        </td>
+        <td style="color:#94a3b8;font-size:.8rem"><%= new Date(u.createdAt).toLocaleDateString('fa-IR') %></td>
+        <td>
+          <select
+            class="form-input"
+            style="width:auto;font-size:.8rem;padding:.3rem .5rem"
+            x-model="role"
+            :disabled="loading"
+            @change="
+              loading = true;
+              fetch('/admin/api/users/<%= u.id %>/role', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({role})
+              }).finally(() => loading = false)
+            "
+          >
+            <option value="student">دانشجو</option>
+            <option value="lecturer">مدرس</option>
+            <option value="admin">ادمین</option>
+          </select>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<% if (totalPages > 1) { %>
+<div class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/admin/users?page=<%= i %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="page-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+  <% } %>
+</div>
+<% } %>

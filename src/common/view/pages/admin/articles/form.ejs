@@ -1,0 +1,112 @@
+<div style="max-width:800px">
+  <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
+    <a href="/admin/articles" style="color:#94a3b8;text-decoration:none;font-size:.875rem">← بازگشت</a>
+    <span style="color:#334155">|</span>
+    <h2 style="font-size:.95rem;font-weight:700;color:#f1f5f9"><%= isEdit ? 'ویرایش مقاله' : 'ایجاد مقاله جدید' %></h2>
+  </div>
+
+  <form method="POST" action="<%= isEdit ? '/admin/api/articles/' + article.id : '/admin/api/articles' %>" class="card" x-data="{ tabTitle: 'fa', tabSD: 'fa', tabBody: 'fa' }">
+    <% if (isEdit) { %>
+    <% } %>
+
+    <!-- Title -->
+    <div class="form-group">
+      <div class="form-label">عنوان مقاله</div>
+      <div class="tabs">
+        <button type="button" class="tab-btn" :class="tabTitle === 'fa' ? 'active' : ''" @click="tabTitle = 'fa'">فارسی</button>
+        <button type="button" class="tab-btn" :class="tabTitle === 'en' ? 'active' : ''" @click="tabTitle = 'en'">English</button>
+        <button type="button" class="tab-btn" :class="tabTitle === 'ps' ? 'active' : ''" @click="tabTitle = 'ps'">پښتو</button>
+      </div>
+      <div x-show="tabTitle === 'fa'">
+        <input type="text" name="title_fa" class="form-input" value="<%= isEdit && article.title ? article.title['fa'] || '' : '' %>" placeholder="عنوان فارسی" />
+      </div>
+      <div x-show="tabTitle === 'en'">
+        <input type="text" name="title_en" class="form-input" dir="ltr" value="<%= isEdit && article.title ? article.title['en'] || '' : '' %>" placeholder="English title" />
+      </div>
+      <div x-show="tabTitle === 'ps'">
+        <input type="text" name="title_ps" class="form-input" value="<%= isEdit && article.title ? article.title['ps'] || '' : '' %>" placeholder="پښتو سرلیک" />
+      </div>
+    </div>
+
+    <!-- Short Description -->
+    <div class="form-group">
+      <div class="form-label">توضیح کوتاه</div>
+      <div class="tabs">
+        <button type="button" class="tab-btn" :class="tabSD === 'fa' ? 'active' : ''" @click="tabSD = 'fa'">فارسی</button>
+        <button type="button" class="tab-btn" :class="tabSD === 'en' ? 'active' : ''" @click="tabSD = 'en'">English</button>
+        <button type="button" class="tab-btn" :class="tabSD === 'ps' ? 'active' : ''" @click="tabSD = 'ps'">پښتو</button>
+      </div>
+      <div x-show="tabSD === 'fa'">
+        <textarea name="shortDescription_fa" class="form-input"><%= isEdit && article.shortDescription ? article.shortDescription['fa'] || '' : '' %></textarea>
+      </div>
+      <div x-show="tabSD === 'en'">
+        <textarea name="shortDescription_en" class="form-input" dir="ltr"><%= isEdit && article.shortDescription ? article.shortDescription['en'] || '' : '' %></textarea>
+      </div>
+      <div x-show="tabSD === 'ps'">
+        <textarea name="shortDescription_ps" class="form-input"><%= isEdit && article.shortDescription ? article.shortDescription['ps'] || '' : '' %></textarea>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="form-group">
+      <div class="form-label">متن مقاله</div>
+      <div class="tabs">
+        <button type="button" class="tab-btn" :class="tabBody === 'fa' ? 'active' : ''" @click="tabBody = 'fa'">فارسی</button>
+        <button type="button" class="tab-btn" :class="tabBody === 'en' ? 'active' : ''" @click="tabBody = 'en'">English</button>
+        <button type="button" class="tab-btn" :class="tabBody === 'ps' ? 'active' : ''" @click="tabBody = 'ps'">پښتو</button>
+      </div>
+      <div x-show="tabBody === 'fa'">
+        <textarea name="body_fa" class="form-input" style="min-height:200px"><%= isEdit && article.body ? article.body['fa'] || '' : '' %></textarea>
+      </div>
+      <div x-show="tabBody === 'en'">
+        <textarea name="body_en" class="form-input" dir="ltr" style="min-height:200px"><%= isEdit && article.body ? article.body['en'] || '' : '' %></textarea>
+      </div>
+      <div x-show="tabBody === 'ps'">
+        <textarea name="body_ps" class="form-input" style="min-height:200px"><%= isEdit && article.body ? article.body['ps'] || '' : '' %></textarea>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="form-group">
+        <label class="form-label">Slug (آدرس URL)</label>
+        <input type="text" name="slug" class="form-input" dir="ltr" value="<%= isEdit ? article.slug : '' %>" placeholder="article-slug" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">زمان مطالعه (دقیقه)</label>
+        <input type="number" name="readTime" class="form-input" value="<%= isEdit ? article.readTime : 0 %>" min="0" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">وضعیت</label>
+        <select name="status" class="form-input">
+          <option value="draft" <%= isEdit && article.status === 'draft' ? 'selected' : '' %>>پیش‌نویس</option>
+          <option value="published" <%= isEdit && article.status === 'published' ? 'selected' : '' %>>منتشر شده</option>
+          <option value="archived" <%= isEdit && article.status === 'archived' ? 'selected' : '' %>>آرشیو</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">دسته‌بندی</label>
+        <select name="categoryId" class="form-input">
+          <option value="">— بدون دسته‌بندی —</option>
+          <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>" <%= isEdit && article && article.categoryId === cat.id ? 'selected' : '' %>>
+            <%= '　'.repeat(cat.depth) %><%= cat.depth > 0 ? '└ ' : '' %><%= cat.title['fa'] || cat.title['en'] || '' %>
+          </option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">شناسه نویسنده (ID کاربر)</label>
+        <input type="number" name="authorId" class="form-input" value="<%= isEdit ? article.authorId : '' %>" placeholder="1" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">ترتیب نمایش</label>
+        <input type="number" name="sortOrder" class="form-input" value="<%= isEdit ? article.sortOrder : 0 %>" />
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;margin-top:.5rem">
+      <button type="submit" class="btn-primary"><%= isEdit ? 'ذخیره تغییرات' : 'ایجاد مقاله' %></button>
+      <a href="/admin/articles" class="btn-secondary">انصراف</a>
+    </div>
+  </form>
+</div>
