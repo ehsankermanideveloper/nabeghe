@@ -365,8 +365,8 @@
   "auth_verify_btn": "تایید",
   "auth_verify_change": "تغییر شماره یا ایمیل",
   "auth_or": "یا",
-  "auth_google_btn": "ورود با گوگل",
-  "auth_passkey_btn": "ورود با اثرانگشت / پسکی",
+  "auth_google_btn": "گوگل",
+  "auth_passkey_btn": "اثرانگشت",
   "flash_login_success": "خوش آمدید! با موفقیت وارد شدید.",
   "flash_register_success": "خوش آمدید! حساب کاربری شما با موفقیت ساخته شد.",
 

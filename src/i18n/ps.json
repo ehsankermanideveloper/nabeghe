@@ -365,8 +365,8 @@
   "auth_verify_btn": "تایید",
   "auth_verify_change": "شمیره یا بریښنالیک بدل کړئ",
   "auth_or": "یا",
-  "auth_google_btn": "د ګوګل سره ننوتل",
-  "auth_passkey_btn": "د پاسکي سره ننوتل",
+  "auth_google_btn": "ګوګل",
+  "auth_passkey_btn": "اثرانگشت",
   "flash_login_success": "ښه راغلاست! تاسو بریالیتوب سره ننوتلئ.",
   "flash_register_success": "ښه راغلاست! ستاسو حساب بریالیتوب سره جوړ شو.",
 
