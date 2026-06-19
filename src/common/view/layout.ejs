@@ -60,9 +60,8 @@
     <link rel="preconnect" href="https://assets.mediadelivery.net" crossorigin />
     <link rel="dns-prefetch" href="https://b-cdn.net" />
 
-    <!-- Preload critical fonts -->
+    <!-- Preload critical fonts (Regular + SemiBold cover body + headings; Bold loaded lazily) -->
     <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/yekanBakh/woff2/YekanBakhFaNum-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Assets -->
@@ -105,7 +104,7 @@
     </div>
 
     <script src="/assets/js/img-skeleton.js?v=<%= assetVersion %>" defer></script>
-    <script src="/assets/js/dependencies/alpinejs.min.js?v=<%= assetVersion %>"></script>
+    <script src="/assets/js/dependencies/alpinejs.min.js?v=<%= assetVersion %>" defer></script>
     <% if (locals.useSwiper) { %>
     <script src="/assets/js/dependencies/swiper-bundle.min.js?v=<%= assetVersion %>" defer></script>
     <script src="/assets/js/swiper-init.js?v=<%= assetVersion %>" defer></script>

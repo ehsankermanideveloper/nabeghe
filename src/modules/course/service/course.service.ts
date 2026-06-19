@@ -10,6 +10,7 @@ import { CourseRepository } from '@modules/course/repository/course.repository';
 
 const LATEST_TTL = 2 * 60_000;
 const POPULAR_TTL = 3 * 60_000;
+const PAGED_TTL = 90_000;
 
 export interface CourseIndexData {
   courses: CourseEntity[];
@@ -33,23 +34,19 @@ export class CourseService {
   }
 
   async findPaged(dto: CourseQueryDto): Promise<PagedResult<CourseEntity>> {
-    let categoryIds: number[] | undefined;
+    const page = dto.page ?? 1;
+    const limit = dto.limit ?? 12;
+    const sort = dto.sort ?? CourseSort.NEWEST;
+    const key = this.cache.key('course', 'paged', dto.category ?? '-', dto.q ?? '-', dto.level ?? '-', sort, page, limit);
 
-    if (dto.category) {
-      const cat = await this.categoryService.findBySlugWithChildren(dto.category);
-      if (cat) {
-        categoryIds = [cat.id, ...(cat.children ?? []).map((c) => c.id)];
+    return this.cache.wrap(key, async () => {
+      let categoryIds: number[] | undefined;
+      if (dto.category) {
+        const cat = await this.categoryService.findBySlugWithChildren(dto.category);
+        if (cat) categoryIds = [cat.id, ...(cat.children ?? []).map((c) => c.id)];
       }
-    }
-
-    return this.courseRepository.findPublishedPaged({
-      q: dto.q,
-      categoryIds,
-      level: dto.level,
-      sort: dto.sort ?? CourseSort.NEWEST,
-      page: dto.page ?? 1,
-      limit: dto.limit ?? 12,
-    });
+      return this.courseRepository.findPublishedPaged({ q: dto.q, categoryIds, level: dto.level, sort, page, limit });
+    }, PAGED_TTL);
   }
 
   async findIndexData(dto: CourseQueryDto): Promise<CourseIndexData> {

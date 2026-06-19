@@ -28,18 +28,3 @@ html[lang="en"] body {
     src: url('../fonts/yekanBakh/woff2/YekanBakhFaNum-Bold.woff2') format('woff2');
 }
 
-@font-face {
-    font-family: "YekanBakh";
-    font-style: normal;
-    font-weight: 800;
-    font-display: swap;
-    src: url('../fonts/yekanBakh/woff2/YekanBakhFaNum-ExtraBold.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: "YekanBakh";
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-    src: url('../fonts/yekanBakh/woff2/YekanBakhFaNum-Black.woff2') format('woff2');
-}

@@ -1,15 +1,19 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { AppCacheService } from '@common/cache/cache.service';
 import { SubmitCommentDto } from '@modules/course/dto/submit-comment.dto';
 import { CourseCommentEntity } from '@modules/course/entity/course-comment.entity';
 import { CommentStatus } from '@modules/course/enum/comment-status.enum';
 import { CourseCommentRepository } from '@modules/course/repository/course-comment.repository';
 import { CourseRepository } from '@modules/course/repository/course.repository';
 
+const LATEST_TTL = 3 * 60_000;
+
 @Injectable()
 export class CourseCommentService {
   constructor(
     private readonly commentRepository: CourseCommentRepository,
     private readonly courseRepository: CourseRepository,
+    private readonly cache: AppCacheService,
   ) {}
 
   async submit(
@@ -46,8 +50,12 @@ export class CourseCommentService {
     return (await this.commentRepository.save(comment)) as CourseCommentEntity;
   }
 
-  getApprovedComments(courseId?: number, limit?: number , sortAsc : boolean = true): Promise<CourseCommentEntity[]> {
-    return this.commentRepository.findApprovedByCourseId(courseId , limit , sortAsc);
+  getApprovedComments(courseId?: number, limit?: number, sortAsc: boolean = true): Promise<CourseCommentEntity[]> {
+    if (courseId === undefined && limit !== undefined) {
+      const key = this.cache.key('comment', 'approved-latest', limit);
+      return this.cache.wrap(key, () => this.commentRepository.findApprovedByCourseId(courseId, limit, sortAsc), LATEST_TTL);
+    }
+    return this.commentRepository.findApprovedByCourseId(courseId, limit, sortAsc);
   }
 
   getAverageRating(courseId: number): Promise<number | null> {

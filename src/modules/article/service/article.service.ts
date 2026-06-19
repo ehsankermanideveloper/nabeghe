@@ -8,6 +8,7 @@ import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleRepository } from '@modules/article/repository/article.repository';
 
 const LATEST_TTL = 2 * 60_000;
+const PAGED_TTL = 90_000;
 
 export interface ArticleIndexData {
   articles: ArticleEntity[];
@@ -45,14 +46,11 @@ export class ArticleService {
   }
 
   async findIndexData(dto: ArticleQueryDto): Promise<ArticleIndexData> {
+    const page = dto.page ?? 1;
+    const limit = dto.limit ?? 12;
+    const pagedKey = this.cache.key('article', 'paged', dto.category ?? '-', dto.q ?? '-', dto.tag ?? '-', page, limit);
     const [pagination, categories] = await Promise.all([
-      this.articleRepository.findPublishedPaged({
-        q: dto.q,
-        category: dto.category,
-        tag: dto.tag,
-        page: dto.page ?? 1,
-        limit: dto.limit ?? 12,
-      }),
+      this.cache.wrap(pagedKey, () => this.articleRepository.findPublishedPaged({ q: dto.q, category: dto.category, tag: dto.tag, page, limit }), PAGED_TTL),
       this.categoryService.findAllActive(),
     ]);
 
