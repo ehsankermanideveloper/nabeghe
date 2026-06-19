@@ -49,7 +49,7 @@ export class AuthController {
       seoRobots: 'noindex, nofollow',
       csrfToken: this.authService.ensureCsrfToken(req),
       error: error ?? null,
-      returnTo: returnTo ?? '/',
+      returnTo: returnTo ?? `${res.locals.lp ?? ''}/`,
       showDevHint: this.isDevHintVisible(),
       googleEnabled: this.googleAuthService.isEnabled(),
     });
@@ -105,7 +105,7 @@ export class AuthController {
       masked: req.session.pendingMasked ?? '',
       pendingKind: req.session.pendingKind ?? 'phone',
       error: error ?? null,
-      returnTo: returnTo ?? '/',
+      returnTo: returnTo ?? `${res.locals.lp ?? ''}/`,
       showDevHint: this.isDevHintVisible(),
     });
   }
@@ -123,12 +123,8 @@ export class AuthController {
       this.authService.validateCsrf(req, body._csrf);
       await this.authService.verifyOtp(req, body.code);
       const lp: string = res.locals.lp ?? '';
-      const rawTarget =
-        returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
-          ? returnTo
-          : '/';
-      const target = lp && rawTarget !== '/' && !rawTarget.startsWith(`${lp}/`) ? `${lp}${rawTarget}` : rawTarget;
-      this.saveAndRedirect(req, res, target);
+      const rawTarget = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
+      this.saveAndRedirect(req, res, this.withLp(lp, rawTarget));
     } catch (err: unknown) {
       res.redirect(
         `${res.locals.lp}/auth/verify?error=${encodeURIComponent(this.resolveErrorMessage(err))}&returnTo=${encodeURIComponent(returnTo ?? '/')}`,
@@ -156,12 +152,10 @@ export class AuthController {
   ): Promise<void> {
     try {
       await this.passkeyService.verifyAuthentication(req, body.response);
-      const target =
-        returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
-          ? returnTo
-          : '/';
+      const lp: string = res.locals.lp ?? '';
+      const rawTarget = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
       await new Promise<void>((resolve) => req.session.save(() => resolve()));
-      res.json({ ok: true, redirectTo: target });
+      res.json({ ok: true, redirectTo: this.withLp(lp, rawTarget) });
     } catch (err: unknown) {
       res
         .status(401)
@@ -183,7 +177,9 @@ export class AuthController {
       res.redirect(`${res.locals.lp}/auth/login`);
       return;
     }
-    const url = this.googleAuthService.buildAuthUrl(req, res, returnTo ?? '/profile');
+    const lp: string = res.locals.lp ?? '';
+    const safeReturnTo = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
+    const url = this.googleAuthService.buildAuthUrl(req, res, this.withLp(lp, safeReturnTo));
     res.redirect(url);
   }
 
@@ -202,9 +198,8 @@ export class AuthController {
     }
     try {
       const { returnTo } = await this.googleAuthService.handleCallback(req, res, code, state);
-      const target = returnTo && returnTo.startsWith('/') ? returnTo : '/';
-      const finalTarget = lp && target !== '/' && !target.startsWith(`${lp}/`) ? `${lp}${target}` : target;
-      this.saveAndRedirect(req, res, finalTarget);
+      const rawTarget = returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
+      this.saveAndRedirect(req, res, this.withLp(lp, rawTarget));
     } catch (err: unknown) {
       res.redirect(`${lp}/auth/login?error=${encodeURIComponent(this.resolveErrorMessage(err))}`);
     }
@@ -224,6 +219,13 @@ export class AuthController {
 
   private saveAndRedirect(req: Request, res: Response, url: string): void {
     req.session.save(() => res.redirect(url));
+  }
+
+  private withLp(lp: string, path: string): string {
+    if (!lp) return path;
+    if (path === '/' || path === '') return `${lp}/`;
+    if (path.startsWith(`${lp}/`)) return path;
+    return `${lp}${path}`;
   }
 
   private isDevHintVisible(): boolean {
