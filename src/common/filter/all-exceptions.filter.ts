@@ -17,6 +17,41 @@ interface ErrorBody {
   path: string;
 }
 
+interface StatusMeta {
+  pageTitleKey: string;
+  titleKey: string;
+  descKey: string;
+}
+
+const STATUS_META: Record<number, StatusMeta> = {
+  [HttpStatus.NOT_FOUND]: {
+    pageTitleKey: 'page_title_not_found',
+    titleKey: 'error_not_found',
+    descKey: 'error_not_found_hint',
+  },
+  [HttpStatus.FORBIDDEN]: {
+    pageTitleKey: 'page_title_forbidden',
+    titleKey: 'error_forbidden_title',
+    descKey: 'error_forbidden_desc',
+  },
+  [HttpStatus.UNAUTHORIZED]: {
+    pageTitleKey: 'page_title_forbidden',
+    titleKey: 'error_forbidden_title',
+    descKey: 'error_login_required',
+  },
+  [HttpStatus.INTERNAL_SERVER_ERROR]: {
+    pageTitleKey: 'page_title_error',
+    titleKey: 'error_server_title',
+    descKey: 'error_server_desc',
+  },
+};
+
+const DEFAULT_META: StatusMeta = {
+  pageTitleKey: 'page_title_error',
+  titleKey: 'error_generic_title',
+  descKey: 'error_generic_desc',
+};
+
 @Catch()
 @Injectable()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -43,20 +78,24 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     if (this.prefersHtml(request)) {
-      const t = response.locals.t as ((key: string) => string) | undefined;
-      const siteName = t ? t('site_name_short') : 'لیان امیری';
-      if (status === Number(HttpStatus.NOT_FOUND)) {
+      const t = (response.locals.t as ((key: string) => string) | undefined) ?? ((k: string) => k);
+      const meta = STATUS_META[status] ?? DEFAULT_META;
+
+      if (status === HttpStatus.NOT_FOUND) {
         response.status(status).render('view/pages/errors/not-found', {
-          pageTitle: t ? t('page_title_not_found') : `${siteName} - 404`,
+          layout: 'view/layout',
+          pageTitle: t(meta.pageTitleKey),
         });
         return;
       }
 
       response.status(status).render('view/pages/errors/error', {
-        pageTitle: `${siteName} — ${status}`,
+        layout: 'view/layout',
+        pageTitle: t(meta.pageTitleKey),
         statusCode: status,
-        title: error,
-        message: Array.isArray(message) ? message.join(', ') : message,
+        title: t(meta.titleKey),
+        desc: t(meta.descKey),
+        rawMessage: status < 500 ? null : (Array.isArray(message) ? message.join(', ') : message),
       });
       return;
     }
@@ -78,33 +117,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
     return HttpStatus.INTERNAL_SERVER_ERROR;
   }
 
-  private resolveMessage(
-    exception: unknown,
-    status: number,
-  ): string | string[] {
+  private resolveMessage(exception: unknown, status: number): string | string[] {
     if (exception instanceof HttpException) {
       const res = exception.getResponse();
-      if (typeof res === 'string') {
-        return res;
-      }
+      if (typeof res === 'string') return res;
       if (typeof res === 'object' && res !== null && 'message' in res) {
         const msg = (res as { message?: string | string[] }).message;
-        if (msg !== undefined) {
-          return msg;
-        }
+        if (msg !== undefined) return msg;
       }
     }
-    if (exception instanceof Error) {
-      return exception.message;
-    }
+    if (exception instanceof Error) return exception.message;
     return status >= 500 ? 'Internal server error' : 'Unexpected error';
   }
 
   private prefersHtml(request: Request): boolean {
     const accept = request.headers.accept ?? '';
-    if (accept.includes('application/json') && !accept.includes('text/html')) {
-      return false;
-    }
+    if (accept.includes('application/json') && !accept.includes('text/html')) return false;
     return true;
   }
 }

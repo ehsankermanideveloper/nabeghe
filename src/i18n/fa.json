@@ -22,7 +22,6 @@
   "page_title_search": "جستجو — لیان امیری",
   "page_title_search_for": "نتایج جستجو برای",
   "page_title_not_found": "آکادمی لیان امیری - ۴۰۴",
-
   "nav_home": "خانه",
   "nav_courses": "دوره‌ها",
   "nav_articles": "مقالات",
@@ -38,7 +37,6 @@
   "nav_category": "دسته‌بندی آموزش‌ها",
   "nav_all_categories": "همه دسته‌بندی‌ها",
   "nav_subcategories": "زیردسته‌ها",
-
   "btn_enroll": "ثبت‌نام در دوره",
   "btn_enroll_free": "ثبت‌نام رایگان",
   "label_enrolling": "در حال ثبت‌نام...",
@@ -58,7 +56,6 @@
   "btn_contact_enroll": "برای ثبت‌نام با ما تماس بگیرید",
   "btn_back_top": "برگشت به بالا",
   "btn_go": "برو بریم",
-
   "label_free": "رایگان",
   "label_free_exclaim": "رایگان!",
   "label_paid": "پولی",
@@ -110,7 +107,6 @@
   "label_comprehensive": "جامع",
   "label_project_based": "پروژه‌محور",
   "label_challenging": "چالش‌برانگیز",
-
   "search_placeholder": "جستجوی دوره‌ها و مقالات ...",
   "search_header_placeholder": "نام دوره، مقاله یا دسته‌بندی را وارد کنید...",
   "search_results_courses": "دوره‌های آموزشی",
@@ -118,7 +114,6 @@
   "search_empty": "نتیجه‌ای یافت نشد",
   "search_empty_hint": "کلمه دیگری را امتحان کنید",
   "search_type_hint": "چیزی جستجو کنید",
-
   "course_list_title": "دوره‌های آموزشی",
   "course_list_empty": "دوره‌ای یافت نشد",
   "course_description": "توضیحات دوره",
@@ -146,11 +141,10 @@
   "course_no_chapters": "هنوز سرفصلی اضافه نشده است.",
   "course_no_comments": "هنوز دیدگاهی ثبت نشده است",
   "course_episode_no_description": "توضیحاتی برای این قسمت ثبت نشده است.",
-  "course_episode_comment_login" : "برای ثبت دیدگاه",
+  "course_episode_comment_login": "برای ثبت دیدگاه",
   "course_episode_comment_login_link": "وارد شوید",
   "course_enroll_title": "نام‌نویسی در دوره",
   "course_enroll_section": "معرفی دوره",
-
   "article_list_title": "مقالات",
   "article_list_empty": "مقاله‌ای یافت نشد",
   "article_read_more": "ادامه مطلب",
@@ -164,7 +158,6 @@
   "article_comment_login_link": "وارد شوید",
   "article_comment_placeholder": "دیدگاه خود را بنویسید ...",
   "article_no_description": "توضیحاتی وجود ندارد",
-
   "home_hero_title": "بخوان، یاد بگیر، پیشرفت کن",
   "home_hero_subtitle": "از فعالیت‌های آکادمی لیان امیری برایتان بگوییم",
   "home_latest_courses": "آخرین دوره‌ها",
@@ -172,7 +165,6 @@
   "home_academy_section": "بخشی از فعالیت‌های آکادمی",
   "home_testimonials": "درباره آکادمی لیان امیری چه می‌گویند؟",
   "home_testimonials_hint": "این‌ها بخشی از نظرات هنرجویان و افرادی هستند که از حمایت‌های آکادمی لیان امیری بهره‌مند شده‌اند.",
-
   "profile_my_courses": "دوره‌های من",
   "profile_settings": "تنظیمات",
   "profile_account_info": "اطلاعات حساب",
@@ -186,10 +178,8 @@
   "profile_wishlist_count": "تعداد علاقه‌مندی‌ها",
   "profile_fingerprints": "اثرانگشت",
   "profile_fingerprints_registered": "اثرانگشت‌های ثبت‌شده",
-
   "about_academy": "درباره آکادمی",
   "about_academy_title": "درباره آکادمی لیان امیری",
-
   "footer_rights": "کليه حقوق محفوظ است",
   "footer_academy": "آکادمی",
   "footer_back_to_top": "برگشت به بالا",
@@ -209,12 +199,10 @@
   "footer_email_placeholder": "آدرس ایمیل",
   "footer_email_submit": "ثبت ایمیل",
   "footer_social": "شبکه های اجتماعی",
-
   "error_not_found": "صفحه مورد نظر پیدا نشد",
   "error_not_found_hint": "به صفحه اصلی برگردید",
   "error_access_denied": "دسترسی مجاز نیست",
   "error_login_required": "برای دسترسی به این صفحه وارد شوید",
-
   "label_next_episode": "قسمت بعدی",
   "label_prev_episode": "قسمت قبلی",
   "label_views": "بازدید",
@@ -224,7 +212,6 @@
   "label_read": "مطالعه",
   "label_video": "ویدیویی",
   "label_mentorship": "منتورشیپ",
-
   "search_see_all": "مشاهده همه نتایج",
   "search_all_courses": "همه دوره‌ها",
   "search_all_articles": "همه مقالات",
@@ -233,18 +220,14 @@
   "search_no_results_for": "هیچ دوره یا مقاله‌ای پیدا نشد",
   "search_no_results_try": "سعی کنید کلمات کمتر یا متفاوتی استفاده کنید.",
   "search_query_hint": "نام دوره، مقاله یا دسته‌بندی مورد نظرتان را در کادر بالا وارد کنید.",
-
   "article_search": "جستجو مقالات",
   "article_search_placeholder": "عنوان مقاله...",
   "article_filter_title": "فیلتر مقالات آموزشی",
   "article_list_subtitle": "بخوان، یاد بگیر، پیشرفت کن",
-
   "course_sort_oldest": "قدیمی‌ترین",
-
   "btn_view_all": "مشاهده همه",
   "btn_view_all_articles": "مشاهده همه مقالات",
   "btn_view_all_courses": "مشاهده همه دوره‌ها",
-
   "home_festival": "جشنواره تخفیف !",
   "home_coming_soon_smiley": "به زودی :)",
   "home_why_academy": "چرا آکادمی لیان امیری؟",
@@ -257,7 +240,6 @@
   "home_no_articles": "مقاله‌ای منتشر نشده است.",
   "home_no_comments": "هنوز نظری ثبت نشده است.",
   "home_latest_articles_desc": "با مطالعه مقالات و اخبار آکادمی لیان امیری از آخرین فعالیت‌ها، برنامه‌های حمایتی و دوره‌های آموزشی جدید مطلع شوید.",
-
   "course_list_subtitle": "دوره ببین، تمرین کن، برنامه نویس شو",
   "course_search": "جستجو دوره",
   "course_search_placeholder": "عنوان دوره..",
@@ -272,7 +254,6 @@
   "label_rejected": "رد شده",
   "label_transaction": "تراکنش",
   "label_dear_user": "کاربر گرامی",
-
   "btn_cancel": "انصراف",
   "btn_update": "بروزرسانی",
   "btn_updating": "در حال بروزرسانی...",
@@ -286,7 +267,6 @@
   "btn_read_article": "مطالعه مقاله",
   "btn_view_articles": "مشاهده مقالات",
   "btn_view_course_page": "مشاهده در صفحه دوره",
-
   "profile_wishlist": "علاقمندی‌ها",
   "profile_edit_title": "ویرایش پروفایل",
   "profile_comments_title": "دیدگاه و پرسش‌های شما",
@@ -316,13 +296,11 @@
   "profile_device_name_label": "نام دستگاه (اختیاری)",
   "profile_device_name_placeholder": "مثلاً: گوشی اندرویدم",
   "profile_fingerprint_not_supported": "مرورگر یا دستگاه شما از اثرانگشت پشتیبانی نمی‌کند.",
-
   "tx_tracking_code": "شماره پیگیری",
   "tx_status": "وضعیت",
   "tx_description": "شرح تراکنش",
   "tx_amount": "مبلغ",
   "tx_date": "تاریخ ایجاد",
-
   "msg_update_success": "اطلاعات با موفقیت بروزرسانی شد.",
   "msg_error_generic": "خطایی رخ داد",
   "msg_error_server": "خطا در ارتباط با سرور",
@@ -346,11 +324,9 @@
   "profile_phone_notice_item1": "۱.ورود به سایت تماما با شماره تلفن همراه انجام خواهد شد.",
   "profile_phone_notice_item2": "۲.در هنگام ورود به سایت پیامکی برای شما ارسال میشود تا از ورود‌های بدون اجازه مطلع شوید.",
   "btn_understood": "فهمیدم",
-
   "lang_fa": "دری",
   "lang_en": "انگلیسی",
   "lang_ps": "پښتو",
-
   "auth_login_title": "ورود یا ثبت‌نام",
   "auth_login_greeting": "درود 👋",
   "auth_login_hint": "لطفا شماره موبایل یا ایمیل خود را وارد کنید",
@@ -369,7 +345,6 @@
   "auth_passkey_btn": "اثرانگشت",
   "flash_login_success": "خوش آمدید! با موفقیت وارد شدید.",
   "flash_register_success": "خوش آمدید! حساب کاربری شما با موفقیت ساخته شد.",
-
   "about_intro": "آکادمی لیان امیری در سال ۱۳۹۴ ه.ش به هدف «تلاش جهت ارتقاء سطح دانش» و با شعار «دانش اساس تکامل بشر» تأسیس شد. این آکادمی یک نهاد خیریه و حمایتی است که با تمرکز بر ارتقاء سطح علمی و آموزشی افراد محروم و کم‌برخوردار، تلاش می‌کند فرصت‌های برابر یادگیری را برای همه فراهم کند. سامانه آموزشی آکادمی لیان امیری بستری است تا هنرجویان بتوانند دوره‌های آموزشی را به‌صورت رایگان یا با حمایت آکادمی دریافت کنند.",
   "about_edu_title": "حمایت آموزشی از افراد محروم",
   "about_edu_p1": "آکادمی لیان امیری با اعتقاد راسخ به اینکه آموزش حق همه انسان‌هاست، برنامه‌های حمایتی ویژه‌ای برای افراد محروم و کم‌برخوردار طراحی کرده است. هنرجویانی که توانایی مالی تهیه دوره‌های آموزشی را ندارند، می‌توانند با ثبت‌نام و تأیید کمیته حمایتی آکادمی، دوره‌های خود را رایگان دریافت کنند.",
@@ -378,7 +353,6 @@
   "about_community_p1": "آکادمی لیان امیری تنها یک منبع آموزشی نیست؛ بلکه یک جامعه انسانی است که اعضای آن یکدیگر را در مسیر رشد همراهی می‌کنند. مربیان، داوطلبان و دانش‌آموختگان آکادمی دست در دست هم برای ارتقاء سطح علمی جامعه تلاش می‌کنند.",
   "about_community_p2": "اگر در طول مشاهده دوره‌ها سوال یا ابهامی داشتید، تیم پشتیبانی آکادمی آماده پاسخگویی است. هدف ما اطمینان از این است که هر هنرجو بتواند محتوای آموزشی را با بهترین کیفیت و در آرامش کامل دریافت کند.",
   "about_more": "و..",
-
   "terms_intro": "در این صفحه شرایط استفاده از وبسایت آموزشی لیان امیری را مشاهده می‌کنید.",
   "terms_account_title": "قوانین حساب کاربری",
   "terms_account_intro": "اکثر امکانات لیان امیری مربوط به اعضای آن می‌شود و اگر شما قصد استفاده از این دسته از محتوا را دارید، نیاز است ابتدا در سایت لیان امیری عضو شوید. داشتن یک حساب کاربری ملزم به رعایت قوانین زیر می‌باشد:",
@@ -403,5 +377,14 @@
   "terms_moderation_title": "نظارت بر محتوا",
   "terms_moderation_body": "لیان امیری حق دارد به صلاحدید خود نوشته‌های کاربران و تولیدکنندگان محتوا که روی سرویس قرار می‌گیرند و از قوانین سایت تبعیت نمی‌کنند را ویرایش و حذف و یا کلاً از انتشار آن جلوگیری کند. ما در لیان امیری سعی داریم محتوای سالم و به دور از هر گونه توهینی داشته باشیم.",
   "terms_violation_title": "عدم رعایت قوانین",
-  "terms_violation_body": "در صورت عدم رعایت قوانین مندرج شده در این صفحه، لیان امیری این حق را برای خود محفوظ می‌دارد که بلافاصله دسترسی شما به وبسایت را معلق کند یا به طور کلی به پایان برساند و اکانت شما (یا بخشی از آن) را مسدود کند."
+  "terms_violation_body": "در صورت عدم رعایت قوانین مندرج شده در این صفحه، لیان امیری این حق را برای خود محفوظ می‌دارد که بلافاصله دسترسی شما به وبسایت را معلق کند یا به طور کلی به پایان برساند و اکانت شما (یا بخشی از آن) را مسدود کند.",
+  "error_back_home": "بازگشت به صفحه اصلی",
+  "error_forbidden_title": "دسترسی مجاز نیست",
+  "error_forbidden_desc": "شما اجازه دسترسی به این صفحه را ندارید.",
+  "error_server_title": "خطای سرور",
+  "error_server_desc": "سرور با مشکلی مواجه شد. لطفاً کمی بعد دوباره تلاش کنید.",
+  "error_generic_title": "خطا",
+  "error_generic_desc": "مشکلی پیش آمد.",
+  "page_title_forbidden": "دسترسی مجاز نیست — لیان امیری",
+  "page_title_error": "خطا — لیان امیری"
 }

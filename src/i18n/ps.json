@@ -22,7 +22,6 @@
   "page_title_search": "لټون — لیان امیري",
   "page_title_search_for": "د لټون پایلې",
   "page_title_not_found": "د لیان امیري اکاډمي - ۴۰۴",
-
   "nav_home": "کور",
   "nav_courses": "کورسونه",
   "nav_articles": "مقالې",
@@ -38,7 +37,6 @@
   "nav_category": "د زده‌کړې کټګورۍ",
   "nav_all_categories": "ټولې کټګورۍ",
   "nav_subcategories": "فرعي کټګورۍ",
-
   "btn_enroll": "د کورس ثبت‌نام",
   "btn_enroll_free": "وړیا ثبت‌نام",
   "label_enrolling": "د ثبت‌نام پر مهال...",
@@ -58,7 +56,6 @@
   "btn_contact_enroll": "د ثبت‌نام لپاره موږ سره اړیکه ونیسئ",
   "btn_back_top": "پورته ته ستانه شه",
   "btn_go": "راځئ لاړ شو",
-
   "label_free": "وړیا",
   "label_free_exclaim": "وړیا!",
   "label_paid": "پیسو وړ",
@@ -110,7 +107,6 @@
   "label_comprehensive": "جامع",
   "label_project_based": "پروژه‌بنسټیزه",
   "label_challenging": "ننګونیزه",
-
   "search_placeholder": "د کورسونو او مقالو لټون ...",
   "search_header_placeholder": "د کورس، مقالې یا کټګورۍ نوم ولیکئ...",
   "search_results_courses": "کورسونه",
@@ -118,7 +114,6 @@
   "search_empty": "هیڅ پایله ونه موندل شوه",
   "search_empty_hint": "بله کلمه هڅه وکړه",
   "search_type_hint": "یو شی لټ کړه",
-
   "course_list_title": "کورسونه",
   "course_list_empty": "هیڅ کورس ونه موندل شو",
   "course_description": "د کورس تشریح",
@@ -146,11 +141,10 @@
   "course_no_chapters": "لاهم هیڅ فصل نه دی اضافه شوی.",
   "course_no_comments": "لاهم هیڅ نظر نشته",
   "course_episode_no_description": "د دې برخې لپاره هیڅ تشریح نشته.",
-  "course_episode_comment_login" : "د نظر ثبت لپاره",
+  "course_episode_comment_login": "د نظر ثبت لپاره",
   "course_episode_comment_login_link": "ننوځئ",
   "course_enroll_title": "د کورس ثبت‌نام",
   "course_enroll_section": "د کورس معرفي",
-
   "article_list_title": "مقالې",
   "article_list_empty": "هیڅ مقاله ونه موندل شوه",
   "article_read_more": "نور ولوله",
@@ -164,7 +158,6 @@
   "article_comment_login_link": "ننوځئ",
   "article_comment_placeholder": "خپل نظر ولیکئ ...",
   "article_no_description": "هیڅ تشریح نشته",
-
   "home_hero_title": "ولوله، زده کړه، پرمختګ وکړه",
   "home_hero_subtitle": "د لیان امیري اکاډمۍ فعالیتونه وپیژنئ",
   "home_latest_courses": "وروستي کورسونه",
@@ -172,7 +165,6 @@
   "home_academy_section": "د اکاډمۍ برخه فعالیتونه",
   "home_testimonials": "د لیان امیري اکاډمۍ په اړه څه وایي؟",
   "home_testimonials_hint": "دا د هغو زده‌کوونکو نظرونه دي چې د لیان امیري اکاډمۍ له ملاتړ ګټه اخیستي ده.",
-
   "profile_my_courses": "زما کورسونه",
   "profile_settings": "ترتیبات",
   "profile_account_info": "د حساب معلومات",
@@ -186,10 +178,8 @@
   "profile_wishlist_count": "د علاقمندیو شمیر",
   "profile_fingerprints": "ګوتو نښانې",
   "profile_fingerprints_registered": "ثبت شوي ګوتو نښانې",
-
   "about_academy": "د اکاډمۍ په اړه",
   "about_academy_title": "د لیان امیري اکاډمۍ په اړه",
-
   "footer_rights": "ټول حقوق خوندي دي",
   "footer_academy": "اکاډمي",
   "footer_back_to_top": "بېرته پورته",
@@ -209,12 +199,10 @@
   "footer_email_placeholder": "د بریښنالیک پته",
   "footer_email_submit": "ثبتول",
   "footer_social": "ټولنیز رسنۍ",
-
   "error_not_found": "مخ ونه موندل شو",
   "error_not_found_hint": "کور ته ستانه شئ",
   "error_access_denied": "لاسرسی اجازه نلري",
   "error_login_required": "د دې مخ لپاره ننوځئ",
-
   "label_next_episode": "بعدي برخه",
   "label_prev_episode": "مخنۍ برخه",
   "label_views": "لیدونه",
@@ -224,7 +212,6 @@
   "label_read": "ولوله",
   "label_video": "ویډیویي",
   "label_mentorship": "ملاتړ",
-
   "search_see_all": "ټول پایلې وګوره",
   "search_all_courses": "ټول کورسونه",
   "search_all_articles": "ټولې مقالې",
@@ -233,18 +220,14 @@
   "search_no_results_for": "هیڅ کورس یا مقاله ونه موندل شو",
   "search_no_results_try": "لږ یا بل ډول کلمات هڅه وکړئ.",
   "search_query_hint": "د کورس، مقالې یا کټګورۍ نوم پورتنۍ د لټون بکس کې ولیکئ.",
-
   "article_search": "د مقالو لټون",
   "article_search_placeholder": "د مقالې سرلیک...",
   "article_filter_title": "مقالې فلتر کړه",
   "article_list_subtitle": "ولوله، زده کړه، پرمختګ وکړه",
-
   "course_sort_oldest": "زوړ",
-
   "btn_view_all": "ټول وګوره",
   "btn_view_all_articles": "ټولې مقالې وګوره",
   "btn_view_all_courses": "ټول کورسونه وګوره",
-
   "home_festival": "د تخفیف جشن!",
   "home_coming_soon_smiley": "ډیر ژر :)",
   "home_why_academy": "ولې د لیان امیري اکاډمي؟",
@@ -257,7 +240,6 @@
   "home_no_articles": "لاهم هیڅ مقاله خپره نه ده.",
   "home_no_comments": "لاهم هیڅ نظر نشته.",
   "home_latest_articles_desc": "د لیان امیري اکاډمۍ مقالو او خبرونو لوستلو سره د وروستیو فعالیتونو، د ملاتړ پروګرامونو او نویو روزنیزو کورسونو خبر شئ.",
-
   "course_list_subtitle": "وګوره، تمرین کړه، پروګرامر شه",
   "course_search": "د کورس لټون",
   "course_search_placeholder": "د کورس سرلیک..",
@@ -272,7 +254,6 @@
   "label_rejected": "رد شوی",
   "label_transaction": "معامله",
   "label_dear_user": "ګرانه کارونکیه",
-
   "btn_cancel": "لغوه کړه",
   "btn_update": "تازه کړه",
   "btn_updating": "روانه تازه کېدل...",
@@ -286,7 +267,6 @@
   "btn_read_article": "مقاله ولوله",
   "btn_view_articles": "مقالې وګوره",
   "btn_view_course_page": "د کورس مخ کې وګوره",
-
   "profile_wishlist": "علاقمندۍ",
   "profile_edit_title": "پروفایل سمول",
   "profile_comments_title": "ستاسو نظرونه او پوښتنې",
@@ -316,13 +296,11 @@
   "profile_device_name_label": "د وسیلې نوم (اختیاري)",
   "profile_device_name_placeholder": "مثلاً: زما اندروید موبایل",
   "profile_fingerprint_not_supported": "ستاسو براوزر یا وسیله ګوته‌نښه ملاتړ نه کوي.",
-
   "tx_tracking_code": "د تعقیب کوډ",
   "tx_status": "وضعیت",
   "tx_description": "تشریح",
   "tx_amount": "مقدار",
   "tx_date": "نیټه",
-
   "msg_update_success": "معلومات بریالیتوب سره تازه شول.",
   "msg_error_generic": "یوه تیروتنه وشوه",
   "msg_error_server": "د سرور سره د اتصال خطا",
@@ -346,11 +324,9 @@
   "profile_phone_notice_item1": "۱. د سایټ ننوتل به بشپړ د تلیفون شمیرې له لارې ترسره کیږي.",
   "profile_phone_notice_item2": "۲. د ننوتلو پر مهال به تاسو ته پیغام ولیږل شي ترڅو د غیر مجاز ننوتلو خبر ولرئ.",
   "btn_understood": "پوه شوم",
-
   "lang_fa": "دری",
   "lang_en": "انگلیسی",
   "lang_ps": "پښتو",
-
   "auth_login_title": "ننوتل یا ثبت‌نام",
   "auth_login_greeting": "سلام 👋",
   "auth_login_hint": "مهرباني وکړئ خپل د تلیفون شمیره یا بریښنالیک دننه کړئ",
@@ -369,7 +345,6 @@
   "auth_passkey_btn": "اثرانگشت",
   "flash_login_success": "ښه راغلاست! تاسو بریالیتوب سره ننوتلئ.",
   "flash_register_success": "ښه راغلاست! ستاسو حساب بریالیتوب سره جوړ شو.",
-
   "about_intro": "د لیان امیري اکاډمي د ۱۳۹۴ کال راهیسې د «د پوهې د کچې د لوړولو هڅه» موخې او «پوهه د بشر د پرمختګ بنسټ دی» شعار سره تأسیس شوې ده. دا اکاډمي یوه خیریه او ملاتړي بنسټ ده چې د بې‌وزله او کم‌لورو خلکو د علمي او تعلیمي کچې د لوړولو لپاره د ټولو لپاره د زده‌کړې برابر فرصتونه برابرول غواړي. د لیان امیري اکاډمۍ د زده‌کړې سیسټم هنرجویانو ته دا توان ورکوي چې روزنیز کورسونه وړیا یا د اکاډمۍ له ملاتړ سره ترلاسه کړي.",
   "about_edu_title": "د بې‌وزله خلکو لپاره تعلیمي ملاتړ",
   "about_edu_p1": "د لیان امیري اکاډمي د دې راسخ باور سره چې زده‌کړه د ټولو حق دی، د بې‌وزله او کم‌لورو خلکو لپاره ځانګړي ملاتړي پروګرامونه ډیزاین کړي دي. هغه هنرجویان چې د روزنیزو کورسونو د اخیستلو مالي توان نلري، کولی شي د اکاډمۍ د ملاتړي کمیټې له ثبت‌نام او تایید وروسته خپل کورسونه وړیا ترلاسه کړي.",
@@ -378,7 +353,6 @@
   "about_community_p1": "د لیان امیري اکاډمي یوازې یو تعلیمي سرچینه نه ده؛ بلکې یوه انساني ټولنه ده چې غړي یې یو له بله سره د وده پر لاره مرسته کوي. د اکاډمۍ استادان، داوطلبان او فارغان سره یوځای د ټولنې د علمي کچې د لوړولو لپاره هڅه کوي.",
   "about_community_p2": "که چیرې د کورسونو د لیدلو پر مهال پوښتنه یا ابهام ولرئ، د اکاډمۍ د ملاتړ ټیم چمتو دی چې ځواب درکړي. زموږ موخه دا ده چې هر هنرجی وکولی شي روزنیز مواد د غوره کیفیت سره او بشپړ آرامت سره ترلاسه کړي.",
   "about_more": "او..",
-
   "terms_intro": "پدې مخ کې تاسو د لیان امیري تعلیمي ویبسایټ د کارولو شرایط لیدلی شئ.",
   "terms_account_title": "د حساب قوانین",
   "terms_account_intro": "د لیان امیري ډیری امکانات د هغې غړو سره تړاو لري. که تاسو غواړئ له دې ډول مواد وکاروئ، لومړی باید د لیان امیري ویبسایټ کې ثبت‌نام وکړئ. د کارن حساب لرل د لاندې قوانینو د رعایت ملزم دی:",
@@ -403,5 +377,14 @@
   "terms_moderation_title": "د مواد نظارت",
   "terms_moderation_body": "لیان امیري دا حق لري چې د خپل صلاحدید له مخې د کارونکو او د مواد جوړونکو هغه لیکنې چې سرویس ته اپلوډ شوي او د سایټ له قوانینو سره سم نه دي، ویرایش، لرې یا د خپریدو مخنیوی وکړي. موږ د لیان امیري کې هڅه کوو چې له هر ډول سپکاوي پاک او روغ مواد ولرو.",
   "terms_violation_title": "د قوانینو رعایت نه کول",
-  "terms_violation_body": "که چیرې پدې مخ کې درج شوي قوانین رعایت نشي، لیان امیري دا حق لري چې فوری ستاسو ویبسایټ ته لاسرسی معلق کړي یا بشپړ پای ته ورسوي او ستاسو حساب (یا برخه یې) بنده کړي."
+  "terms_violation_body": "که چیرې پدې مخ کې درج شوي قوانین رعایت نشي، لیان امیري دا حق لري چې فوری ستاسو ویبسایټ ته لاسرسی معلق کړي یا بشپړ پای ته ورسوي او ستاسو حساب (یا برخه یې) بنده کړي.",
+  "error_back_home": "کور ته ستانه شئ",
+  "error_forbidden_title": "لاسرسی منع دی",
+  "error_forbidden_desc": "تاسو د دې مخ ته د لاسرسي اجازه نلرئ.",
+  "error_server_title": "د سرور خطا",
+  "error_server_desc": "سرور له ستونزې سره مخ شو. مهرباني وکړئ وروسته بیا هڅه وکړئ.",
+  "error_generic_title": "خطا",
+  "error_generic_desc": "یوه ستونزه رامنځ ته شوه.",
+  "page_title_forbidden": "لاسرسی منع دی — لیان امیري",
+  "page_title_error": "خطا — لیان امیري"
 }

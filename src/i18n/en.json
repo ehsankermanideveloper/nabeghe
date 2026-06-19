@@ -22,7 +22,6 @@
   "page_title_search": "Search — Liyan Amiri",
   "page_title_search_for": "Search results for",
   "page_title_not_found": "Liyan Amiri Academy - 404",
-
   "nav_home": "Home",
   "nav_courses": "Courses",
   "nav_articles": "Articles",
@@ -38,7 +37,6 @@
   "nav_category": "Course Categories",
   "nav_all_categories": "All Categories",
   "nav_subcategories": "Subcategories",
-
   "btn_enroll": "Enroll Now",
   "btn_enroll_free": "Enroll for Free",
   "label_enrolling": "Enrolling...",
@@ -58,7 +56,6 @@
   "btn_contact_enroll": "Contact us to enroll",
   "btn_back_top": "Back to top",
   "btn_go": "Let's go",
-
   "label_free": "Free",
   "label_free_exclaim": "Free!",
   "label_paid": "Paid",
@@ -110,7 +107,6 @@
   "label_comprehensive": "Comprehensive",
   "label_project_based": "Project-based",
   "label_challenging": "Challenging",
-
   "search_placeholder": "Search courses and articles ...",
   "search_header_placeholder": "Search for a course, article or category...",
   "search_results_courses": "Courses",
@@ -118,7 +114,6 @@
   "search_empty": "No results found",
   "search_empty_hint": "Try a different keyword",
   "search_type_hint": "Search for something",
-
   "course_list_title": "Courses",
   "course_list_empty": "No courses found",
   "course_description": "Course Description",
@@ -146,11 +141,10 @@
   "course_no_chapters": "No chapters added yet.",
   "course_no_comments": "No comments yet",
   "course_episode_no_description": "No description available for this episode.",
-  "course_episode_comment_login" : "To post a comment,",
+  "course_episode_comment_login": "To post a comment,",
   "course_episode_comment_login_link": "sign in",
   "course_enroll_title": "Course Enrollment",
   "course_enroll_section": "Course Introduction",
-
   "article_list_title": "Articles",
   "article_list_empty": "No articles found",
   "article_read_more": "Read More",
@@ -164,7 +158,6 @@
   "article_comment_login_link": "sign in",
   "article_comment_placeholder": "Write your comment ...",
   "article_no_description": "No description available",
-
   "home_hero_title": "Read, Learn, Progress",
   "home_hero_subtitle": "Discover what Liyan Amiri Academy has to offer",
   "home_latest_courses": "Latest Courses",
@@ -172,7 +165,6 @@
   "home_academy_section": "Academy Highlights",
   "home_testimonials": "What people say about Liyan Amiri Academy",
   "home_testimonials_hint": "These are a selection of testimonials from students and individuals who have benefited from Liyan Amiri Academy's support.",
-
   "profile_my_courses": "My Courses",
   "profile_settings": "Settings",
   "profile_account_info": "Account Info",
@@ -186,10 +178,8 @@
   "profile_wishlist_count": "Wishlist count",
   "profile_fingerprints": "Passkeys",
   "profile_fingerprints_registered": "Registered passkeys",
-
   "about_academy": "About the Academy",
   "about_academy_title": "About Liyan Amiri Academy",
-
   "footer_rights": "All rights reserved",
   "footer_academy": "Academy",
   "footer_back_to_top": "Back to top",
@@ -209,12 +199,10 @@
   "footer_email_placeholder": "Email address",
   "footer_email_submit": "Subscribe",
   "footer_social": "Social Media",
-
   "error_not_found": "Page not found",
   "error_not_found_hint": "Go back to homepage",
   "error_access_denied": "Access denied",
   "error_login_required": "Please sign in to access this page",
-
   "label_next_episode": "Next Episode",
   "label_prev_episode": "Previous Episode",
   "label_views": "Views",
@@ -224,7 +212,6 @@
   "label_read": "Read",
   "label_video": "Video",
   "label_mentorship": "Mentorship",
-
   "search_see_all": "See all results",
   "search_all_courses": "All courses",
   "search_all_articles": "All articles",
@@ -233,18 +220,14 @@
   "search_no_results_for": "No courses or articles found",
   "search_no_results_try": "Try using fewer or different keywords.",
   "search_query_hint": "Enter the name of a course, article, or category in the search box above.",
-
   "article_search": "Search Articles",
   "article_search_placeholder": "Article title...",
   "article_filter_title": "Filter Articles",
   "article_list_subtitle": "Read, Learn, Progress",
-
   "course_sort_oldest": "Oldest",
-
   "btn_view_all": "View all",
   "btn_view_all_articles": "View all articles",
   "btn_view_all_courses": "View all courses",
-
   "home_festival": "Discount Festival!",
   "home_coming_soon_smiley": "Coming soon :)",
   "home_why_academy": "Why Liyan Amiri Academy?",
@@ -257,7 +240,6 @@
   "home_no_articles": "No articles published yet.",
   "home_no_comments": "No comments yet.",
   "home_latest_articles_desc": "Stay up to date with the latest activities, support programs, and new educational courses by reading Liyan Amiri Academy's articles and news.",
-
   "course_list_subtitle": "Watch, Practice, Become a Developer",
   "course_search": "Search Courses",
   "course_search_placeholder": "Course title..",
@@ -272,7 +254,6 @@
   "label_rejected": "Rejected",
   "label_transaction": "Transaction",
   "label_dear_user": "Dear User",
-
   "btn_cancel": "Cancel",
   "btn_update": "Update",
   "btn_updating": "Updating...",
@@ -286,7 +267,6 @@
   "btn_read_article": "Read Article",
   "btn_view_articles": "View Articles",
   "btn_view_course_page": "View on Course Page",
-
   "profile_wishlist": "Wishlist",
   "profile_edit_title": "Edit Profile",
   "profile_comments_title": "Your Comments & Questions",
@@ -316,13 +296,11 @@
   "profile_device_name_label": "Device name (optional)",
   "profile_device_name_placeholder": "e.g. My Android phone",
   "profile_fingerprint_not_supported": "Your browser or device does not support passkeys.",
-
   "tx_tracking_code": "Tracking Code",
   "tx_status": "Status",
   "tx_description": "Description",
   "tx_amount": "Amount",
   "tx_date": "Date",
-
   "msg_update_success": "Information updated successfully.",
   "msg_error_generic": "An error occurred",
   "msg_error_server": "Server connection error",
@@ -346,11 +324,9 @@
   "profile_phone_notice_item1": "1. Login to the site will be done entirely via phone number.",
   "profile_phone_notice_item2": "2. When logging in, an SMS will be sent to you to notify you of unauthorized logins.",
   "btn_understood": "Got it",
-
   "lang_fa": "Dari",
   "lang_en": "English",
   "lang_ps": "Pashto",
-
   "auth_login_title": "Sign In or Register",
   "auth_login_greeting": "Hello 👋",
   "auth_login_hint": "Please enter your phone number or email address",
@@ -369,7 +345,6 @@
   "auth_passkey_btn": "Passkey",
   "flash_login_success": "Welcome back! You have logged in successfully.",
   "flash_register_success": "Welcome! Your account has been created successfully.",
-
   "about_intro": "Liyan Amiri Academy was founded in 2015 with the mission of 'advancing the level of knowledge' and the motto 'knowledge is the foundation of human progress.' It is a charitable and supportive institution focused on improving the educational and scientific level of underprivileged individuals, striving to provide equal learning opportunities for all. The academy's learning platform allows students to access educational courses for free or with the academy's financial support.",
   "about_edu_title": "Educational Support for the Underprivileged",
   "about_edu_p1": "Firmly believing that education is a right for everyone, Liyan Amiri Academy has designed special support programs for underprivileged individuals. Students who cannot afford educational courses can receive them for free after registering and receiving approval from the academy's support committee.",
@@ -378,7 +353,6 @@
   "about_community_p1": "Liyan Amiri Academy is more than just an educational resource — it is a human community where members support each other on the path to growth. Instructors, volunteers, and graduates of the academy work hand in hand to elevate the scientific level of society.",
   "about_community_p2": "If you have any questions or uncertainties while watching courses, the academy's support team is ready to help. Our goal is to ensure that every student can receive educational content with the best quality and in complete comfort.",
   "about_more": "And..",
-
   "terms_intro": "On this page you can view the terms of use for Liyan Amiri Academy's educational website.",
   "terms_account_title": "Account Terms",
   "terms_account_intro": "Most of Liyan 's features are available to its members. If you intend to use this type of content, you must first register on the Liyan  website. Having an account requires compliance with the following rules:",
@@ -403,5 +377,14 @@
   "terms_moderation_title": "Content Moderation",
   "terms_moderation_body": "Liyan  reserves the right to edit, remove, or prevent the publication of content created by users or content creators on the service that does not comply with the site's rules. We at Liyan  strive to maintain healthy content free from any insults.",
   "terms_violation_title": "Non-Compliance",
-  "terms_violation_body": "In the event of non-compliance with the rules stated on this page, Liyan  reserves the right to immediately suspend or permanently terminate your access to the website and block your account (or part of it)."
+  "terms_violation_body": "In the event of non-compliance with the rules stated on this page, Liyan  reserves the right to immediately suspend or permanently terminate your access to the website and block your account (or part of it).",
+  "error_back_home": "Back to Homepage",
+  "error_forbidden_title": "Access Denied",
+  "error_forbidden_desc": "You do not have permission to access this page.",
+  "error_server_title": "Server Error",
+  "error_server_desc": "The server encountered a problem. Please try again later.",
+  "error_generic_title": "Error",
+  "error_generic_desc": "Something went wrong.",
+  "page_title_forbidden": "Access Denied — Liyan Amiri",
+  "page_title_error": "Error — Liyan Amiri"
 }

@@ -1,14 +1,22 @@
-<main class="flex-auto py-5">
-  <div class="max-w-7xl space-y-14 px-4 mx-auto">
-    <div class="flex flex-col items-center justify-center space-y-12">
-      <div class="text-center space-y-3">
-        <h2 class="font-bold text-xl text-foreground">
-          <%= statusCode %> — <%= title %>
-        </h2>
-        <p class="font-semibold text-sm text-muted"><%= message %></p>
-        <a href="<%= lp %>/" class="inline-flex font-semibold text-sm text-primary hover:underline"
-          >بازگشت به صفحه اصلی</a
-        >
+<main class="flex-auto py-16">
+  <div class="max-w-7xl px-4 mx-auto">
+    <div class="flex flex-col items-center justify-center gap-10">
+      <div class="text-center space-y-4">
+        <p class="text-6xl font-bold text-muted opacity-40"><%= statusCode %></p>
+        <h1 class="font-bold text-xl text-foreground">
+          <%= title %>
+        </h1>
+        <p class="font-semibold text-sm text-muted max-w-sm mx-auto">
+          <%= desc %>
+        </p>
+        <% if (locals.rawMessage) { %>
+        <p class="text-xs text-muted opacity-60 font-mono max-w-md mx-auto break-all">
+          <%= rawMessage %>
+        </p>
+        <% } %>
+        <a href="<%= locals.lp ?? '' %>/" class="inline-flex items-center gap-2 font-semibold text-sm text-primary hover:underline mt-2">
+          <%= t('error_back_home') %>
+        </a>
       </div>
     </div>
   </div>
