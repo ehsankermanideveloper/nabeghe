@@ -159,7 +159,8 @@ export class AuthController {
       const target =
         returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')
           ? returnTo
-          : '/profile';
+          : '/';
+      await new Promise<void>((resolve) => req.session.save(() => resolve()));
       res.json({ ok: true, redirectTo: target });
     } catch (err: unknown) {
       res

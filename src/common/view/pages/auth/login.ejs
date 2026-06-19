@@ -95,10 +95,57 @@
           </a>
           <% } %>
 
+          <div id="__pk_wrap" style="display:none" class="space-y-3">
+            <div class="flex items-center gap-3 px-1">
+              <span class="flex-1 h-px bg-border"></span>
+              <span class="text-xs text-muted"><%= t('auth_or') %></span>
+              <span class="flex-1 h-px bg-border"></span>
+            </div>
+            <button id="__pk_btn" type="button"
+              class="flex items-center justify-center gap-3 w-full h-11 bg-background border border-border rounded-full text-foreground transition-all hover:bg-secondary px-4 disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 shrink-0">
+                <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+              </svg>
+              <span class="font-semibold text-sm"><%= t('auth_passkey_btn') %></span>
+            </button>
+            <div id="__pk_err" style="display:none" class="rounded-xl border border-error/40 bg-error/10 px-4 py-3 text-center text-sm text-error"></div>
+          </div>
+
         </div>
       </div>
     </div>
     <script src="/assets/js/dependencies/alpinejs.min.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
+    <script>
+    (function(){
+      if (!window.PublicKeyCredential) return;
+      function b64uToBuf(s){var b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));var u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u.buffer;}
+      function bufToB64u(b){var u=new Uint8Array(b),s='';for(var i=0;i<u.byteLength;i++)s+=String.fromCharCode(u[i]);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+      document.getElementById('__pk_wrap').style.display='';
+      var btn=document.getElementById('__pk_btn');
+      var errEl=document.getElementById('__pk_err');
+      var lp='<%= lp %>';
+      var returnTo='<%= encodeURIComponent(returnTo) %>';
+      function showErr(msg){errEl.textContent=msg;errEl.style.display='';}
+      btn.addEventListener('click',function(){
+        errEl.style.display='none';
+        btn.disabled=true;
+        fetch(lp+'/auth/passkey/authenticate/options',{method:'POST',headers:{'Accept':'application/json'}})
+          .then(function(r){if(!r.ok)throw new Error();return r.json();})
+          .then(function(opts){
+            opts.challenge=b64uToBuf(opts.challenge);
+            if(opts.allowCredentials)opts.allowCredentials=opts.allowCredentials.map(function(c){return Object.assign({},c,{id:b64uToBuf(c.id)});});
+            return navigator.credentials.get({publicKey:opts});
+          })
+          .then(function(cred){
+            var payload={id:cred.id,rawId:bufToB64u(cred.rawId),type:cred.type,response:{clientDataJSON:bufToB64u(cred.response.clientDataJSON),authenticatorData:bufToB64u(cred.response.authenticatorData),signature:bufToB64u(cred.response.signature),userHandle:cred.response.userHandle?bufToB64u(cred.response.userHandle):null}};
+            return fetch(lp+'/auth/passkey/authenticate/verify?returnTo='+returnTo,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({response:payload})});
+          })
+          .then(function(r){return r.json().then(function(d){if(!r.ok||!d.ok)throw new Error(d.message||'');return d;});})
+          .then(function(d){window.location.href=d.redirectTo||'/';})
+          .catch(function(e){if(e&&e.name==='NotAllowedError')return;showErr(e&&e.message?e.message:'<%= t("msg_error_server") %>');btn.disabled=false;});
+      });
+    })();
+    </script>
   </body>
 </html>

@@ -203,6 +203,7 @@ export class PasskeyService {
 
     await this.userRepository.updateOneById(user.id, { lastLoginAt: new Date() });
     req.session.userId = user.id;
+    req.session.flash = { type: 'success', messageKey: 'flash_login_success' };
 
     return user;
   }
