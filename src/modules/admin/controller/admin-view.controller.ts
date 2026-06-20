@@ -132,6 +132,7 @@ export class AdminViewController {
       article: null,
       categories,
       isEdit: false,
+      useCkeditor: true,
     });
   }
 
@@ -149,6 +150,7 @@ export class AdminViewController {
       article,
       categories,
       isEdit: true,
+      useCkeditor: true,
     });
   }
 

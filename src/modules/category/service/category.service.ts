@@ -41,4 +41,14 @@ export class CategoryService {
       MENU_TREE_TTL,
     );
   }
+
+  async invalidateCategoryCache(): Promise<void> {
+    await Promise.all([
+      this.cache.del(this.cache.key('category', 'all-active')),
+      this.cache.del(this.cache.key('category', 'menu-tree')),
+      // Paged course/article results that filter by category
+      this.cache.delByPrefix(this.cache.key('course', 'paged')),
+      this.cache.delByPrefix(this.cache.key('article', 'paged')),
+    ]);
+  }
 }

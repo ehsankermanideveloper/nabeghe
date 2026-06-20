@@ -61,6 +61,23 @@ export class ArticleService {
     return { articles: pagination.data, pagination, categories, currentCategory };
   }
 
+  async invalidateArticleCache(): Promise<void> {
+    await Promise.all([
+      this.cache.delByPrefix(this.cache.key('article', 'paged')),
+      this.cache.del(this.cache.key('article', 'latest', 4)),
+      this.cache.del(this.cache.key('article', 'latest', 5)),
+      this.cache.del(this.cache.key('article', 'latest', 8)),
+    ]);
+  }
+
+  async renewArticleCache(): Promise<void> {
+    await this.invalidateArticleCache();
+    await Promise.all([
+      this.findLatest(4),
+      this.findLatest(5),
+    ]);
+  }
+
   incrementViewCount(id: number): Promise<void> {
     return this.articleRepository.incrementViewCount(id);
   }

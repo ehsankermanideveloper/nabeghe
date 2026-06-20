@@ -7,6 +7,68 @@
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg" />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/app.css" />
+  <% if (locals.useCkeditor) { %>
+  <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
+  <style>
+    /* CKEditor 5 dark theme for admin panel */
+    :root {
+      --ck-color-base-background: #0f172a;
+      --ck-color-base-border: #334155;
+      --ck-color-base-text: #f1f5f9;
+      --ck-color-toolbar-background: #1e293b;
+      --ck-color-toolbar-border-color: #334155;
+      --ck-color-button-default-background: transparent;
+      --ck-color-button-default-hover-background: #334155;
+      --ck-color-button-default-active-background: #334155;
+      --ck-color-button-on-background: rgba(99,102,241,.2);
+      --ck-color-button-on-hover-background: rgba(99,102,241,.3);
+      --ck-color-button-on-color: #a5b4fc;
+      --ck-color-split-button-hover-background: #334155;
+      --ck-color-input-background: #0f172a;
+      --ck-color-input-border: #334155;
+      --ck-color-input-text: #f1f5f9;
+      --ck-color-input-disabled-background: #1e293b;
+      --ck-color-dropdown-panel-background: #1e293b;
+      --ck-color-dropdown-panel-border: #334155;
+      --ck-color-list-background: #1e293b;
+      --ck-color-list-button-hover-background: #334155;
+      --ck-color-list-button-on-background: rgba(99,102,241,.2);
+      --ck-color-list-button-on-background-focus: rgba(99,102,241,.3);
+      --ck-color-list-button-on-text: #a5b4fc;
+      --ck-color-panel-background: #1e293b;
+      --ck-color-panel-border: #334155;
+      --ck-color-tooltip-background: #334155;
+      --ck-color-tooltip-text: #f1f5f9;
+      --ck-color-table-focused-cell-background: rgba(99,102,241,.1);
+      --ck-color-editable-blur-selection-background: rgba(99,102,241,.15);
+      --ck-color-focus-border: #6366f1;
+      --ck-color-focus-outer-shadow: rgba(99,102,241,.25);
+      --ck-color-shadow-inner: transparent;
+      --ck-color-shadow-drop: rgba(0,0,0,.5);
+      --ck-border-radius: .5rem;
+    }
+    .ck.ck-editor { border: 1px solid #334155 !important; border-radius: .5rem !important; overflow: hidden; }
+    .ck.ck-editor__main>.ck-editor__editable { background: #0f172a !important; color: #f1f5f9 !important; min-height: 320px; font-family: "YekanBakh","Tahoma",sans-serif; font-size: .9rem; line-height: 1.8; }
+    .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) { border-color: transparent !important; }
+    .ck.ck-editor__main>.ck-editor__editable.ck-focused { border-color: #6366f1 !important; }
+    .ck.ck-toolbar { background: #1e293b !important; border-bottom: 1px solid #334155 !important; padding: .25rem .5rem !important; }
+    .ck.ck-toolbar__separator { background: #334155 !important; }
+    .ck.ck-button .ck-icon { color: #94a3b8; }
+    .ck.ck-button:hover .ck-icon, .ck.ck-button.ck-on .ck-icon { color: #f1f5f9; }
+    .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar { border-radius: 0 !important; }
+    .ck.ck-labeled-field-view>.ck-labeled-field-view__input-wrapper>.ck-input { color: #f1f5f9; }
+    /* Content area text styles */
+    .ck-content h2,.ck-content h3,.ck-content h4 { color: #f1f5f9; margin: 1rem 0 .5rem; }
+    .ck-content p { margin-bottom: .75rem; }
+    .ck-content a { color: #a5b4fc; }
+    .ck-content blockquote { border-right: 4px solid #6366f1; padding: .5rem 1rem; color: #94a3b8; margin: .75rem 0; background: rgba(99,102,241,.08); }
+    .ck-content pre { background: #1e293b; border: 1px solid #334155; border-radius: .375rem; padding: .75rem 1rem; font-size: .85rem; }
+    .ck-content ul,.ck-content ol { padding-right: 1.5rem; margin-bottom: .75rem; }
+    .ck-content table { border-collapse: collapse; width: 100%; }
+    .ck-content table td,.ck-content table th { border: 1px solid #334155; padding: .5rem .75rem; }
+    .ck-content table th { background: #1e293b; }
+  </style>
+  <% } %>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:#0f172a;color:#f1f5f9;min-height:100vh;display:flex}
@@ -65,6 +127,9 @@
     .alert{padding:.75rem 1rem;border-radius:.5rem;font-size:.875rem;margin-bottom:1rem}
     .alert-info{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#93c5fd}
   </style>
+  <% if (locals.useCkeditor) { %>
+  <script src="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.umd.js"></script>
+  <% } %>
 </head>
 <body>
   <!-- Sidebar -->

@@ -89,6 +89,25 @@ export class CourseService {
     );
   }
 
+  async invalidateCourseCache(): Promise<void> {
+    await Promise.all([
+      this.cache.delByPrefix(this.cache.key('course', 'paged')),
+      this.cache.del(this.cache.key('course', 'latest', 4)),
+      this.cache.del(this.cache.key('course', 'latest', 8)),
+      this.cache.del(this.cache.key('course', 'popular', 8)),
+    ]);
+  }
+
+  async renewCourseCache(): Promise<void> {
+    await this.invalidateCourseCache();
+    // Re-warm the most common cached entries
+    await Promise.all([
+      this.findLatest(4),
+      this.findLatest(8),
+      this.findPopular(8),
+    ]);
+  }
+
   findAllPublishedSlugs(): Promise<Pick<CourseEntity, 'slug' | 'updatedAt'>[]> {
     return this.courseRepository.findAllPublishedSlugs();
   }

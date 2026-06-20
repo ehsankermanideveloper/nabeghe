@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { CategoryService } from '@modules/category/service/category.service';
+import { CourseService } from '@modules/course/service/course.service';
+import { ArticleService } from '@modules/article/service/article.service';
 import { UserEntity } from '@modules/auth/entity/user.entity';
 import { CourseEntity } from '@modules/course/entity/course.entity';
 import { CourseChapterEntity } from '@modules/course/entity/course-chapter.entity';
@@ -24,7 +27,12 @@ function slugify(text: string): string {
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly categoryService: CategoryService,
+    private readonly courseService: CourseService,
+    private readonly articleService: ArticleService,
+  ) {}
 
   async getDashboardStats() {
     const userRepo = this.dataSource.getRepository(UserEntity);
@@ -151,7 +159,9 @@ export class AdminService {
       previewVideo: dto['previewVideo'] ?? null,
       sortOrder: parseInt(dto['sortOrder'] ?? '0', 10),
     });
-    return repo.save(course);
+    const saved = await repo.save(course);
+    void this.courseService.renewCourseCache();
+    return saved;
   }
 
   async updateCourse(id: number, dto: Record<string, any>) {
@@ -186,11 +196,14 @@ export class AdminService {
     if (dto['previewVideo'] !== undefined) course.previewVideo = dto['previewVideo'] ?? null;
     if (dto['sortOrder'] !== undefined) course.sortOrder = parseInt(dto['sortOrder'] ?? '0', 10);
 
-    return repo.save(course);
+    const saved = await repo.save(course);
+    void this.courseService.renewCourseCache();
+    return saved;
   }
 
   async deleteCourse(id: number) {
     await this.dataSource.getRepository(CourseEntity).softDelete(id);
+    void this.courseService.renewCourseCache();
   }
 
   async updateCourseStatus(id: number, status: string) {
@@ -200,6 +213,7 @@ export class AdminService {
       update['publishedAt'] = new Date();
     }
     await repo.update(id, update);
+    void this.courseService.renewCourseCache();
   }
 
   async getArticles(page: number, limit: number) {
@@ -256,7 +270,9 @@ export class AdminService {
       authorId: parseInt(dto['authorId'] ?? '0', 10),
       sortOrder: parseInt(dto['sortOrder'] ?? '0', 10),
     });
-    return repo.save(article);
+    const saved = await repo.save(article);
+    void this.articleService.renewArticleCache();
+    return saved;
   }
 
   async updateArticle(id: number, dto: Record<string, any>) {
@@ -293,11 +309,14 @@ export class AdminService {
     if (dto['authorId']) article.authorId = parseInt(dto['authorId'], 10);
     if (dto['sortOrder'] !== undefined) article.sortOrder = parseInt(dto['sortOrder'] ?? '0', 10);
 
-    return repo.save(article);
+    const saved = await repo.save(article);
+    void this.articleService.renewArticleCache();
+    return saved;
   }
 
   async deleteArticle(id: number) {
     await this.dataSource.getRepository(ArticleEntity).softDelete(id);
+    void this.articleService.renewArticleCache();
   }
 
   async updateArticleStatus(id: number, status: string) {
@@ -307,6 +326,7 @@ export class AdminService {
       update['publishedAt'] = new Date();
     }
     await repo.update(id, update);
+    void this.articleService.renewArticleCache();
   }
 
   async getCategories() {
@@ -336,7 +356,9 @@ export class AdminService {
       sortOrder: parseInt(dto['sortOrder'] ?? '0', 10),
       isActive: dto['isActive'] !== 'false',
     });
-    return repo.save(cat);
+    const saved = await repo.save(cat);
+    void this.categoryService.invalidateCategoryCache();
+    return saved;
   }
 
   async updateCategory(id: number, dto: Record<string, any>) {
@@ -356,7 +378,9 @@ export class AdminService {
     }
     if (dto['sortOrder'] !== undefined) cat.sortOrder = parseInt(dto['sortOrder'] ?? '0', 10);
 
-    return repo.save(cat);
+    const saved = await repo.save(cat);
+    void this.categoryService.invalidateCategoryCache();
+    return saved;
   }
 
   async toggleCategoryActive(id: number) {
@@ -364,11 +388,13 @@ export class AdminService {
     const cat = await repo.findOneOrFail({ where: { id } });
     cat.isActive = !cat.isActive;
     await repo.save(cat);
+    void this.categoryService.invalidateCategoryCache();
     return { isActive: cat.isActive };
   }
 
   async deleteCategory(id: number) {
     await this.dataSource.getRepository(CategoryEntity).softDelete(id);
+    void this.categoryService.invalidateCategoryCache();
   }
 
   async getComments(

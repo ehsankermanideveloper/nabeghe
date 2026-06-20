@@ -1,13 +1,11 @@
-<div style="max-width:800px">
+<div style="max-width:860px">
   <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
     <a href="/admin/articles" style="color:#94a3b8;text-decoration:none;font-size:.875rem">← بازگشت</a>
     <span style="color:#334155">|</span>
     <h2 style="font-size:.95rem;font-weight:700;color:#f1f5f9"><%= isEdit ? 'ویرایش مقاله' : 'ایجاد مقاله جدید' %></h2>
   </div>
 
-  <form method="POST" action="<%= isEdit ? '/admin/api/articles/' + article.id : '/admin/api/articles' %>" class="card" x-data="{ tabTitle: 'fa', tabSD: 'fa', tabBody: 'fa' }">
-    <% if (isEdit) { %>
-    <% } %>
+  <form method="POST" action="<%= isEdit ? '/admin/api/articles/' + article.id : '/admin/api/articles' %>" class="card" id="article-form" x-data="{ tabTitle: 'fa', tabSD: 'fa' }">
 
     <!-- Title -->
     <div class="form-group">
@@ -47,22 +45,31 @@
       </div>
     </div>
 
-    <!-- Body -->
+    <!-- Body (CKEditor) -->
     <div class="form-group">
       <div class="form-label">متن مقاله</div>
-      <div class="tabs">
-        <button type="button" class="tab-btn" :class="tabBody === 'fa' ? 'active' : ''" @click="tabBody = 'fa'">فارسی</button>
-        <button type="button" class="tab-btn" :class="tabBody === 'en' ? 'active' : ''" @click="tabBody = 'en'">English</button>
-        <button type="button" class="tab-btn" :class="tabBody === 'ps' ? 'active' : ''" @click="tabBody = 'ps'">پښتو</button>
+
+      <!-- Tab buttons (plain JS, not Alpine) -->
+      <div class="tabs" id="body-tabs">
+        <button type="button" class="tab-btn active" data-lang="fa" onclick="switchBodyTab('fa')">فارسی</button>
+        <button type="button" class="tab-btn" data-lang="en" onclick="switchBodyTab('en')">English</button>
+        <button type="button" class="tab-btn" data-lang="ps" onclick="switchBodyTab('ps')">پښتو</button>
       </div>
-      <div x-show="tabBody === 'fa'">
-        <textarea name="body_fa" class="form-input" style="min-height:200px"><%= isEdit && article.body ? article.body['fa'] || '' : '' %></textarea>
+
+      <!-- Hidden inputs submitted with the form -->
+      <input type="hidden" name="body_fa" id="body-input-fa" />
+      <input type="hidden" name="body_en" id="body-input-en" />
+      <input type="hidden" name="body_ps" id="body-input-ps" />
+
+      <!-- Editor panels — content rendered server-side as initial data for CKEditor -->
+      <div id="body-panel-fa" style="display:block">
+        <div id="body-editor-fa" dir="rtl"><%- isEdit && article.body ? article.body['fa'] || '' : '' %></div>
       </div>
-      <div x-show="tabBody === 'en'">
-        <textarea name="body_en" class="form-input" dir="ltr" style="min-height:200px"><%= isEdit && article.body ? article.body['en'] || '' : '' %></textarea>
+      <div id="body-panel-en" style="display:none">
+        <div id="body-editor-en" dir="ltr"><%- isEdit && article.body ? article.body['en'] || '' : '' %></div>
       </div>
-      <div x-show="tabBody === 'ps'">
-        <textarea name="body_ps" class="form-input" style="min-height:200px"><%= isEdit && article.body ? article.body['ps'] || '' : '' %></textarea>
+      <div id="body-panel-ps" style="display:none">
+        <div id="body-editor-ps" dir="rtl"><%- isEdit && article.body ? article.body['ps'] || '' : '' %></div>
       </div>
     </div>
 
@@ -110,3 +117,101 @@
     </div>
   </form>
 </div>
+
+<script>
+(function () {
+  const {
+    ClassicEditor,
+    Autoformat,
+    AutoLink,
+    BlockQuote,
+    Bold,
+    CodeBlock,
+    Essentials,
+    Heading,
+    HorizontalLine,
+    Indent,
+    IndentBlock,
+    Italic,
+    Link,
+    List,
+    ListProperties,
+    Paragraph,
+    SelectAll,
+    Strikethrough,
+    Table,
+    TableCaption,
+    TableCellProperties,
+    TableColumnResize,
+    TableProperties,
+    TableToolbar,
+    TextTransformation,
+    Underline,
+    Undo,
+  } = CKEDITOR;
+
+  const TOOLBAR = [
+    'heading', '|',
+    'bold', 'italic', 'underline', 'strikethrough', '|',
+    'bulletedList', 'numberedList', '|',
+    'outdent', 'indent', '|',
+    'blockQuote', 'codeBlock', 'insertTable', 'horizontalLine', 'link', '|',
+    'undo', 'redo',
+  ];
+
+  const PLUGINS = [
+    Essentials, Autoformat, AutoLink,
+    Bold, Italic, Underline, Strikethrough,
+    Paragraph, Heading,
+    List, ListProperties,
+    BlockQuote, CodeBlock,
+    HorizontalLine, Link,
+    Indent, IndentBlock,
+    Table, TableToolbar, TableCaption, TableCellProperties, TableColumnResize, TableProperties,
+    TextTransformation, SelectAll, Undo,
+  ];
+
+  const editors = {};
+  let activeTab = 'fa';
+
+  async function initEditor(lang) {
+    if (editors[lang]) return;
+    const el = document.getElementById('body-editor-' + lang);
+    const isRtl = lang !== 'en';
+    editors[lang] = await ClassicEditor.create(el, {
+      plugins: PLUGINS,
+      toolbar: { items: TOOLBAR, shouldNotGroupWhenFull: false },
+      language: { content: isRtl ? 'ar' : 'en' },
+      table: {
+        contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableCellProperties', 'tableProperties'],
+      },
+      list: { properties: { styles: true, startIndex: true, reversed: true } },
+    });
+  }
+
+  window.switchBodyTab = function (lang) {
+    // Hide current panel
+    document.getElementById('body-panel-' + activeTab).style.display = 'none';
+    // Update tab buttons
+    document.querySelectorAll('#body-tabs .tab-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    // Show new panel
+    document.getElementById('body-panel-' + lang).style.display = 'block';
+    activeTab = lang;
+    initEditor(lang);
+  };
+
+  // Sync all editor data to hidden inputs before form submit
+  document.getElementById('article-form').addEventListener('submit', function () {
+    Object.entries(editors).forEach(function ([lang, editor]) {
+      document.getElementById('body-input-' + lang).value = editor.getData();
+    });
+  });
+
+  // Init the default (fa) editor on load
+  document.addEventListener('DOMContentLoaded', function () {
+    initEditor('fa');
+  });
+})();
+</script>
