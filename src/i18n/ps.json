@@ -386,5 +386,10 @@
   "error_generic_title": "خطا",
   "error_generic_desc": "یوه ستونزه رامنځ ته شوه.",
   "page_title_forbidden": "لاسرسی منع دی — لیان امیري",
-  "page_title_error": "خطا — لیان امیري"
+  "page_title_error": "خطا — لیان امیري",
+  "page_title_certificate": "د دورې د بشپړولو سند — لیان امیري",
+  "btn_get_certificate": "د سند ترلاسه کول",
+  "certificate_congrats": "مبارک! تاسو دوره بشپړه کړه",
+  "certificate_ready": "د بشپړولو سند د ترلاسه کولو لپاره چمتو دی",
+  "certificate_not_eligible": "د سند د ترلاسه کولو لپاره باید ټول برخې وګورئ"
 }

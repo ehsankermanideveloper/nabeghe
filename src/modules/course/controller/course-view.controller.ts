@@ -20,6 +20,7 @@ import { CourseEnrollmentService } from '@modules/course/service/course-enrollme
 import { CourseEpisodeService } from '@modules/course/service/course-episode.service';
 import { CourseProgressService } from '@modules/course/service/course-progress.service';
 import { CourseService } from '@modules/course/service/course.service';
+import { CourseCertificateService } from '@modules/course/service/course-certificate.service';
 import { CourseWishlistService } from '@modules/course/service/course-wishlist.service';
 import { TypedConfigService } from '@common/config/typed-config.service';
 
@@ -35,6 +36,7 @@ export class CourseViewController {
     private readonly progressService: CourseProgressService,
     private readonly commentService: CourseCommentService,
     private readonly wishlistService: CourseWishlistService,
+    private readonly certificateService: CourseCertificateService,
     private readonly config: TypedConfigService,
   ) {}
 
@@ -97,11 +99,12 @@ export class CourseViewController {
     const ratingCount = await this.commentService.getRatingCount(course.id);
 
     const userId = req.user?.id;
-    const isEnrolled = userId
-      ? await this.enrollmentService.isEnrolled(userId, course.id)
-      : false;
-    const isWishlisted = userId
-      ? await this.wishlistService.isWishlisted(userId, course.id)
+    const [isEnrolled, isWishlisted] = await Promise.all([
+      userId ? this.enrollmentService.isEnrolled(userId, course.id) : Promise.resolve(false),
+      userId ? this.wishlistService.isWishlisted(userId, course.id) : Promise.resolve(false),
+    ]);
+    const isCourseCompleted = (isEnrolled && userId)
+      ? await this.certificateService.isEligible(userId, course.id)
       : false;
 
     const allEpisodes = chapters.flatMap((ch) => ch.episodes);
@@ -166,6 +169,7 @@ export class CourseViewController {
       ratingCount,
       isEnrolled,
       isWishlisted,
+      isCourseCompleted,
       freeEpisodeCount,
       mustEnroll: req.query['must_enroll'] === '1',
     };
@@ -252,5 +256,51 @@ export class CourseViewController {
       completedIds: [...completedIds],
       completionPercent,
     };
+  }
+
+  @Get(':slug/certificate')
+  async certificate(
+    @Param('slug') slug: string,
+    @Req() req: ReqWithUser,
+    @Res() res: Response,
+  ): Promise<void> {
+    const currentUser = req.user;
+    const locale: string = (res as any).locals?.locale ?? 'fa';
+    const t = (res as any).locals?.t as (key: string) => string;
+    const lp: string = (res as any).locals?.lp ?? '';
+
+    if (!currentUser) {
+      res.redirect(`${lp}/auth/login?returnTo=/courses/${slug}/certificate`);
+      return;
+    }
+
+    const course = await this.courseService.findPublishedBySlugOrFail(slug);
+    const isEnrolled = await this.enrollmentService.isEnrolled(currentUser.id, course.id);
+
+    if (!isEnrolled) {
+      res.redirect(`${lp}/courses/${slug}?must_enroll=1`);
+      return;
+    }
+
+    const cert = await this.certificateService.getOrIssue(currentUser.id, course.id);
+
+    if (!cert) {
+      res.redirect(`${lp}/courses/${slug}/episodes`);
+      return;
+    }
+
+    const displayName = currentUser.displayName
+      ? (currentUser.displayName[locale] ?? currentUser.displayName['fa'] ?? Object.values(currentUser.displayName)[0] ?? '')
+      : (currentUser.email ?? currentUser.phone ?? '');
+
+    res.render('view/pages/course/certificate', {
+      layout: false,
+      siteName: t('site_name'),
+      courseTitle: course.title[locale] ?? course.title['fa'] ?? '',
+      displayName,
+      issuedAt: cert.issuedAt,
+      code: cert.code,
+      lp,
+    });
   }
 }

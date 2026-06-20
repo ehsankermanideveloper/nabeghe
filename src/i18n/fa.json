@@ -386,5 +386,10 @@
   "error_generic_title": "خطا",
   "error_generic_desc": "مشکلی پیش آمد.",
   "page_title_forbidden": "دسترسی مجاز نیست — لیان امیری",
-  "page_title_error": "خطا — لیان امیری"
+  "page_title_error": "خطا — لیان امیری",
+  "page_title_certificate": "گواهینامه اتمام دوره — لیان امیری",
+  "btn_get_certificate": "دریافت گواهینامه",
+  "certificate_congrats": "تبریک! دوره را تمام کردید",
+  "certificate_ready": "گواهینامه اتمام دوره آماده دریافت است",
+  "certificate_not_eligible": "برای دریافت گواهینامه باید تمامی قسمت‌های دوره را تماشا کنید"
 }

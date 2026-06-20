@@ -386,5 +386,10 @@
   "error_generic_title": "Error",
   "error_generic_desc": "Something went wrong.",
   "page_title_forbidden": "Access Denied — Liyan Amiri",
-  "page_title_error": "Error — Liyan Amiri"
+  "page_title_error": "Error — Liyan Amiri",
+  "page_title_certificate": "Certificate of Completion — Liyan Amiri",
+  "btn_get_certificate": "Get Certificate",
+  "certificate_congrats": "Congratulations! You completed the course",
+  "certificate_ready": "Your certificate of completion is ready",
+  "certificate_not_eligible": "You must watch all episodes to receive your certificate"
 }

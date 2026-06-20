@@ -8,6 +8,7 @@ import { CourseEntity } from '@modules/course/entity/course.entity';
 import { CourseChapterEntity } from '@modules/course/entity/course-chapter.entity';
 import { CourseEpisodeEntity } from '@modules/course/entity/course-episode.entity';
 import { CourseEnrollmentEntity } from '@modules/course/entity/course-enrollment.entity';
+import { CourseCertificateEntity } from '@modules/course/entity/course-certificate.entity';
 import { CourseCommentEntity } from '@modules/course/entity/course-comment.entity';
 import { ArticleEntity } from '@modules/article/entity/article.entity';
 import { ArticleCommentEntity } from '@modules/article/entity/article-comment.entity';
@@ -489,6 +490,25 @@ export class AdminService {
     }
 
     const [data, total] = await qb.getManyAndCount();
+
+    // Batch-fetch certificates for this page
+    const certRepo = this.dataSource.getRepository(CourseCertificateEntity);
+    const certMap = new Map<string, string>();
+    if (data.length > 0) {
+      const certs = await certRepo
+        .createQueryBuilder('cert')
+        .select(['cert.userId', 'cert.courseId', 'cert.code'])
+        .where(
+          data.map((_, i) => `(cert.userId = :u${i} AND cert.courseId = :c${i})`).join(' OR '),
+          Object.fromEntries(data.flatMap((e, i) => [[`u${i}`, e.userId], [`c${i}`, e.courseId]])),
+        )
+        .andWhere('cert.deletedAt IS NULL')
+        .getMany();
+      for (const cert of certs) {
+        certMap.set(`${cert.userId}:${cert.courseId}`, cert.code);
+      }
+    }
+
     return {
       data: data.map((e) => ({
         id: e.id,
@@ -497,7 +517,10 @@ export class AdminService {
         enrolledAt: e.enrolledAt,
         userPhone: e.user?.phone ?? '',
         userEmail: e.user?.email ?? '',
+        userDisplayName: e.user?.displayName?.['fa'] ?? e.user?.displayName?.['en'] ?? '',
         courseTitle: e.course?.title?.['fa'] ?? '',
+        courseSlug: e.course?.slug ?? '',
+        certCode: certMap.get(`${e.userId}:${e.courseId}`) ?? null,
       })),
       total,
     };

@@ -10,11 +10,17 @@ import {
 import type { Request, Response } from 'express';
 import { AdminGuard } from '@modules/admin/guard/admin.guard';
 import { AdminService } from '@modules/admin/service/admin.service';
+import { CourseCertificateService } from '@modules/course/service/course-certificate.service';
+import { CourseService } from '@modules/course/service/course.service';
 
 @UseGuards(AdminGuard)
 @Controller('admin')
 export class AdminViewController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly certificateService: CourseCertificateService,
+    private readonly courseService: CourseService,
+  ) {}
 
   @Get()
   async dashboard(@Req() _req: Request, @Res() res: Response): Promise<void> {
@@ -223,6 +229,39 @@ export class AdminViewController {
       limit,
       search: search ?? '',
       courses,
+    });
+  }
+
+  @Get('enrollments/certificate/:userId/:courseSlug')
+  async viewCertificate(
+    @Param('userId') userId: string,
+    @Param('courseSlug') courseSlug: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const course = await this.courseService.findPublishedBySlugOrFail(courseSlug);
+    const cert = await this.certificateService.findByUserAndCourseWithUser(
+      parseInt(userId, 10),
+      course.id,
+    );
+
+    if (!cert) {
+      res.redirect('/admin/enrollments');
+      return;
+    }
+
+    const u = (cert as any).user;
+    const displayName = u?.displayName
+      ? (u.displayName['fa'] ?? u.displayName['en'] ?? Object.values(u.displayName)[0] ?? '')
+      : (u?.email ?? u?.phone ?? userId);
+
+    res.render('view/pages/course/certificate', {
+      layout: false,
+      siteName: 'لیان امیری',
+      courseTitle: course.title['fa'] ?? course.title['en'] ?? '',
+      displayName,
+      issuedAt: cert.issuedAt,
+      code: cert.code,
+      lp: '',
     });
   }
 }

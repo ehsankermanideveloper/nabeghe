@@ -16,6 +16,7 @@ export enum ModelEnum {
   ARTICLE_TAG = 'article_tag',
   ARTICLE_WISHLIST = 'article_wishlist',
   PASSKEY = 'passkey',
+  COURSE_CERTIFICATE = 'course_certificate',
 }
 
 export enum SchemaEnum {
